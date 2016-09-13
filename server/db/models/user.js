@@ -6,11 +6,43 @@ var Sequelize = require('sequelize');
 var db = require('../_db');
 
 module.exports = db.define('user', {
+    first_name: {
+        type: Sequelize.STRING,
+        alowNull: false
+    },
+    last_name: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+            isEmail: true
+        }
     },
     password: {
         type: Sequelize.STRING
+    },
+    address: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    isAdmin: {
+        type: Sequelize.BOOLEAN,
+        default: false
+    },
+    isSeller: {
+        type: Sequelize.BOOLEAN,
+        default: false
+    },
+    ratings: {
+        type: Sequelize.INTEGER
+    },
+    payment_info: {
+        type: Sequelize.INTEGER,
+        validate: {
+            isCreditCard: true
+        }
     },
     salt: {
         type: Sequelize.STRING
