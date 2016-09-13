@@ -15,9 +15,7 @@ module.exports = db.define('leftover', {
     description: {
         type: Sequelize.TEXT,
         allowNull: false,
-        validate: {
-            min: 25
-        }
+
     },
     picture: {
         type: Sequelize.STRING,
@@ -30,9 +28,6 @@ module.exports = db.define('leftover', {
     },
     rating: {
         type: Sequelize.INTEGER,
-        validate: {
-            max: 5
-        }
     },
     reviews: {
         type: Sequelize.ARRAY(Sequelize.TEXT)
