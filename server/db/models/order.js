@@ -17,6 +17,7 @@ module.exports = db.define('order', {
         allowNull: false
     },
     leftover_ids: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER)
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
+        allowNull: false
     }
 });

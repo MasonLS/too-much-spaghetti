@@ -29,11 +29,11 @@ module.exports = db.define('user', {
     },
     isAdmin: {
         type: Sequelize.BOOLEAN,
-        default: false
+        defaultValue: false
     },
     isSeller: {
         type: Sequelize.BOOLEAN,
-        default: false
+        defaultValue: false
     },
     ratings: {
         type: Sequelize.INTEGER
