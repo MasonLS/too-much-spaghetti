@@ -18,30 +18,30 @@ name in the environment files.
 */
 
 var chalk = require('chalk');
-var db = require('./server/db');
+var db = require('./server/db').db;
 var User = db.model('user');
 var Leftover = db.model('leftover');
 var Cuisine = db.model('cuisine');
 var Promise = require('sequelize').Promise;
 var faker = require('faker');
 
+var cuisines = [
+  {cuisine: 'chinese'},
+  {cuisine: 'korean'},
+  {cuisine: 'ethiopian'},
+  {cuisine: 'japanese'},
+  {cuisine: 'american'},
+  {cuisine: 'french'},
+  {cuisine: 'austrian'},
+  {cuisine: 'polish'},
+  {cuisine: 'georgian'},
+  {cuisine: 'indian'},
+  {cuisine: 'italian'},
+  {cuisine: 'venezuelan'}
+];
 
 //function to be called inside seedUsers
 function seedCuisines(){
-  var cuisines = [
-    {name: 'chinese'},
-    {name: 'korean'},
-    {name: 'ethiopian'},
-    {name: 'japanese'},
-    {name: 'american'},
-    {name: 'french'},
-    {name: 'austrian'},
-    {name: 'polish'},
-    {name: 'georgian'},
-    {name: 'indian'},
-    {name: 'italian'},
-    {name: 'venezuelan'}
-  ];
 
   var creatingCuisines = cuisines.map(function (cuisineObj) {
     return Cuisine.create(cuisineObj);
@@ -61,22 +61,22 @@ function createLeftover(name, chefId){
 
   for (let i = 0; i < randNum; i++) {
     let randIndex = Math.floor(Math.random()*(cuisines.length-1)) + 0;
-    let randCuisine = cuisines[randIndex];
 
-    if(!randCuisines.includes(randCuisine)) {
-      randCuisines.push(cuisines[randIndex]);
+    if(!randCuisines.includes(randIndex)) {
+      randCuisines.push(cuisines[randIndex].cuisine);
     } else i--;
-
   }
 
-  return Leftover.create({
-    chefId: chefId,
-    name: name,
-    cuisines: cuisines,
-    description: faker.lorem.paragraph(),
-    picture: faker.image.imageUrl(),
-  });
+
+    return Leftover.createWithCuisines({
+      chefId: chefId,
+      name: name,
+      description: faker.lorem.paragraph(),
+      picture: faker.image.imageUrl(),
+    }, randCuisines);
+
 }
+
 
 function seedLeftovers(chefId){
   let randNum = Math.floor(Math.random()*4) + 1;
@@ -99,8 +99,8 @@ function seedLeftovers(chefId){
 
 function createUser(){
   return User.create({
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
+    first_name: faker.name.firstName(),
+    last_name: faker.name.lastName(),
     email: faker.internet.email(),
     password: faker.internet.password(),
     address: faker.address.streetAddress()
@@ -112,7 +112,9 @@ function seedSellers(num){
 
   for(let i = 0; i < num; i++){
     creatingSellers.push(createUser()
-    .then(user => seedLeftovers(user.id)));
+    .then(function(user){
+      return seedLeftovers(user.id);
+    }));
   }
 
   return Promise.all(creatingSellers);

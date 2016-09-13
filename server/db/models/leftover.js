@@ -5,6 +5,7 @@ var Sequelize = require('sequelize');
 
 var db = require('../_db');
 var User =require('./user');
+var Cuisine = require('./cuisine');
 
 module.exports = db.define('leftover', {
     name: {
@@ -43,6 +44,28 @@ module.exports = db.define('leftover', {
         }
     }
 }, {
+    classMethods: {
+      createWithCuisines: function(leftoverObj, cuisineNames){
+        let cuisinesArr;
+        const self = this;
+        return Promise.all(cuisineNames.map(function(name){
+          return Cuisine.findOrCreate({
+            where: {
+              cuisine: name
+            }
+          })
+        }))
+        .then(function(cuisines){
+          cuisinesArr = cuisines.map(cuisine=>cuisine[0]);
+          console.log(cuisinesArr);
+          return self.create(leftoverObj);
+        })
+        .then(function(leftover){
+          return leftover.addCuisines(cuisinesArr);
+        })
+        .catch(console.error);
+      }
+    },
     hooks: {
         afterCreate: function(createdLeftover){
             User.findById(createdLeftover.chefId)
