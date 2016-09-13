@@ -24,6 +24,8 @@ var Leftover = db.model('leftover');
 var Cuisine = db.model('cuisine');
 var Promise = require('sequelize').Promise;
 var faker = require('faker');
+var Order = db.model('order');
+
 
 var cuisines = [
   {cuisine: 'chinese'},
@@ -77,6 +79,40 @@ function createLeftover(name, chefId){
 
 }
 
+function getRandomLeftoverIds(){
+  let randNum = Math.floor(Math.random()*4) + 1;
+  let randLeftovers = [];
+
+  for (let i = 0; i < randNum; i++) {
+    let randIndex = Math.floor(Math.random()*(cuisines.length-1)) + 0;
+
+  if(!randLeftovers.includes(randIndex)) {
+      randLeftovers.push(randIndex);
+    } else i--;
+  }
+
+  return Leftover.findAll()
+    .then(leftovers => {
+      return leftovers.filter((leftover, i) => {return randLeftovers.includes(i)});
+    })
+    .then(leftovers => leftovers.map(leftover => leftover.id));
+}
+
+
+function createOrder(userId){
+
+  return getRandomLeftoverIds()
+    .then(ids => {
+      return Order.create({
+        userId: userId,
+        leftover_ids: ids,
+        status: 'complete'
+      });
+    })
+
+}
+
+
 
 function seedLeftovers(chefId){
   let randNum = Math.floor(Math.random()*4) + 1;
@@ -120,34 +156,20 @@ function seedSellers(num){
   return Promise.all(creatingSellers);
 }
 
-function seedOrders(){}
+function seedBuyers(num){
+  var creatingBuyers = [];
 
-function seedBuyers(){}
+  for(let i = 0; i < num; i++){
+    creatingBuyers.push(createUser()
+    .then(function(user){
+      return createOrder(user.id);
+    }));
+  }
 
-var seedUsers = function (num) {
+  return Promise.all(creatingBuyers);
 
-    var users = [
-        {
-            email: 'testing@fsa.com',
-            password: 'password'
-        },
-        {
-            email: 'obama@gmail.com',
-            password: 'potus'
-        }
-    ];
+}
 
-    var creatingUsers = users.map(function (userObj) {
-        return User.create(userObj);
-    });
-
-    return Promise.all(creatingUsers);
-
-};
-
-var seedProducts
-
-var seedCuisines
 
 db.sync({ force: true })
     .then(function () {
@@ -155,6 +177,9 @@ db.sync({ force: true })
     })
     .then(function () {
       return seedSellers(50);
+    })
+    .then(function () {
+      return seedBuyers(25);
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));
