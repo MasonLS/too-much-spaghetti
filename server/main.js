@@ -1,6 +1,7 @@
 'use strict';
 var chalk = require('chalk');
-var db = require('./db');
+var databaseUtils = require('./db');
+var db = databaseUtils.db;
 
 // Create a node server instance! cOoL!
 var server = require('http').createServer();
