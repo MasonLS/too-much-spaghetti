@@ -4,7 +4,7 @@ const express = require('express');
 const router = new express.Router();
 const Leftover = require('../../../db/models/leftover');
 const Cuisine = require('../../../db/models/cuisine');
-const bodyParser = require('body-parser');
+
 module.exports = router;
 
 router.get('/', function(req, res, next){
