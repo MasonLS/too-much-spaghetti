@@ -1,6 +1,6 @@
 'use strict';
 var db = require('./_db');
-
+module.exports = db;
 // eslint-disable-next-line no-unused-vars
 var User = require('./models/user');
 var Cuisine = require('./models/cuisine');
@@ -11,15 +11,6 @@ Leftover.belongsTo(User, {as: "chef"});
 Order.belongsTo(User);
 Cuisine.belongsToMany(Leftover, {through: "cuisine_leftover"});
 Leftover.belongsToMany(Cuisine, {through: "cuisine_leftover"});
-
-module.exports = {
-    db: db,
-    User: User,
-    Cuisine: Cuisine,
-    Leftover: Leftover,
-    Order: Order
-};
-
 
 
 
