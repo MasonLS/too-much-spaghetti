@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 module.exports = router;
 
-const databaseUtils = require('../../../db');
-const db = databaseUtils.db;
+const db = require('../../../db');
 const Order = db.model('order');
 
 router.get('/', function(req, res, next){
