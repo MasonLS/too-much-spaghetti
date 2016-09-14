@@ -4,6 +4,8 @@ module.exports = router;
 
 router.use('/users', require('./users'));
 router.use('/leftovers', require('./leftovers'));
+router.use('/cuisines', require('./cuisines'));
+
 // Make sure this is after all of
 // the registered routes!
 router.use(function (req, res) {
