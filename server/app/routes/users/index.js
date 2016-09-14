@@ -19,12 +19,19 @@ router.get('/sellers', function(req, res, next) {
 });
 
 router.param('id', function(req, res, next, id) {
-    User.findById(id)
-    .then(function(user) {
-        req.user = user;
-        next();
-    })
-    .catch(next);
+    if (req.user.id !== id) {
+        if (req.user.isAdmin) {
+            User.findById(id)
+            .then(function(user) {
+                req.user = user;
+            })
+            .catch(next);
+        } else {
+            next(new Error('Unauthorized'));
+        }
+    }
+
+    next();
 });
 
 router.get('/', function(req, res, next) {
