@@ -18,7 +18,7 @@ name in the environment files.
 */
 
 var chalk = require('chalk');
-var db = require('./server/db').db;
+var db = require('./server/db');
 var User = db.model('user');
 var Leftover = db.model('leftover');
 var Cuisine = db.model('cuisine');
@@ -106,7 +106,7 @@ function createOrder(userId){
       return Order.create({
         userId: userId,
         leftover_ids: ids,
-        status: 'complete'
+        status: 'pending'
       });
     })
 

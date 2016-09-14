@@ -1,6 +1,5 @@
 'use strict';
-var crypto = require('crypto');
-var _ = require('lodash');
+
 var Sequelize = require('sequelize');
 
 var db = require('../_db');
@@ -15,7 +14,6 @@ module.exports = db.define('leftover', {
     description: {
         type: Sequelize.TEXT,
         allowNull: false,
-
     },
     picture: {
         type: Sequelize.STRING,
@@ -52,7 +50,7 @@ module.exports = db.define('leftover', {
         }))
         .then(function(cuisines){
           //cuisines is an array of arrays (Promise.all)!
-          cuisinesArr = cuisines.map(cuisine=>cuisine[0]);
+          cuisinesArr = cuisines.map(cuisine => cuisine[0]);
           console.log(cuisinesArr);
           return self.create(leftoverObj);
         })

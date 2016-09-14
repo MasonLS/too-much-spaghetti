@@ -4,56 +4,59 @@ module.exports = router;
 
 const databaseUtils = require('../../../db');
 const db = databaseUtils.db;
-const Leftover = db.model('leftover');
-
+const Order = db.model('order');
 
 router.get('/', function(req, res, next){
-  Leftover.findAll({
+  Order.findAll({
     where: {
-      chefId: req.user.id
+      userId: req.user.id
     }
   })
-  .then(leftovers => res.json(leftovers))
+  .then(orders => res.json(orders))
   .catch(next);
 });
 
 router.post('/', function(req, res, next){
-  Leftover.create(req.body)
-    .then(leftover => {
-      res.json(leftover);
+  Order.create(req.body)
+    .then(order => {
+      res.json(order);
     })
     .catch(next);
 });
 
 router.param('id', function(req, res, next, id){
-  Leftover.findById(id)
-    .then(leftover => {
-      if (leftover) {
-        req.leftover = leftover;
+  Order.findById(id)
+    .then(order => {
+      if (order) {
+        req.order = order;
         next();
       } else {
-        next(new Error('No such leftover!'));
+        next(new Error('No such order!'));
       }
     })
     .catch(next);
 });
 
 router.get('/:id', function(req, res, next){
-  if (req.leftover) {
-    res.json(req.leftover);
+  if (req.order) {
+    res.json(req.order);
   } else {
-    next(new Error('No such leftover'));
+    next(new Error('No such order'));
   }
 });
 
 router.put('/:id', function(req, res, next){
-  req.leftover.updateAttributes(req.body)
-    .then(leftover => res.json(leftover))
-    .catch(next);
+  if (req.order.status !== 'complete') {
+    req.order.updateAttributes(req.body)
+      .then(order => res.json(order))
+      .catch(next);
+  } else {
+    next(new Error('Cannot edit an order that has already been completed'));
+  }
 });
 
 router.delete('/:id', function(req, res, next){
-  req.leftover.destroy()
+  req.order.destroy()
     .then(() => res.sendStatus(204))
     .catch(next);
 });
