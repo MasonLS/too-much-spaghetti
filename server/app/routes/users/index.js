@@ -1,86 +1,7 @@
 'use strict';
-
-const router = require('express').Router(); // eslint-disable-line new-cap
+var router = require('express').Router(); // eslint-disable-line new-cap
 module.exports = router;
-const User = require('../../../db/models/user');
-const _ = require('lodash');
-const bodyParser = require('body-parser');
-
-router.get('/sellers', function(req, res, next) {
-    User.findAll({
-        where: {
-            isSeller: true
-        }
-    })
-    .then(function(sellers) {
-        res.send(sellers);
-    })
-    .catch(next);
-});
-
-router.param('id', function(req, res, next, id) {
-    if (req.user.id !== id) {
-        if (req.user.isAdmin) {
-            User.findById(id)
-            .then(function(user) {
-                req.user = user;
-            })
-            .catch(next);
-        } else {
-            next(new Error('Unauthorized'));
-        }
-    }
-
-    next();
-});
-
-router.get('/', function(req, res, next) {
-    User.findAll()
-    .then(function(users) {
-        res.send(users);
-    })
-    .catch(next);
-});
-
-router.get('/:id', function(req, res, next) {
-    if (!req.user) {
-        res.sendStatus(404);
-    }
-    res.json(req.user);
-});
-
-router.post('/', function(req, res, next) {
-    User.create(req.body)
-    .then(function(user) {
-        res.status(201).send(user);
-    })
-    .catch(next);
-});
-
-router.delete('/:id', function(req, res, next) {
-    User.destroy({
-        where: {
-            id: req.user.id
-        }
-    })
-    .then(function(user) {
-        if (user === 0) {
-            return res.status(404).end();
-        }
-    })
-    .then(function(deletedUser) {
-        res.status(204).send(deletedUser);
-    })
-    .catch(next);
-});
-
-router.put('/:id', function(req, res, next) {
-    req.user.update(req.body)
-    .then(function(user) {
-        res.send(user);
-    })
-    .catch(next);
-});
+var _ = require('lodash');
 
 var ensureAuthenticated = function (req, res, next) {
     if (req.isAuthenticated()) {
@@ -109,6 +30,3 @@ router.get('/secret-stash', ensureAuthenticated, function (req, res) {
     res.send(_.shuffle(theStash));
 
 });
-
-// router.use('/:id/orders', require('./orders'));
-// router.use('/:id/leftovers', require('./leftovers'));
