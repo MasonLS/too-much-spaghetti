@@ -63,7 +63,6 @@ module.exports = db.define('leftover', {
   },
   hooks: {
     afterCreate: function(createdLeftover) {
-      console.log(createdLeftover);
       return User.findById(createdLeftover.chefId)
         .then(function(user) {
           return user.update({
