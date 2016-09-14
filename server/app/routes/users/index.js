@@ -35,7 +35,7 @@ router.param('id', function(req, res, next, id) {
 });
 
 router.get('/', function(req, res, next) {
-    User.findAll({})
+    User.findAll()
     .then(function(users) {
         res.send(users);
     })
@@ -110,5 +110,5 @@ router.get('/secret-stash', ensureAuthenticated, function (req, res) {
 
 });
 
-router.use('/:id/orders', require('./orders'));
-router.use('/:id/leftovers', require('./leftovers'));
+// router.use('/:id/orders', require('./orders'));
+// router.use('/:id/leftovers', require('./leftovers'));
