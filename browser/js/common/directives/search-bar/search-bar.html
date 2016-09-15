@@ -2,9 +2,9 @@
     <div class="buffer local">
       <form name="search" ng-submit="function()">
         <div class="form-group">
-          <label>find:</label>
+          <label>pick your cuisines:</label>
           <select>
-            <option ng-repeat="cuisine in cuisines">{{ cuisine.cuisine }}</option>
+            <option ng-repeat="cuisine in cuisines"  ng-model="cuisine.selection"><input type="checkbox">{{ cuisine.cuisine }}</option>
           </select>
         </div>
         <div class="form-group">
