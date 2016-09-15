@@ -25,7 +25,9 @@ var Cuisine = db.model('cuisine');
 var Promise = require('sequelize').Promise;
 var faker = require('faker');
 var Order = db.model('order');
+var _ = require('lodash');
 
+var randomNumGen = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 var cuisines = [{
   cuisine: 'chinese'
@@ -65,8 +67,15 @@ function seedCuisines() {
 
 var leftoverNames = ['sweet-and-sour chicken', 'bibimbap', 'injera', 'sushi', 'meatloaf', 'croque madame', 'schnitzel', 'pierogi', 'khachapuri', 'dosa', 'spaghetti', 'arepa']
 
+function randomReviews(){
+  let randReviews = [];
+  for(var i = 0; i < randomNumGen(1,5); i++){
+    randReviews.push(faker.lorem.sentence());
+  }
+  return randReviews;
+}
+
 //creates a leftover and adds a cuisine to it
-//DOES NOT ASSOCIATE cuisine.addleftover
 function createLeftover(name, chefId) {
   let randNum = Math.floor(Math.random() * 4) + 1;
 
@@ -79,13 +88,16 @@ function createLeftover(name, chefId) {
       randCuisines.push(cuisines[randIndex].cuisine);
     } else i--;
   }
-
+  randCuisines = _.uniq(randCuisines);
 
   return Leftover.createWithCuisines({
     chefId: chefId,
     name: name,
     description: faker.lorem.paragraph(),
     picture: faker.image.imageUrl(),
+    quantity: randomNumGen(1, 10),
+    rating: randomNumGen(1, 5),
+    reviews: randomReviews()
   }, randCuisines);
 
 }
@@ -111,20 +123,23 @@ function getRandomLeftoverIds() {
     .then(leftovers => leftovers.map(leftover => leftover.id));
 }
 
-
-function createOrder(userId) {
+function createOrder(buyerId) {
 
   return getRandomLeftoverIds()
     .then(ids => {
-      return Order.create({
-        userId: userId,
-        leftover_ids: ids,
-        status: 'pending'
-      });
+      let orderObj = {
+          buyerId: buyerId,
+          status: 'pending'
+        },
+        leftoversArr = ids.map(id => {
+          return {
+            leftoverId: id,
+            quantity: Math.floor(Math.random() * 3) + 1
+          }
+        });
+      return Order.createWithLeftovers(orderObj, leftoversArr);
     })
-
 }
-
 
 function seedLeftovers(chefId) {
   let randNum = Math.floor(Math.random() * 4) + 1;
@@ -177,8 +192,6 @@ function seedSellers(num) {
       creatingSellers.push(createUser()
         .then(user => seedLeftovers(user.id)));
   }
-
-
   return Promise.all(creatingSellers);
 }
 
