@@ -15,6 +15,7 @@ module.exports = db.define('order', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    // JOE: Seems like this relationship should be belongsToMany
     leftover_ids: {
         type: Sequelize.ARRAY(Sequelize.INTEGER),
         allowNull: false

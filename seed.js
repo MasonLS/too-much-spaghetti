@@ -26,6 +26,10 @@ var Promise = require('sequelize').Promise;
 var faker = require('faker');
 var Order = db.model('order');
 
+// JOE: Make your life easier, do something like this:
+var cuisines = ['chinese', 'korean'].map(function (cuisineName) {
+  return { cuisine: cuisineName };
+})
 
 var cuisines = [{
   cuisine: 'chinese'
@@ -56,18 +60,20 @@ var cuisines = [{
 //function to be called inside seedUsers
 function seedCuisines() {
 
-  var creatingCuisines = cuisines.map(function(cuisineObj) {
-    return Cuisine.create(cuisineObj);
-  });
-
-  return Promise.all(creatingCuisines);
+  // JOE: Great use of .map and Promise.all in conjunction
+  // but could be made even better using Promise.map
+    return Promise.map(cuisines, function (cuisine) {
+        return Cuisine.create(cuisine);
+    })
 }
 
 var leftoverNames = ['sweet-and-sour chicken', 'bibimbap', 'injera', 'sushi', 'meatloaf', 'croque madame', 'schnitzel', 'pierogi', 'khachapuri', 'dosa', 'spaghetti', 'arepa']
 
 //creates a leftover and adds a cuisine to it
 //DOES NOT ASSOCIATE cuisine.addleftover
+
 function createLeftover(name, chefId) {
+  // JOE: lodash has a convenient .random function.
   let randNum = Math.floor(Math.random() * 4) + 1;
 
   let randCuisines = [];
@@ -75,9 +81,11 @@ function createLeftover(name, chefId) {
   for (let i = 0; i < randNum; i++) {
     let randIndex = Math.floor(Math.random() * (cuisines.length - 1)) + 0;
 
+    // JOE: I am having trouble understanding this logic.
     if (!randCuisines.includes(randIndex)) {
       randCuisines.push(cuisines[randIndex].cuisine);
     } else i--;
+
   }
 
 
@@ -169,6 +177,7 @@ function createAdminUsers() {
 function seedSellers(num) {
   var creatingSellers = [];
 
+  // JOE: Great usage of promises in here.
   for (let i = 0; i < num; i++) {
     if (i === 0) {
       creatingSellers.push(createAdminUsers()
@@ -185,6 +194,8 @@ function seedSellers(num) {
 function seedBuyers(num) {
   var creatingBuyers = [];
 
+  // JOE: lodash also has a pretty cool _.range function
+  // so you can _.range(num).map() instead of a for loop
   for (let i = 0; i < num; i++) {
     creatingBuyers.push(createUser()
       .then(function(user) {

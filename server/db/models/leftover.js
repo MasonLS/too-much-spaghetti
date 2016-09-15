@@ -5,6 +5,7 @@ var Sequelize = require('sequelize');
 var db = require('../_db');
 var User = require('./user');
 var Cuisine = require('./cuisine');
+var Promise = require('sequelize').Promise;
 
 module.exports = db.define('leftover', {
   name: {
@@ -39,22 +40,27 @@ module.exports = db.define('leftover', {
 }, {
   classMethods: {
     createWithCuisines: function(leftoverObj, cuisineNames) {
-      let cuisinesArr;
+      // JOE: Fat arrows would remove the need for this.
       const self = this;
-      return Promise.all(cuisineNames.map(function(name) {
-          return Cuisine.findOrCreate({
-            where: {
-              cuisine: name
-            }
-          })
-        }))
-        .then(function(cuisines) {
-          //cuisines is an array of arrays (Promise.all)!
-          cuisinesArr = cuisines.map(cuisine => cuisine[0]);
-          return self.create(leftoverObj);
+      // JOE: Could be replaced with Promise.map
+        return Promise.map(cuisineNames, function (name) {
+            return Cuisine.findOrCreate({
+                where: {
+                    cuisine: name
+                }
+            }).get(0);
         })
-        .then(function(leftover) {
-          return leftover.addCuisines(cuisinesArr);
+        .then((cuisines) => {
+          //cuisines is an array of arrays (Promise.all)!
+          // JOE: Maybe handle this in the single promise rather than doing it on the composite.
+          return this.create(leftoverObj).then(function (createdLeftover) {
+              return [cuisines, createdLeftover];
+          });
+        })
+        .spread(function(cuisines, leftover) {
+          // JOE: What could we do to change the pattern of instantiating
+          // the higher scope cuisinesArr?
+          return leftover.addCuisines(cuisines);
         })
         .catch(console.error);
     }

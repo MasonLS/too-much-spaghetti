@@ -31,7 +31,11 @@ router.param('id', function(req, res, next, id){
         req.leftover = leftover;
         next();
       } else {
-        next(new Error('No such leftover!'));
+        // JOE: If you separate the creation of the error from the invocation of next
+        // you can put a .status property on it and set it to 404
+          let err = new Error('No such leftover!');
+          err.status = 404;
+            next(err);
       }
     })
     .catch(next);
@@ -46,6 +50,7 @@ router.get('/:id', function(req, res, next){
 });
 
 router.put('/:id', function(req, res, next){
+  // JOE: .update vs .updateAttributes ?
   req.leftover.updateAttributes(req.body)
     .then(leftover => res.json(leftover))
     .catch(next);

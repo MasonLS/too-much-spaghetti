@@ -45,6 +45,8 @@ router.get('/', function(req, res, next) {
 
 router.get('/:id', function(req, res, next) {
     if (!req.user) {
+        // JOE: Feels like all the 404 checks with userId
+        // should happen in the router.param
         res.sendStatus(404);
     }
     res.json(req.user);
@@ -91,6 +93,7 @@ var ensureAuthenticated = function (req, res, next) {
     }
 };
 
+// JOE: This probably was left here accidentally.
 router.get('/secret-stash', ensureAuthenticated, function (req, res) {
 
     var theStash = [
@@ -111,5 +114,6 @@ router.get('/secret-stash', ensureAuthenticated, function (req, res) {
 
 });
 
+// JOE: Great use of REST/subrouters, but be careful about formatting.
   router.use('/:id/orders', require('./orders'));
   router.use('/:id/leftovers', require('./leftovers'));
