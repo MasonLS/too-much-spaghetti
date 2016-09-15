@@ -9,7 +9,7 @@ var Order = require('./models/order');
 var Order_Leftover = require('./models/order_leftover');
 
 Leftover.belongsTo(User, {as: 'chef'});
-Order.belongsTo(User);
+Order.belongsTo(User, {as: 'buyer'});
 
 Cuisine.belongsToMany(Leftover, {through: 'cuisine_leftover'});
 Leftover.belongsToMany(Cuisine, {through: 'cuisine_leftover'});
