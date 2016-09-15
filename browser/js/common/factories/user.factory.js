@@ -36,11 +36,17 @@ app.factory('UserFactory', function($http) {
                 .then(getData);
     }
 
+    function getLeftovers(userId) {
+      return $http.get('/api/users/' + userId + '/leftovers')
+        .then(getdata);
+    }
+
     return {
         getAll: getAll,
         getById: getById,
         add: add,
         update: update,
-        destroy: destroy
+        destroy: destroy,
+        getLeftovers: getLeftovers
     };
 });
