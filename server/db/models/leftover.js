@@ -51,7 +51,7 @@ module.exports = db.define('leftover', {
         .then(function(cuisines){
           //cuisines is an array of arrays (Promise.all)!
           cuisinesArr = cuisines.map(cuisine => cuisine[0]);
-          console.log(cuisinesArr);
+          // console.log(cuisinesArr);
           return self.create(leftoverObj);
         })
         .then(function(leftover){

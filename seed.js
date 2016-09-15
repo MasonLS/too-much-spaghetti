@@ -27,25 +27,36 @@ var faker = require('faker');
 var Order = db.model('order');
 
 
-var cuisines = [
-  {cuisine: 'chinese'},
-  {cuisine: 'korean'},
-  {cuisine: 'ethiopian'},
-  {cuisine: 'japanese'},
-  {cuisine: 'american'},
-  {cuisine: 'french'},
-  {cuisine: 'austrian'},
-  {cuisine: 'polish'},
-  {cuisine: 'georgian'},
-  {cuisine: 'indian'},
-  {cuisine: 'italian'},
-  {cuisine: 'venezuelan'}
-];
+var cuisines = [{
+  cuisine: 'chinese'
+}, {
+  cuisine: 'korean'
+}, {
+  cuisine: 'ethiopian'
+}, {
+  cuisine: 'japanese'
+}, {
+  cuisine: 'american'
+}, {
+  cuisine: 'french'
+}, {
+  cuisine: 'austrian'
+}, {
+  cuisine: 'polish'
+}, {
+  cuisine: 'georgian'
+}, {
+  cuisine: 'indian'
+}, {
+  cuisine: 'italian'
+}, {
+  cuisine: 'venezuelan'
+}];
 
 //function to be called inside seedUsers
-function seedCuisines(){
+function seedCuisines() {
 
-  var creatingCuisines = cuisines.map(function (cuisineObj) {
+  var creatingCuisines = cuisines.map(function(cuisineObj) {
     return Cuisine.create(cuisineObj);
   });
 
@@ -56,75 +67,79 @@ var leftoverNames = ['sweet-and-sour chicken', 'bibimbap', 'injera', 'sushi', 'm
 
 //creates a leftover and adds a cuisine to it
 //DOES NOT ASSOCIATE cuisine.addleftover
-function createLeftover(name, chefId){
-  let randNum = Math.floor(Math.random()*4) + 1;
+function createLeftover(name, chefId) {
+  let randNum = Math.floor(Math.random() * 4) + 1;
 
   let randCuisines = [];
 
   for (let i = 0; i < randNum; i++) {
-    let randIndex = Math.floor(Math.random()*(cuisines.length-1)) + 0;
+    let randIndex = Math.floor(Math.random() * (cuisines.length - 1)) + 0;
 
-    if(!randCuisines.includes(randIndex)) {
+    if (!randCuisines.includes(randIndex)) {
       randCuisines.push(cuisines[randIndex].cuisine);
     } else i--;
   }
 
 
-    return Leftover.createWithCuisines({
-      chefId: chefId,
-      name: name,
-      description: faker.lorem.paragraph(),
-      picture: faker.image.imageUrl(),
-    }, randCuisines);
+  return Leftover.createWithCuisines({
+    chefId: chefId,
+    name: name,
+    description: faker.lorem.paragraph(),
+    picture: faker.image.imageUrl(),
+  }, randCuisines);
 
 }
 
-function getRandomLeftoverIds(){
-  let randNum = Math.floor(Math.random()*4) + 1;
+function getRandomLeftoverIds() {
+  let randNum = Math.floor(Math.random() * 4) + 1;
   let randLeftovers = [];
 
   for (let i = 0; i < randNum; i++) {
-    let randIndex = Math.floor(Math.random()*(cuisines.length-1)) + 0;
+    let randIndex = Math.floor(Math.random() * (cuisines.length - 1)) + 0;
 
-  if(!randLeftovers.includes(randIndex)) {
+    if (!randLeftovers.includes(randIndex)) {
       randLeftovers.push(randIndex);
     } else i--;
   }
 
   return Leftover.findAll()
     .then(leftovers => {
-      return leftovers.filter((leftover, i) => {return randLeftovers.includes(i)});
+      return leftovers.filter((leftover, i) => {
+        return randLeftovers.includes(i)
+      });
     })
     .then(leftovers => leftovers.map(leftover => leftover.id));
 }
 
-
-function createOrder(userId){
+function createOrder(userId) {
 
   return getRandomLeftoverIds()
     .then(ids => {
-      return Order.create({
-        userId: userId,
-        leftover_ids: ids,
-        status: 'pending'
-      });
+      let orderObj = {
+          userId: userId,
+          status: 'pending'
+        },
+        leftoversArr = ids.map(id => {
+          return {
+            leftoverId: id,
+            quantity: Math.floor(Math.random() * 3) + 1
+          }
+        });
+      return Order.createWithLeftovers(orderObj, leftoversArr);
     })
-
 }
 
+function seedLeftovers(chefId) {
+  let randNum = Math.floor(Math.random() * 4) + 1;
 
-
-function seedLeftovers(chefId){
-  let randNum = Math.floor(Math.random()*4) + 1;
-
-//array of promises
+  //array of promises
   let randLeftovers = [];
 
   for (let i = 0; i < randNum; i++) {
-    let randIndex = Math.floor(Math.random()*(leftoverNames.length-1)) + 0;
+    let randIndex = Math.floor(Math.random() * (leftoverNames.length - 1)) + 0;
     let randLeftover = createLeftover(leftoverNames[randIndex], chefId);
 
-    if(!randLeftovers.includes(randLeftover)) {
+    if (!randLeftovers.includes(randLeftover)) {
       randLeftovers.push(randLeftover);
     } else i--;
 
@@ -133,7 +148,7 @@ function seedLeftovers(chefId){
   return Promise.all(randLeftovers);
 }
 
-function createUser(){
+function createUser() {
   return User.create({
     first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
@@ -143,27 +158,27 @@ function createUser(){
   });
 }
 
-function seedSellers(num){
+function seedSellers(num) {
   var creatingSellers = [];
 
-  for(let i = 0; i < num; i++){
+  for (let i = 0; i < num; i++) {
     creatingSellers.push(createUser()
-    .then(function(user){
-      return seedLeftovers(user.id);
-    }));
+      .then(function(user) {
+        return seedLeftovers(user.id);
+      }));
   }
 
   return Promise.all(creatingSellers);
 }
 
-function seedBuyers(num){
+function seedBuyers(num) {
   var creatingBuyers = [];
 
-  for(let i = 0; i < num; i++){
+  for (let i = 0; i < num; i++) {
     creatingBuyers.push(createUser()
-    .then(function(user){
-      return createOrder(user.id);
-    }));
+      .then(function(user) {
+        return createOrder(user.id);
+      }));
   }
 
   return Promise.all(creatingBuyers);
@@ -171,21 +186,24 @@ function seedBuyers(num){
 }
 
 
-db.sync({ force: true })
-    .then(function () {
-        return seedCuisines();
-    })
-    .then(function () {
-      return seedSellers(50);
-    })
-    .then(function () {
-      return seedBuyers(25);
-    })
-    .then(function () {
-        console.log(chalk.green('Seed successful!'));
-        process.exit(0);
-    })
-    .catch(function (err) {
-        console.error(err);
-        process.exit(1);
-    });
+db.sync({
+    force: true
+  })
+  .then(function() {
+    return seedCuisines();
+  })
+  .then(function() {
+    return seedSellers(50);
+  })
+  .then(function() {
+    return seedBuyers(25);
+  })
+  .then(function() {
+    console.log(chalk.green('Seed successful!'));
+    process.exit(0);
+  })
+  .catch(function(err) {
+    console.error(err);
+    process.exit(1);
+  });
+
