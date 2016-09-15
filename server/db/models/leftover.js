@@ -39,8 +39,8 @@ module.exports = db.define('leftover', {
 }, {
   classMethods: {
     createWithCuisines: function(leftoverObj, cuisineNames) {
-      let cuisinesArr;
       const self = this;
+      let cuisinesArr;
       return Promise.all(cuisineNames.map(function(name) {
           return Cuisine.findOrCreate({
             where: {
@@ -49,12 +49,12 @@ module.exports = db.define('leftover', {
           })
         }))
         .then(function(cuisines) {
-          //cuisines is an array of arrays (Promise.all)!
-          cuisinesArr = cuisines.map(cuisine => cuisine[0]);
+          //cuisines is an array of arrays (findOrCreate)!
+          cuisinesArr = cuisines.map(cuisine => cuisine[0].id);
           return self.create(leftoverObj);
         })
         .then(function(leftover) {
-          return leftover.addCuisines(cuisinesArr);
+          return leftover.setCuisines(cuisinesArr);
         })
         .catch(console.error);
     }

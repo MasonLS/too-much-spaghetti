@@ -25,7 +25,9 @@ var Cuisine = db.model('cuisine');
 var Promise = require('sequelize').Promise;
 var faker = require('faker');
 var Order = db.model('order');
+var _ = require('lodash');
 
+var randomNumGen = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 var cuisines = [{
   cuisine: 'chinese'
@@ -65,6 +67,14 @@ function seedCuisines() {
 
 var leftoverNames = ['sweet-and-sour chicken', 'bibimbap', 'injera', 'sushi', 'meatloaf', 'croque madame', 'schnitzel', 'pierogi', 'khachapuri', 'dosa', 'spaghetti', 'arepa']
 
+function randomReviews(){
+  let randReviews = [];
+  for(var i = 0; i < randomNumGen(1,5); i++){
+    randReviews.push(faker.lorem.sentence());
+  }
+  return randReviews;
+}
+
 //creates a leftover and adds a cuisine to it
 function createLeftover(name, chefId) {
   let randNum = Math.floor(Math.random() * 4) + 1;
@@ -78,13 +88,16 @@ function createLeftover(name, chefId) {
       randCuisines.push(cuisines[randIndex].cuisine);
     } else i--;
   }
-
+  randCuisines = _.uniq(randCuisines);
 
   return Leftover.createWithCuisines({
     chefId: chefId,
     name: name,
     description: faker.lorem.paragraph(),
     picture: faker.image.imageUrl(),
+    quantity: randomNumGen(1, 10),
+    rating: randomNumGen(1, 5),
+    reviews: randomReviews()
   }, randCuisines);
 
 }
