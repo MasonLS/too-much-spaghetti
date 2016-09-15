@@ -19,7 +19,7 @@ router.get('/', function(req, res, next){
 router.post('/', function(req, res, next){
   Leftover.create(req.body)
     .then(leftover => {
-      res.json(leftover);
+      res.status(201).json(leftover);
     })
     .catch(next);
 });
