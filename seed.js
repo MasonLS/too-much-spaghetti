@@ -110,12 +110,12 @@ function getRandomLeftoverIds() {
     .then(leftovers => leftovers.map(leftover => leftover.id));
 }
 
-function createOrder(userId) {
+function createOrder(buyerId) {
 
   return getRandomLeftoverIds()
     .then(ids => {
       let orderObj = {
-          userId: userId,
+          buyerId: buyerId,
           status: 'pending'
         },
         leftoversArr = ids.map(id => {

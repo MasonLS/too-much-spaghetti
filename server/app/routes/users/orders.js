@@ -15,6 +15,8 @@ router.get('/', function(req, res, next) {
     .catch(next);
 });
 
+//needs an orderObj and leftoversArr in req.body
+//orderObj is of the form { status: '' } and leftoversArr is of the form [ { leftoverId: 2, quantity: 3 } ]
 router.post('/', function(req, res, next) {
   if (!req.user) next(new Error('Unauthorized'));
   else {
