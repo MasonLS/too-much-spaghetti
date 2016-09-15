@@ -2,7 +2,7 @@
 <div>
     <h2>Featured Leftovers</h2>
     <ul ng-repeat="featuredLeftover in featuredLeftovers">
-        <li>{{ featuredLeftover.name }}</li>
+        <a ui-sref="leftoverDetail({id: featuredLeftover.id})">{{ featuredLeftover.name }}</a>
     </ul>
 </div>
 

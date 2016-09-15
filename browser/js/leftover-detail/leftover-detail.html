@@ -1,0 +1,13 @@
+<div>
+    <carousel interval="3000">
+        <slide ng-repeat="image in images">
+            <img height="300" ng-src="{{ image }}" />
+        </slide>
+    </carousel>
+</div>
+<div>
+    <h2>Featured Leftovers</h2>
+    <ul ng-repeat="featuredLeftover in featuredLeftovers">
+        <li>{{ featuredLeftover.name }}</li>
+    </ul>
+</div>
