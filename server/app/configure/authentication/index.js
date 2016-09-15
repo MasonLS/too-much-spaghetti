@@ -54,6 +54,7 @@ module.exports = function (app, db) {
     // We provide a simple GET /session in order to get session information directly.
     // This is used by the browser application (Angular) to determine if a user is
     // logged in already.
+    // Who is logged in similar to /auth/me from author
     app.get('/session', function (req, res) {
         if (req.user) {
             res.send({ user: req.user.sanitize() });

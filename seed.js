@@ -66,7 +66,6 @@ function seedCuisines() {
 var leftoverNames = ['sweet-and-sour chicken', 'bibimbap', 'injera', 'sushi', 'meatloaf', 'croque madame', 'schnitzel', 'pierogi', 'khachapuri', 'dosa', 'spaghetti', 'arepa']
 
 //creates a leftover and adds a cuisine to it
-//DOES NOT ASSOCIATE cuisine.addleftover
 function createLeftover(name, chefId) {
   let randNum = Math.floor(Math.random() * 4) + 1;
 
@@ -158,16 +157,28 @@ function createUser() {
   });
 }
 
+function createAdminUsers() {
+  return User.create({
+    first_name: 'Test',
+    last_name: 'McTestie',
+    email: 'a@a.com',
+    password: 'abc',
+    address: '5 Hanover Sq, New York, New York 11104',
+    isAdmin: true
+  });
+}
+
 function seedSellers(num) {
   var creatingSellers = [];
 
   for (let i = 0; i < num; i++) {
-    creatingSellers.push(createUser()
-      .then(function(user) {
-        return seedLeftovers(user.id);
-      }));
+    if (i === 0) {
+      creatingSellers.push(createAdminUsers()
+        .then(user => seedLeftovers(user.id)));
+    } else
+      creatingSellers.push(createUser()
+        .then(user => seedLeftovers(user.id)));
   }
-
   return Promise.all(creatingSellers);
 }
 

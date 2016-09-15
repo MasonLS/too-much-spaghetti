@@ -1,4 +1,8 @@
-<section id="home">
-    <fullstack-logo></fullstack-logo>
-    <rando-greeting></rando-greeting>
-</section>
+<search-bar></search-bar>
+<div>
+    <h2>Featured Leftovers</h2>
+    <ul ng-repeat="featuredLeftover in featuredLeftovers">
+        <li>{{ featuredLeftover.name }}</li>
+    </ul>
+</div>
+
