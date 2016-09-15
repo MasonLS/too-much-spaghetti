@@ -214,12 +214,15 @@ db.sync({
     force: true
   })
   .then(function() {
+    console.log(chalk.blue('Seeding Cuisines...'));
     return seedCuisines();
   })
   .then(function() {
+    console.log(chalk.red('Seeding Sellers...'));
     return seedSellers(50);
   })
   .then(function() {
+    console.log(chalk.yellow('Seeding Buyers...'));
     return seedBuyers(25);
   })
   .then(function() {
