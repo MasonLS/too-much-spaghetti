@@ -1,9 +1,7 @@
 'use strict';
 
-app.controller('AccountCtrl', function($scope, user, orders){
-
-  user.orders = orders;
-
+app.controller('AccountCtrl', function($scope, user){
+  console.log('USER', user);
   $scope.user = user;
 
 });
@@ -37,4 +35,22 @@ app.controller('ProfileCtrl', function($scope, UserFactory){
         else $scope.showPassword = false;
     });
   };
+});
+
+app.controller('OrdersCtrl', function($scope, UserFactory){
+
+  // $scope.orders = orders;
+  UserFactory.getOrders($scope.user.id)
+    .then((orders) => {
+      $scope.orders = orders;
+    })
+
+});
+
+app.controller('PaymentCtrl', function($scope){
+  //Too be written
+});
+
+app.controller('MyLeftoversCtrl', function($scope, leftovers){
+  $scope.leftovers = leftovers;
 });

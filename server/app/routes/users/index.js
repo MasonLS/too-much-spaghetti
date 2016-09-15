@@ -20,22 +20,22 @@ router.get('/sellers', function(req, res, next) {
 
 //passport.deserialize does this already
 //
-// router.param('id', function(req, res, next, id) {
+router.param('id', function(req, res, next, id) {
   // if (req.user.id !== id) {
-      // if (req.user.isAdmin) {
-  // User.findById(id)
-    // .then(function(user) {
-      // req.user = user;
-      // next();
-    // })
-    // .catch(next);
+  //     if (req.user.isAdmin) {
+  User.findById(id)
+    .then(function(user) {
+      req.user = user;
+      next();
+    })
+    .catch(next);
       // } else {
-          // next(new Error('Unauthorized'));
+      //     next(new Error('Unauthorized'));
       // }
   // }
 
-  // next();
-// });
+  next();
+});
 
 router.get('/', function(req, res, next) {
   User.findAll()
@@ -115,4 +115,3 @@ router.get('/secret-stash', ensureAuthenticated, function(req, res) {
   res.send(_.shuffle(theStash));
 
 });
-

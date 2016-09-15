@@ -41,12 +41,19 @@ app.factory('UserFactory', function($http) {
         .then(getdata);
     }
 
+    function getOrders (userId) {
+      return $http.get('/api/users/' + userId + '/orders')
+        .then(getData);
+    }
+
     return {
-        getAll: getAll,
+        getAllUsers: getAllUsers,
+        getAllSellers: getAllSellers,
         getById: getById,
         add: add,
         update: update,
         destroy: destroy,
-        getLeftovers: getLeftovers
+        getLeftovers: getLeftovers,
+        getOrders: getOrders
     };
 });
