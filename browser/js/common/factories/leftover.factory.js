@@ -9,21 +9,21 @@ app.factory('LeftoverFactory', function($http){
 		})
 	}
 
-	function getOne(){
-		return $http.get('api/leftovers' +id)
+	function getOne(id){
+		return $http.get('api/leftovers/' + id)
 		.then(function(response){
 			return response.data;
 		})
 	}
 
 	function destroy(id){
-		return $http.delete('/api/leftovers' +id)
+		return $http.delete('/api/leftovers/' +id)
 		.then(function(response){
 			return response.data
 		})
 	}
 
-	function add(){
+	function add(data){
 		return $http.post('api/leftovers', data)
 		.then(function(response){
 			return response.data
@@ -31,7 +31,7 @@ app.factory('LeftoverFactory', function($http){
 	}
 
 	function update(id, data){
-		return $http.put('api/leftovers' + id, data)
+		return $http.put('api/leftovers/' + id, data)
 		.then(function(response){
 			return response.data;
 		})
