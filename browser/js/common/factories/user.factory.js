@@ -32,15 +32,27 @@ app.factory('UserFactory', function($http) {
     }
 
     function destroy(reqId) {
-        return $http.delete('/api/users/' + reqId)
-                .then(getData);
+        return $http.delete('/api/users/' + reqId);
+    }
+
+    function getLeftovers(userId) {
+      return $http.get('/api/users/' + userId + '/leftovers')
+        .then(getData);
+    }
+
+    function getOrders (userId) {
+      return $http.get('/api/users/' + userId + '/orders')
+        .then(getData);
     }
 
     return {
-        getAll: getAll,
+        getAllUsers: getAllUsers,
+        getAllSellers: getAllSellers,
         getById: getById,
         add: add,
         update: update,
-        destroy: destroy
+        destroy: destroy,
+        getLeftovers: getLeftovers,
+        getOrders: getOrders
     };
 });

@@ -5,17 +5,9 @@ const Err = require('../utils/err').gen;
 const db = require('../../../db');
 const Leftover = db.model('leftover');
 
-router.get('/', function(req, res, next) {
-  Leftover.findAll({
-      where: {
-        chefId: req.user.id
-      }
-    })
-    .then(leftovers => res.json(leftovers))
-    .catch(next);
-});
 
 //Expects req.body to have a leftoverObj and a cusinesNames array
+//does leftoverObj have a user/chefId?
 router.post('/', function(req, res, next) {
   let leftoverObj = req.body.leftoverObj,
     cuisineNames = req.body.cuisineNames;
@@ -39,14 +31,6 @@ router.param('id', function(req, res, next, id) {
     .catch(next);
 });
 
-router.get('/:id', function(req, res, next) {
-  if (req.leftover) {
-    res.json(req.leftover);
-  } else {
-    next(new Err(404,'No such leftover'));
-  }
-});
-
 router.put('/:id', function(req, res, next) {
   req.leftover.updateAttributes(req.body)
     .then(leftover => res.json(leftover))
@@ -58,4 +42,3 @@ router.delete('/:id', function(req, res, next) {
     .then(() => res.sendStatus(204))
     .catch(next);
 });
-

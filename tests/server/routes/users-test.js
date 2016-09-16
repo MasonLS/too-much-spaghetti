@@ -110,14 +110,17 @@ describe('Users Route', function () {
 
     describe('PUT route', function () {
 
-      it('should get a 200 response with updated user', function(done){
+      it('should get a 200 response', function(done){
         loggedInAgent.put('/api/users/' + createdUser.id)
           .send({first_name: 'Donald'})
           .expect(200).end(function (err, response){
             if (err) return done(err);
-            expect(response.body.id).to.equal(createdUser.id);
-            expect(response.body.first_name).to.equal('Donald');
-            done();
+            User.findOne(createdUser.id)
+              .then(user => {
+                expect(user.id).to.equal(createdUser.id);
+                expect(user.first_name).to.equal('Donald');
+                done();
+              });
           });
       });
 
@@ -125,7 +128,7 @@ describe('Users Route', function () {
 
     describe('DELETE a user', function () {
 
-      it('should get a 204 response with the deleted user', function(done){
+      it('should get a 204 response', function(done){
         loggedInAgent.delete('/api/users/' + createdUser.id)
           .expect(204).end(done);
       });
