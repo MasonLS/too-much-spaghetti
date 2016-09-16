@@ -14,4 +14,8 @@ app.controller('LeftoverDetailCtrl', function($scope, $log, LeftoverFactory, Lef
 
     $scope.images = _.shuffle(LeftoverDetailPicsFactory);
 
+    $scope.rating = $scope.leftover.rating;
+    $scope.getRating = function(num) {
+        return new Array(num);
+    };
 });
