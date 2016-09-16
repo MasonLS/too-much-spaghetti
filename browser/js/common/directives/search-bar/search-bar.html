@@ -1,17 +1,12 @@
 <section id="home" >
     <div class="buffer local">
-      <form name="search" ng-submit="function()">
+      <form name="search" ng-submit="isSubmitted()">
         <div class="form-group">
-          <label>pick your cuisines:</label>
-          <select>
-            <option ng-repeat="cuisine in cuisines"  ng-model="cuisine.selection"><input type="checkbox">{{ cuisine.cuisine }}</option>
+          <label >pick your cuisines:</label>
+          <select multiple ng-model= "cuisineSelection">
+            <option ng-repeat="cuisine in cuisines" >{{ cuisine.cuisine }}</option>
           </select>
-        </div>
-        <div class="form-group">
-          <label>near:</label>
-          <input type="text" class="form-control" ng-model="address" required />
-        </div>
-        <button type="submit" class="btn btn-block btn-primary">search</button>
+        <button type="submit" class="btn btn-block btn-primary">Search</button>
       </form>
     </div>
 </section>

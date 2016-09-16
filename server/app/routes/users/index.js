@@ -1,10 +1,11 @@
 'use strict';
-var router = require('express').Router(); // eslint-disable-line new-cap
+const router = require('express').Router(); // eslint-disable-line new-cap
 module.exports = router;
 
 const db = require('../../../db');
 const Leftover = db.model('leftover');
 const User = db.model('user');
+
 
 router.get('/sellers', function(req, res, next) {
   User.findAll({

@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 module.exports = router;
-
+const Err = require('../utils/err').gen;
 const db = require('../../../db');
 const Leftover = db.model('leftover');
+
 
 //Expects req.body to have a leftoverObj and a cusinesNames array
 //does leftoverObj have a user/chefId?
@@ -24,7 +25,7 @@ router.param('id', function(req, res, next, id) {
         req.leftover = leftover;
         next();
       } else {
-        next(new Error('No such leftover!'));
+        next(new Err(404, 'No such leftover'));
       }
     })
     .catch(next);

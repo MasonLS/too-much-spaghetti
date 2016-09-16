@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 module.exports = router;
-
+const Err = require('../utils/err').gen;
 const db = require('../../../db');
 const Order = db.model('order');
 
@@ -36,7 +36,7 @@ router.param('id', function(req, res, next, id) {
         req.order = order;
         next();
       } else {
-        next(new Error('No such order!'));
+        next(new Err(404, 'No such order!'));
       }
     })
     .catch(next);
@@ -46,7 +46,7 @@ router.get('/:id', function(req, res, next) {
   if (req.order) {
     res.json(req.order);
   } else {
-    next(new Error('No such order'));
+    next(new Err(404, 'No such order'));
   }
 });
 

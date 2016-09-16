@@ -18,7 +18,6 @@ var classMethods = {
           });
         }))
       })
-      .catch(console.error.bind(console));
   }
 }
 

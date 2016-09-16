@@ -27,9 +27,6 @@ module.exports = db.define('leftover', {
   rating: {
     type: Sequelize.INTEGER,
   },
-  reviews: {
-    type: Sequelize.ARRAY(Sequelize.TEXT)
-  },
   expiration_time: {
     type: Sequelize.DATE,
     validate: {
@@ -39,12 +36,12 @@ module.exports = db.define('leftover', {
 }, {
   classMethods: {
     createWithCuisines: function(leftoverObj, cuisineNames) {
-      const self = this;
       let cuisinesArr;
+      const self = this;
       return Promise.all(cuisineNames.map(function(name) {
           return Cuisine.findOrCreate({
             where: {
-              cuisine: name
+              name: name
             }
           })
         }))

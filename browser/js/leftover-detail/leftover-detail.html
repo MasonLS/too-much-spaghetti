@@ -5,9 +5,20 @@
         </slide>
     </carousel>
 </div>
+<!-- <div>
+    <img ng-src="{{ leftover.picture }}" />
+</div> -->
+<button type="submit" class="btn btn-primary">Edit</button>
+<button type="submit" class="btn btn-primary">Add to Cart</button>
 <div>
-    <h2>Featured Leftovers</h2>
-    <ul ng-repeat="featuredLeftover in featuredLeftovers">
-        <li>{{ featuredLeftover.name }}</li>
+    <h2>{{ leftover.name }}</h2>
+    <p>{{ leftover.description }}</p>
+</div>
+<div>
+    <h4>Reviews for {{ leftover.name }}</h4>
+    <img ng-repeat="i in getRating(rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png"> {{ leftover.reviews.length }} Ratings
+    <ul ng-repeat="review in leftover.reviews">
+        <li>{{ review }}</li>
     </ul>
 </div>
+
