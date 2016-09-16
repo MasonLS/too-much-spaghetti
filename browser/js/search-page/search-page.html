@@ -1,7 +1,7 @@
 <search-bar></search-bar>
-<div>
+<div ng-show = "submitted">
     <h2>Leftovers</h2>
-    <ul ng-repeat="leftover in leftovers">
+    <ul ng-repeat="leftover in allCuisineLeftovers">
         <li>{{ leftover.name }}</li>
     </ul>
 </div>
