@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 module.exports = router;
-
+const Err = require('../utils/err').gen;
 const db = require('../../../db');
 const Leftover = db.model('leftover');
-
 
 router.get('/', function(req, res, next) {
   Leftover.findAll({
@@ -34,7 +33,7 @@ router.param('id', function(req, res, next, id) {
         req.leftover = leftover;
         next();
       } else {
-        next(new Error('No such leftover!'));
+        next(new Err(404, 'No such leftover'));
       }
     })
     .catch(next);
@@ -44,7 +43,7 @@ router.get('/:id', function(req, res, next) {
   if (req.leftover) {
     res.json(req.leftover);
   } else {
-    next(new Error('No such leftover'));
+    next(new Err(404,'No such leftover'));
   }
 });
 
