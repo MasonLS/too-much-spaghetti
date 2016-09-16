@@ -1,0 +1,55 @@
+
+
+/* Put your custom styles here */
+
+.img-logo
+{
+    max-height: 70px;
+}
+
+#header-1 .main-nav
+{
+    background-color: #8a1809;
+    border: 0;
+    height: 80px;
+}
+
+.img-cart
+{
+    max-height: 50px;
+    padding-bottom: 12px;
+}
+
+.content-block
+{
+    width: 100%;
+    padding: 0px 0px 50px 0px;
+    z-index: 100;
+    position: relative;
+    background-color: #ffffff;
+}
+
+.img-homeheader
+{
+    max-width: 3000px;
+}
+
+.content-bannerblock
+{
+    margin-left: -38px;
+}
+
+.home-sidetext
+{
+}
+
+.title-welcome
+{
+    padding-left: 20px;
+}
+
+.subtitle-welcome
+{
+    padding-left: 20px;
+}
+
