@@ -1,6 +1,7 @@
 'use strict';
 
-app.config(function($stateProvider){
+app.config(function($stateProvider, $urlRouterProvider){
+
   $stateProvider.state('account', {
     url: '/account/:userId',
     templateUrl: 'js/account-detail/account-detail.html',
@@ -9,7 +10,8 @@ app.config(function($stateProvider){
       user: function(UserFactory, $stateParams){
         return UserFactory.getById($stateParams.userId);
       }
-    }
+    },
+    redirectTo: 'account.profile'
   })
     .state('account.profile', {
       url: '/profile',
@@ -42,3 +44,14 @@ app.config(function($stateProvider){
       }
     });
 });
+
+//copy and pasted this verbatim from StackOverflow. Redirects (defaults) account to profile substate.
+app.run(['$rootScope', '$state', function($rootScope, $state) {
+
+    $rootScope.$on('$stateChangeStart', function(evt, to, params) {
+      if (to.redirectTo) {
+        evt.preventDefault();
+        $state.go(to.redirectTo, params, {location: 'replace'})
+      }
+    });
+}]);

@@ -32,13 +32,12 @@ app.factory('UserFactory', function($http) {
     }
 
     function destroy(reqId) {
-        return $http.delete('/api/users/' + reqId)
-                .then(getData);
+        return $http.delete('/api/users/' + reqId);
     }
 
     function getLeftovers(userId) {
       return $http.get('/api/users/' + userId + '/leftovers')
-        .then(getdata);
+        .then(getData);
     }
 
     function getOrders (userId) {

@@ -8,7 +8,7 @@ const Order = db.model('order');
 router.get('/', function(req, res, next) {
   Order.findAll({
       where: {
-        userId: req.user.id
+        buyerId: req.user.id
       }
     })
     .then(orders => res.json(orders))
@@ -18,17 +18,15 @@ router.get('/', function(req, res, next) {
 //needs an orderObj and leftoversArr in req.body
 //orderObj is of the form { status: '' } and leftoversArr is of the form [ { leftoverId: 2, quantity: 3 } ]
 router.post('/', function(req, res, next) {
-  if (!req.user) next(new Error('Unauthorized'));
-  else {
-    let orderObj = req.body.orderObj,
+  let orderObj = req.body.orderObj,
       leftoversArr = req.body.leftoversArr;
-    orderObj.buyerId = req.user.id;
-    Order.createWithLeftovers(orderObj, leftoversArr)
-      .then(_ => {
-        res.json('Order created');
-      })
-      .catch(next);
-  }
+
+  orderObj.buyerId = req.user.id;
+  Order.createWithLeftovers(orderObj, leftoversArr)
+    .then(_ => {
+      res.json('Order created');
+    })
+    .catch(next);
 });
 
 router.param('id', function(req, res, next, id) {
@@ -54,11 +52,13 @@ router.get('/:id', function(req, res, next) {
 
 router.put('/:id', function(req, res, next) {
   if (req.order.status !== 'complete') {
-    req.order.updateAttributes(req.body)
+    req.order.update(req.body)
       .then(order => res.json(order))
       .catch(next);
   } else {
-    next(new Error('Cannot edit an order that has already been completed'));
+    let err = new Error('Cannot edit an order that has already been completed');
+    err.status = 401;
+    next(err);
   }
 });
 
@@ -67,4 +67,3 @@ router.delete('/:id', function(req, res, next) {
     .then(() => res.sendStatus(204))
     .catch(next);
 });
-

@@ -17,10 +17,7 @@ app.factory('LeftoverFactory', function($http){
 	}
 
 	function destroy(id){
-		return $http.delete('/api/leftovers/' +id)
-		.then(function(response){
-			return response.data
-		})
+		return $http.delete('/api/leftovers/' +id);
 	}
 
 	function add(data){
@@ -41,7 +38,8 @@ app.factory('LeftoverFactory', function($http){
 		getAll: getAll,
 		getOne: getOne,
 		destroy: destroy,
-		add: add
+		add: add,
+    update: update
 	}
 
 })
