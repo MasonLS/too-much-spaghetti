@@ -1,0 +1,14 @@
+
+
+/* Put your custom styles here */
+
+.img-logo
+{
+    max-height: 70px;
+}
+#header-1 .main-nav
+{
+    background-color: #000000;
+    border: 0;
+    height: 80px;
+}
