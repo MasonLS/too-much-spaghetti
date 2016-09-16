@@ -1,79 +1,31 @@
-/*
+const chalk = require('chalk');
+const db = require('./server/db');
+const User = db.model('user');
+const Leftover = db.model('leftover');
+const Cuisine = db.model('cuisine');
+const Order_Leftover = db.model('order_leftover');
+const Review = db.model('review');
+const Promise = require('sequelize').Promise;
+const faker = require('faker');
+const Order = db.model('order');
+const _ = require('lodash');
 
-This seed file is only a placeholder. It should be expanded and altered
-to fit the development of your application.
-
-It uses the same file the server uses to establish
-the database connection:
---- server/db/index.js
-
-The name of the database used is set in your environment files:
---- server/env/*
-
-This seed file has a safety check to see if you already have users
-in the database. If you are developing multiple applications with the
-fsg scaffolding, keep in mind that fsg always uses the same database
-name in the environment files.
-
-*/
-
-var chalk = require('chalk');
-var db = require('./server/db');
-var User = db.model('user');
-var Leftover = db.model('leftover');
-var Cuisine = db.model('cuisine');
-var Promise = require('sequelize').Promise;
-var faker = require('faker');
-var Order = db.model('order');
-var _ = require('lodash');
-
-var randomNumGen = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-var cuisines = [{
-  cuisine: 'chinese'
-}, {
-  cuisine: 'korean'
-}, {
-  cuisine: 'ethiopian'
-}, {
-  cuisine: 'japanese'
-}, {
-  cuisine: 'american'
-}, {
-  cuisine: 'french'
-}, {
-  cuisine: 'austrian'
-}, {
-  cuisine: 'polish'
-}, {
-  cuisine: 'georgian'
-}, {
-  cuisine: 'indian'
-}, {
-  cuisine: 'italian'
-}, {
-  cuisine: 'venezuelan'
-}];
+const randomNumGen = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const cuisineNames = ['chinese', 'korean', 'ethiopian', 'japanese', 'american', 'french', 'austrian', 'polish', 'georgian', 'indian', 'italian', 'venezulean']
+let cuisines = cuisineNames.map(c => {
+  return {
+    name: c
+  }
+});
 
 //function to be called inside seedUsers
 function seedCuisines() {
-
-  var creatingCuisines = cuisines.map(function(cuisineObj) {
-    return Cuisine.create(cuisineObj);
+  return Promise.map(cuisines, function(c) {
+    return Cuisine.create(c);
   });
-
-  return Promise.all(creatingCuisines);
 }
 
-var leftoverNames = ['sweet-and-sour chicken', 'bibimbap', 'injera', 'sushi', 'meatloaf', 'croque madame', 'schnitzel', 'pierogi', 'khachapuri', 'dosa', 'spaghetti', 'arepa']
-
-function randomReviews(){
-  let randReviews = [];
-  for(var i = 0; i < randomNumGen(1,5); i++){
-    randReviews.push(faker.lorem.sentence());
-  }
-  return randReviews;
-}
+let leftoverNames = ['sweet-and-sour chicken', 'bibimbap', 'injera', 'sushi', 'meatloaf', 'croque madame', 'schnitzel', 'pierogi', 'khachapuri', 'dosa', 'spaghetti', 'arepa']
 
 //creates a leftover and adds a cuisine to it
 function createLeftover(name, chefId) {
@@ -85,7 +37,7 @@ function createLeftover(name, chefId) {
     let randIndex = Math.floor(Math.random() * (cuisines.length - 1)) + 0;
 
     if (!randCuisines.includes(randIndex)) {
-      randCuisines.push(cuisines[randIndex].cuisine);
+      randCuisines.push(cuisines[randIndex].name);
     } else i--;
   }
   randCuisines = _.uniq(randCuisines);
@@ -97,7 +49,6 @@ function createLeftover(name, chefId) {
     picture: faker.image.imageUrl(),
     quantity: randomNumGen(1, 10),
     rating: randomNumGen(1, 5),
-    reviews: randomReviews()
   }, randCuisines);
 
 }
@@ -107,7 +58,7 @@ function getRandomLeftoverIds() {
   let randLeftovers = [];
 
   for (let i = 0; i < randNum; i++) {
-    let randIndex = Math.floor(Math.random() * (cuisines.length - 1)) + 0;
+    let randIndex = randomNumGen(0, cuisines.length);
 
     if (!randLeftovers.includes(randIndex)) {
       randLeftovers.push(randIndex);
@@ -129,12 +80,12 @@ function createOrder(buyerId) {
     .then(ids => {
       let orderObj = {
           buyerId: buyerId,
-          status: 'pending'
+          status: _.sample(['pending', 'complete', 'cart'])
         },
         leftoversArr = ids.map(id => {
           return {
             leftoverId: id,
-            quantity: Math.floor(Math.random() * 3) + 1
+            quantity: randomNumGen(1, 4)
           }
         });
       return Order.createWithLeftovers(orderObj, leftoversArr);
@@ -209,6 +160,28 @@ function seedBuyers(num) {
 
 }
 
+function RandomReview(leftoverId, userId) {
+  this.stars = randomNumGen(1, 5);
+  this.body = faker.lorem.sentence();
+  this.leftoverId = leftoverId;
+  this.userId = userId;
+}
+
+function writeReviews() {
+  return Order.findAll({
+      where: {},
+      include: [Leftover]
+    })
+    .then(os => {
+      let randOs = _.sampleSize(os, os.length);
+      return Promise.map(randOs, (o) => {
+        let randOrderLeftover = _.sample(o.leftovers);
+        let reviewObj = new RandomReview(randOrderLeftover.id, o.buyerId);
+        return Review.create(reviewObj);
+      })
+    })
+}
+
 
 db.sync({
     force: true
@@ -224,6 +197,10 @@ db.sync({
   .then(function() {
     console.log(chalk.yellow('Seeding Buyers...'));
     return seedBuyers(25);
+  })
+  .then(function() {
+    console.log(chalk.magenta('Writing Reviews...'));
+    return writeReviews();
   })
   .then(function() {
     console.log(chalk.green('Seed successful!'));

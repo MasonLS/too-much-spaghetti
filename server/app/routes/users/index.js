@@ -1,10 +1,8 @@
 'use strict';
-var router = require('express').Router(); // eslint-disable-line new-cap
+const router = require('express').Router(); // eslint-disable-line new-cap
 module.exports = router;
-
 const User = require('../../../db/models/user');
 const _ = require('lodash');
-const bodyParser = require('body-parser');
 
 router.get('/sellers', function(req, res, next) {
   User.findAll({
