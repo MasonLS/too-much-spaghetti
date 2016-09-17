@@ -22,11 +22,11 @@ app.config(function($stateProvider, $urlRouterProvider){
       url: '/orders',
       templateUrl: 'js/account-detail/templates/orders.template.html',
       controller: 'OrdersCtrl',
-      // resolve: {
-      //   orders: function(UserFactory){
-      //     return UserFactory.getOrders(user.id);
-      //   }
-      // }
+      resolve: {
+        orders: function(UserFactory, user){
+          return UserFactory.getOrders(user.id);
+        }
+      }
     })
     .state('account.payment', {
       url: '/payment',

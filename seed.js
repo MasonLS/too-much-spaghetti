@@ -79,6 +79,7 @@ function createOrder(buyerId) {
   return getRandomLeftoverIds()
     .then(ids => {
       let orderObj = {
+          date: faker.date.past(),
           buyerId: buyerId,
           status: _.sample(['pending', 'complete', 'cart'])
         },
@@ -132,18 +133,40 @@ function createAdminUsers() {
   });
 }
 
+function seedOrders(userId) {
+  let creatingOrders = [];
+  let numOrders = randomNumGen(1, 10);
+      
+  for (let j = 0; j < numOrders; j++) {
+    creatingOrders.push(createOrder(userId));
+  }
+
+  return Promise.all(creatingOrders);
+}
+
+// for (let i = 0; i < num; i++) {
+  //   if (i === 0) {
+  //     creatingSellers.push(createAdminUsers()
+  //       .then(user => seedLeftovers(user.id)));
+  //   } else
+  //     creatingSellers.push(createUser()
+  //       .then(user => seedLeftovers(user.id)));
+  // }
+
+
 function seedSellers(num) {
   var creatingSellers = [];
 
   for (let i = 0; i < num; i++) {
     if (i === 0) {
-      creatingSellers.push(createAdminUsers()
-        .then(user => seedLeftovers(user.id)));
+      creatingSellers.push(createAdminUsers());
     } else
-      creatingSellers.push(createUser()
-        .then(user => seedLeftovers(user.id)));
+      creatingSellers.push(createUser());
   }
-  return Promise.all(creatingSellers);
+
+  return Promise.map(creatingSellers, user => {
+    return seedLeftovers(user.id).then(_ => seedOrders(user.id));
+  });
 }
 
 function seedBuyers(num) {
@@ -151,9 +174,7 @@ function seedBuyers(num) {
 
   for (let i = 0; i < num; i++) {
     creatingBuyers.push(createUser()
-      .then(function(user) {
-        return createOrder(user.id);
-      }));
+      .then(user => seedOrders(user.id)));
   }
 
   return Promise.all(creatingBuyers);
@@ -195,7 +216,7 @@ db.sync({
     return seedSellers(50);
   })
   .then(function() {
-    console.log(chalk.yellow('Seeding Buyers...'));
+    console.log(chalk.yellow('Seeding Buyers (And Orders, too!)...'));
     return seedBuyers(25);
   })
   .then(function() {

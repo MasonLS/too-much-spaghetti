@@ -8,7 +8,7 @@ const Order = db.model('order');
 router.get('/', function(req, res, next) {
   Order.findAll({
       where: {
-        buyerId: req.user.id
+        buyerId: req.userSought.id
       }
     })
     .then(orders => res.json(orders))

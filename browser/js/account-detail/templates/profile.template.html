@@ -1,9 +1,9 @@
 <div class="row">
-  <div class="col-sm-10" ng-click="showName = true" ng-show="!showName">
+  <div class="col-sm-10" ng-click="setCurrentlyEditing('name')" ng-show="currentlyEditing !== 'name'">
     <h5>Name</h5>
     <h3>{{ user.first_name }} {{ user.last_name }}</h3>
   </div>
-  <div class="col-sm-10" ng-if="showName">
+  <div class="col-sm-10" ng-if="currentlyEditing === 'name'">
     <h3>Edit Name</h3>
     <form id="name-form" name="nameForm" ng-submit="update(user, 'name')">
       <div class="form-group">
@@ -15,20 +15,20 @@
         <input type="text" class="form-control" id="lastName" placeholder="{{user.last_name}}" ng-model="updatedInfo.lastName"></input>
       </div>
       <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password">
+        <label for="hiddenPassword">Password:</label>
+        <input type="hiddenPassword" class="form-control" id="nope">
       </div>
-      <button ng-click="showName = false">Cancel</button>
+      <button ng-click="setCurrentlyEditing(null)">Cancel</button>
       <button type="submit" class="btn btn-primary">Save</button>
     </form>
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-10" ng-click="showEmail = true" ng-show="!showEmail">
+  <div class="col-sm-10" ng-click="setCurrentlyEditing('email')" ng-show="currentlyEditing !== 'email'">
     <h5>Email</h5>
     <h3>{{ user.email }}</h3>
   </div>
-  <div class="col-sm-10" ng-if="showEmail">
+  <div class="col-sm-10" ng-if="currentlyEditing === 'email'">
     <h3>Edit Email</h3>
     <form id="email-form" name="emailForm" ng-submit="update(user, 'email')">
       <div class="form-group">
@@ -40,25 +40,25 @@
         <input type="email" class="form-control" id="confirmEmail" aria-describedby="emailHelp" placeholder="{{user.email}}">
       </div>
       <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password">
+        <label for="hiddenPassword">Password:</label>
+        <input type="hiddenPassword" class="form-control" id="password">
       </div>
-      <button ng-click="showEmail = false">Cancel</button>
+      <button ng-click="setCurrentlyEditing(null)">Cancel</button>
       <button type="submit" class="btn btn-primary">Save</button>
     </form>
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-10" ng-click="showPassword = true" ng-click="!showPassword">
+  <div class="col-sm-10" ng-click="setCurrentlyEditing('password')" ng-show="currentlyEditing !== 'password'">
     <h5>Password</h5>
     <h3>{{ user.password }}</h3>
   </div>
-  <div class="col-sm-10" ng-if="showPassword">
+  <div class="col-sm-10" ng-if="currentlyEditing === 'password'">
     <h3>Edit Password</h3>
     <form id="password-form" name="passwordForm" ng-submit="update(user, 'password')">
       <div class="form-group">
         <label for="currentPassword">Current Password</label>
-        <input type="password" class="form-control" id="currentPassword">
+        <input type="password" class="form-control" id="currentPassword" value="{{user.password}}">
       </div>
       <div class="form-group">
         <label for="password">Password:</label>
@@ -68,7 +68,7 @@
         <label for="confirmPassword">Confirm new password:</label>
         <input type="password" class="form-control" id="confirmPassword">
       </div>
-      <button ng-click="showPassword = false">Cancel</button>
+      <button ng-click="setCurrentlyEditing(null)">Cancel</button>
       <button type="submit" class="btn btn-primary">Save</button>
     </form>
   </div>
