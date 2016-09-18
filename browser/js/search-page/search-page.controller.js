@@ -1,7 +1,7 @@
 'use strict'
 
-app.controller('SearchPageCtrl', function($scope, LeftoverFactory, $log, CuisineFactory){
-	
+app.controller('SearchPageCtrl', function($scope, $rootScope, LeftoverFactory, $log, CuisineFactory){
+
 	CuisineFactory.getAll()
     .then(function(cuisines) {
         $scope.cuisines = cuisines;
@@ -14,26 +14,26 @@ app.controller('SearchPageCtrl', function($scope, LeftoverFactory, $log, Cuisine
     })
     .catch($log.error);
 
-    $scope.submitted = false; 
+    $scope.submitted = false;
 
     $scope.allCuisineLeftovers = [];
-   
+
 
     $scope.isSubmitted = function(){
     	$scope.submitted = true;
 
     	$scope.allCuisineLeftovers = [];
-   	
+
     	$scope.cuisineSelection.forEach(function(cuisineName){
 	    	CuisineFactory.getByName(cuisineName)
 		    .then(function(cuisineLeftovers){
-		        $scope.allCuisineLeftovers = $scope.allCuisineLeftovers.concat(cuisineLeftovers); 
-		      	$scope.allCuisineLeftovers =  _.uniqBy($scope.allCuisineLeftovers, 'id'); 
-		      	console.log($scope.allCuisineLeftovers.length) 
-		    })
-    	})
+		        $scope.allCuisineLeftovers = $scope.allCuisineLeftovers.concat(cuisineLeftovers);
+		      	$scope.allCuisineLeftovers =  _.uniqBy($scope.allCuisineLeftovers, 'id');
+		      	console.log($scope.allCuisineLeftovers.length);
+		    });
+    	});
+    };
 
-
-    }
+    $scope.address = $rootScope.address;
 
 });

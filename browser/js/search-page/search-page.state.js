@@ -1,9 +1,12 @@
 'use strict'
 
 app.config(function($stateProvider){
-	$stateProvider.state('searchPage', {
+	$stateProvider.state('search', {
 		url: '/search',
 		templateUrl: '/js/search-page/search-page.html',
-		controller: 'SearchPageCtrl'
-	})
-})
+		controller: 'SearchPageCtrl',
+        params: {
+          cuisineSelection: null
+        }
+	});
+});
