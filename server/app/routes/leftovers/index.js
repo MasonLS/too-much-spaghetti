@@ -4,6 +4,7 @@ const express = require('express');
 const router = new express.Router();
 const Leftover = require('../../../db/models/leftover');
 const Cuisine = require('../../../db/models/cuisine');
+const Review = require('../../../db/models/review')
 
 module.exports = router;
 
@@ -43,7 +44,19 @@ router.put('/', function(req, res, next) {
       res.status(201).json(leftoverObj);
     })
     .catch(next);
-})
+});
+
+router.get('/:id/reviews', function(req, res, next) {
+  Review.findAll({
+    where: {
+      leftoverId: req.params.id
+    }
+  })
+  .then(function(reviews) {
+    res.send(reviews);
+  })
+  .catch(next);
+});
 
 // /leftovers/:id
 // /cuisine/:id
