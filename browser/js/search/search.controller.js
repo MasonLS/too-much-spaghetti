@@ -18,13 +18,18 @@ app.controller('SearchPageCtrl', function($scope, $rootScope, LeftoverFactory, $
 
     $scope.allCuisineLeftovers = [];
 
+    $scope.cuisineList = [];
+
+    $scope.addToCuisineList = function(cuisineSelection){
+        $scope.cuisineList.push(cuisineSelection);
+    }
 
     $scope.isSubmitted = function(){
     	$scope.submitted = true;
 
     	$scope.allCuisineLeftovers = [];
 
-    	$scope.cuisineSelection.forEach(function(cuisineName){
+    	$scope.cuisineList.forEach(function(cuisineName){
 	    	CuisineFactory.getByName(cuisineName)
 		    .then(function(cuisineLeftovers){
 		        $scope.allCuisineLeftovers = $scope.allCuisineLeftovers.concat(cuisineLeftovers);
