@@ -8,9 +8,12 @@ var Leftover = require('./models/leftover');
 var Order = require('./models/order');
 var Order_Leftover = require('./models/order_leftover');
 var Review = require('./models/review.js');
+// var Cart = require('./models/cart.js');
 
 Leftover.belongsTo(User, {as: 'chef'});
-Order.belongsTo(User, {as: 'buyer'});
+
+Order.belongsTo(User);
+User.hasMany(Order);
 
 Cuisine.belongsToMany(Leftover, {through: 'cuisine_leftover'});
 Leftover.belongsToMany(Cuisine, {through: 'cuisine_leftover'});
@@ -21,5 +24,4 @@ Order.belongsToMany(Leftover, {through: Order_Leftover});
 Review.belongsTo(Leftover);
 User.hasMany(Review);
 
-// if we had more models, we could associate them in this file
-// e.g. User.hasMany(Reports)
+// Cart.belongsTo(User);

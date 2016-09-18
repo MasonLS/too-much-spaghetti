@@ -1,9 +1,10 @@
 'use strict';
-var crypto = require('crypto');
-var _ = require('lodash');
-var Sequelize = require('sequelize');
-
-var db = require('../_db');
+const crypto = require('crypto');
+const _ = require('lodash');
+const Sequelize = require('sequelize');
+const db = require('../_db');
+const Leftover = require('./leftover');
+const Promise = require('sequelize').Promise;
 
 module.exports = db.define('user', {
   first_name: {
@@ -60,6 +61,22 @@ module.exports = db.define('user', {
     },
     correctPassword: function(candidatePassword) {
       return this.Model.encryptPassword(candidatePassword, this.salt) === this.password;
+    },
+    getCart: function() {
+      return this.getOrders({
+          where: {
+            status: 'cart'
+          },
+          include: [Leftover]
+        })
+        .spread(cartOrder => {
+          return Promise.map(cartOrder.leftovers, (le) => {
+            return {
+              leftover: le,
+              quantity: le.order_leftover.quantity
+            }
+          })
+        })
     }
   },
   classMethods: {
