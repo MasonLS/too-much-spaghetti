@@ -17,6 +17,12 @@ app.controller('SearchPageCtrl', function($scope, LeftoverFactory, $log, Cuisine
     $scope.submitted = false; 
 
     $scope.allCuisineLeftovers = [];
+
+    $scope.cuisineList = [];
+
+    $scope.addToCuisineList = function(cuisineSelection){
+        $scope.cuisineList.push(cuisineSelection);
+    }
    
 
     $scope.isSubmitted = function(){
@@ -24,7 +30,7 @@ app.controller('SearchPageCtrl', function($scope, LeftoverFactory, $log, Cuisine
 
     	$scope.allCuisineLeftovers = [];
    	
-    	$scope.cuisineSelection.forEach(function(cuisineName){
+    	$scope.cuisineList.forEach(function(cuisineName){
 	    	CuisineFactory.getByName(cuisineName)
 		    .then(function(cuisineLeftovers){
 		        $scope.allCuisineLeftovers = $scope.allCuisineLeftovers.concat(cuisineLeftovers); 
