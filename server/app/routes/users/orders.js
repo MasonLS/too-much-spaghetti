@@ -8,7 +8,7 @@ const Order = db.model('order');
 router.get('/', function(req, res, next) {
   Order.findAll({
       where: {
-        buyerId: req.user.id
+        userId: req.user.id
       }
     })
     .then(orders => res.json(orders))
@@ -21,7 +21,7 @@ router.post('/', function(req, res, next) {
   let orderObj = req.body.orderObj,
       leftoversArr = req.body.leftoversArr;
 
-  orderObj.buyerId = req.user.id;
+  orderObj.userId = req.user.id;
   Order.createWithLeftovers(orderObj, leftoversArr)
     .then(_ => {
       res.json('Order created');

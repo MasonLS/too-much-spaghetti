@@ -116,7 +116,7 @@ function createUser() {
     first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
     email: faker.internet.email(),
-    password: faker.internet.password(),
+    password: 'abc',
     address: faker.address.streetAddress()
   });
 }
@@ -194,7 +194,6 @@ function getCart() {
       return randomCartBuyer.getCart();
     })
 }
-
 
 db.sync({
     force: true
