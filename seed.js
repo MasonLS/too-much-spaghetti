@@ -144,16 +144,6 @@ function seedOrders(userId) {
   return Promise.all(creatingOrders);
 }
 
-// for (let i = 0; i < num; i++) {
-  //   if (i === 0) {
-  //     creatingSellers.push(createAdminUsers()
-  //       .then(user => seedLeftovers(user.id)));
-  //   } else
-  //     creatingSellers.push(createUser()
-  //       .then(user => seedLeftovers(user.id)));
-  // }
-
-
 function seedSellers(num) {
   var creatingSellers = [];
 

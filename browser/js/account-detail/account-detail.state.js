@@ -21,10 +21,25 @@ app.config(function($stateProvider, $urlRouterProvider){
     .state('account.orders', {
       url: '/orders',
       templateUrl: 'js/account-detail/templates/orders.template.html',
-      controller: 'OrdersCtrl',
+      controller: function ($scope, orders) {
+        $scope.orders = orders;
+      },
       resolve: {
         orders: function(UserFactory, user){
           return UserFactory.getOrders(user.id);
+        }
+      }
+    })
+    .state('account.review', {
+      url: '/review',
+      templateUrl: 'js/account-detail/templates/review.template.html',
+      params: {
+        leftover: null
+      },
+      controller: 'ReviewCtrl',
+      resolve: {
+        chef: function(UserFactory, $stateParams){
+          return UserFactory.getById($stateParams.leftover.chefId);
         }
       }
     })
@@ -36,16 +51,18 @@ app.config(function($stateProvider, $urlRouterProvider){
     .state('account.myLeftovers', {
       url: '/my-leftovers',
       templateUrl: 'js/account-detail/templates/my-leftovers.template.html',
-      controller: 'MyLeftoversCtrl',
+      controller: function ($scope, leftovers) {
+        $scope.leftovers = leftovers;
+      },
       resolve: {
-        leftovers: function(UserFactory){
+        leftovers: function (UserFactory, user) {
           return UserFactory.getLeftovers(user.id);
         }
       }
     });
 });
 
-//copy and pasted this verbatim from StackOverflow. Redirects (defaults) account to profile substate.
+//copy and pasted this verbatim from stackoverflow. Redirects (defaults) account state to its profile substate.
 app.run(['$rootScope', '$state', function($rootScope, $state) {
 
     $rootScope.$on('$stateChangeStart', function(evt, to, params) {

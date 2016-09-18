@@ -26,8 +26,8 @@ app.factory('UserFactory', function($http) {
                 .then(getData);
     }
 
-    function update(reqId, data) {
-        return $http.put('/api/users/' + reqId, data)
+    function update(user) {
+        return $http.put('/api/users/' + user.id, user)
                 .then(getData);
     }
 

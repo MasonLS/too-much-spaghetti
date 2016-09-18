@@ -39,7 +39,7 @@ app.factory('LeftoverFactory', function($http){
 		getOne: getOne,
 		destroy: destroy,
 		add: add,
-    update: update
+        update: update
 	}
 
 })

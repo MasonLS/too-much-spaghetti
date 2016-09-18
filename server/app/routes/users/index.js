@@ -80,7 +80,7 @@ router.delete('/:id', function(req, res, next) {
 });
 
 router.put('/:id', function(req, res, next) {
-  req.user.update(req.body)
+  req.userSought.update(req.body)
     .then(function(user) {
       res.send(user);
     })
