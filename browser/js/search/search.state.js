@@ -3,7 +3,7 @@
 app.config(function($stateProvider){
 	$stateProvider.state('searchPage', {
 		url: '/search',
-		templateUrl: '/js/search-page/search-page.html',
+		templateUrl: '/js/search/search.html',
 		controller: 'SearchPageCtrl'
 	})
 })
