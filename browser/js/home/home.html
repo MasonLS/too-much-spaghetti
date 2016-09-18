@@ -10,8 +10,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-7 home-sidetext">
-                <img class="img-responsive img-homeheader" src="https://c1.staticflickr.com/9/8169/29612420142_d7b2500f93_b.jpg">
-                <h2 class="title-welcome">welcome to <strong>too much spaghetti</strong></h2>
+                <img class="img-homeheader img-responsive" src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/a712e44621271.5601f24011f42.jpg">
+                <h1 class="title-welcome">welcome to <strong>too much spaghetti</strong></h1>
                 <p class="subtitle-welcome">Hungry? Check out a variety of delicious, home made leftovers in your neighborhood!</p>
             </div>
             <div class="col-md-4 col-md-offset-1">
@@ -25,11 +25,11 @@
                             <div class="panel-body">
                                 <div class="buffer local">
                                     <form name="search" ng-submit="function()">
-                                        <div class="form-group">
+                                        <div class="form-group"><br>
                                             <label>find:</label>
                                             <br>
                                             <select>
-                                                <option ng-repeat="cuisine in cuisines" ng-model="cuisine.selection">{{ cuisine.cuisine }}</option>
+                                                <option ng-repeat="cuisine in cuisines" ng-model="cuisine.selection">{{ cuisine.name }}</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -56,16 +56,18 @@
 <section class="content-block team-2 team-2-1">
     <div class="container">
         <div class="underlined-title">
-            <h1><strong>featured</strong> leftovers</h1>
-            <hr>
+            <h2><strong>featured</strong> leftovers</h2>
         </div>
         <div class="row">
             <div class="col-sm-4 team-wrapper" ng-repeat="featuredLeftover in featuredLeftovers">
                 <div class="team-item">
                     <div class="team-thumb">
-                        <img src="leftoverDetail({picture: featuredLeftover.picture})" alt="Featured Leftover">
+                        <a ui-sref="leftoverDetail({id: featuredLeftover.id})">
+                            <img ng-src="{{ featuredLeftover.picture }}">
+                        </a>
+                        <!-- <img ng-src="leftoverDetail({picture: featuredLeftover.picture})" alt="Featured Leftover">
                         <div class="image-overlay"></div>
-                        <a ui-sref="leftoverDetail({id: featuredLeftover.id})" class="team-link"><i class="fa fa-3x fa-envelope-o"></i></a>
+                        <a ui-sref="leftoverDetail({id: featuredLeftover.id})" class="team-link"><i class="fa fa-3x fa-envelope-o"></i></a> -->
                     </div>
                     <div class="team-details">
                         <h4>{{ featuredLeftover.name }}</h4>

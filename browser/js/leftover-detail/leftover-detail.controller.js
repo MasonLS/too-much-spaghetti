@@ -8,8 +8,6 @@ app.controller('LeftoverDetailCtrl', function($scope, $log, LeftoverFactory, Lef
     })
     .catch($log.error);
 
-    console.log("hey there");
-
     $scope.leftover = leftover;
 
     $scope.images = _.shuffle(LeftoverDetailPicsFactory);
@@ -18,4 +16,9 @@ app.controller('LeftoverDetailCtrl', function($scope, $log, LeftoverFactory, Lef
     $scope.getRating = function(num) {
         return new Array(num);
     };
+
+    LeftoverFactory.getReviews($scope.leftover.id)
+    .then(function(reviews) {
+        $scope.reviews = reviews;
+    });
 });
