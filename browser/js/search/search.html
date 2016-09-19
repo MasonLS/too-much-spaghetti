@@ -17,7 +17,7 @@
     <div class="col-sm-3">
       <div>
         <h2>Leftovers</h2>
-        <ul ng-repeat="leftover in allCuisineLeftovers">
+        <ul ng-repeat="leftover in leftovers" ng-init="getDistance(leftover)">
             <li><a ui-sref="leftoverDetail({id:leftover.id})"> {{ leftover.name }}</a></li>
         </ul>
       </div>

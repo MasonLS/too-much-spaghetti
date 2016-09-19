@@ -7,7 +7,7 @@ app.controller('LeftoverDetailCtrl', function($scope, $log, LeftoverFactory, Lef
         $scope.leftovers = leftovers;
     })
     .catch($log.error);
-
+    console.log(leftover);
     $scope.leftover = leftover;
 
     $scope.images = _.shuffle(LeftoverDetailPicsFactory);

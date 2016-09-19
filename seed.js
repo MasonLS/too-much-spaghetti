@@ -118,7 +118,7 @@ function createUser() {
     last_name: faker.name.lastName(),
     email: faker.internet.email(),
     password: 'abc',
-    address: faker.address.streetAddress()
+    address: '33 Withers St., Brooklyn, NY 11211'
   });
 }
 

@@ -6,8 +6,11 @@ app.config(function($stateProvider){
         templateUrl: '/js/search/search.html',
         controller: 'SearchPageCtrl',
         resolve: {
-            selectionLeftovers: function(CuisineFactory, $stateParams) {
-                return CuisineFactory.getByName($stateParams.selection);
+            leftovers: function(LeftoverFactory) {
+                return LeftoverFactory.getAll();
+            },
+            cuisines: function(CuisineFactory) {
+                return CuisineFactory.getAll();
             }
         }
 	});

@@ -11,6 +11,7 @@ var Review = require('./models/review.js');
 // var Cart = require('./models/cart.js');
 
 Leftover.belongsTo(User, {as: 'chef'});
+User.hasMany(Leftover);
 
 Order.belongsTo(User);
 User.hasMany(Order);
