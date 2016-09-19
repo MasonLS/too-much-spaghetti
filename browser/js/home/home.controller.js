@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('HomeCtrl', function($scope, $rootScope, $log, $state, CuisineFactory, LeftoverFactory) {
+app.controller('HomeCtrl', function($scope, $rootScope, $log, $state, $stateParams, CuisineFactory, LeftoverFactory) {
 
     CuisineFactory.getAll()
     .then(function(cuisines) {
@@ -19,7 +19,6 @@ app.controller('HomeCtrl', function($scope, $rootScope, $log, $state, CuisineFac
 
     $scope.allCuisineLeftovers = [];
 
-
     $scope.isSubmitted = function(){
         $scope.submitted = true;
 
@@ -27,14 +26,9 @@ app.controller('HomeCtrl', function($scope, $rootScope, $log, $state, CuisineFac
 
         $rootScope.address = $scope.address;
 
-        $scope.cuisineSelection.forEach(function(cuisineName){
-            CuisineFactory.getByName(cuisineName)
-            .then(function(cuisineLeftovers){
-                $scope.allCuisineLeftovers = $scope.allCuisineLeftovers.concat(cuisineLeftovers);
-                $scope.allCuisineLeftovers =  _.uniqBy($scope.allCuisineLeftovers, 'id');
-            })
+        $scope.selection = $stateParams.selection;
 
-        });
+        $state.go('search', { selection: $scope.cuisineSelection });
     };
 
 });

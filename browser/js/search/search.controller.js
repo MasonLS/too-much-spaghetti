@@ -1,6 +1,8 @@
 'use strict'
 
-app.controller('SearchPageCtrl', function($scope, $rootScope, LeftoverFactory, $log, CuisineFactory){
+app.controller('SearchPageCtrl', function($scope, $rootScope, $stateParams, LeftoverFactory, $log, CuisineFactory, selectionLeftovers){
+
+    $scope.selection = $stateParams.selection;
 
 	CuisineFactory.getAll()
     .then(function(cuisines) {
@@ -16,7 +18,13 @@ app.controller('SearchPageCtrl', function($scope, $rootScope, LeftoverFactory, $
 
     $scope.submitted = false;
 
-    $scope.allCuisineLeftovers = [];
+    if (selectionLeftovers) {
+        $scope.allCuisineLeftovers = selectionLeftovers;
+    } else {
+        $scope.allCuisineLeftovers = $scope.leftovers;
+    }
+
+    // $scope.allCuisineLeftovers = selectionLeftovers;
 
     $scope.cuisineList = [];
 
