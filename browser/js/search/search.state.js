@@ -2,11 +2,13 @@
 
 app.config(function($stateProvider){
 	$stateProvider.state('search', {
-		url: '/search',
+		url: '/search/:selection',
         templateUrl: '/js/search/search.html',
         controller: 'SearchPageCtrl',
-        params: {
-          cuisineSelection: null
+        resolve: {
+            selectionLeftovers: function(CuisineFactory, $stateParams) {
+                return CuisineFactory.getByName($stateParams.selection);
+            }
         }
 	});
 });
