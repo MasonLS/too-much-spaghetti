@@ -17,8 +17,8 @@
     <div class="col-sm-3">
       <div>
         <h2>Leftovers</h2>
-        <ul ng-repeat="leftover in leftovers" ng-init="getDistance(leftover)">
-            <li><a ui-sref="leftoverDetail({id:leftover.id})"> {{ leftover.name }}</a></li>
+        <ul ng-repeat="leftover in leftovers">
+            <li ng-init="getDistance(leftover)"><a ui-sref="leftoverDetail({id:leftover.id})"> {{ leftover.name }}</a><p ng-show="leftover.distance !== undefined">{{ leftover.distance }}</p></li>
         </ul>
       </div>
     </div>

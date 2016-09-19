@@ -13,7 +13,7 @@
         <button type="submit" class="btn btn-primary" ng-show="#">Edit</button>
         <button type="submit" class="btn btn-primary" ui-sref="#">Add to Cart</button>
         <div>
-            <h2>{{ leftover.name }}</h2>
+            <h2>{{ leftover.name }}</h2><p ng-show="leftover.distance !== undefined">{{ leftover.distance }}</p>
             <p>{{ leftover.description }}</p>
         </div>
         <div>
