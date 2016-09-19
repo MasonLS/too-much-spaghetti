@@ -103,3 +103,14 @@
 .dropdown:hover .dropbtn {
     background-color: #8a1809;
 }
+
+.advanced-search-box {
+    background-color: #F3F3F3;
+}
+
+.leftover-search-row {
+    width: 70%;
+    border-bottom: .5px solid black;
+    border-style: ;
+
+}

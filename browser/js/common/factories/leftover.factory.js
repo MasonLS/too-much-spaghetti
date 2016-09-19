@@ -16,6 +16,13 @@ app.factory('LeftoverFactory', function($http){
 		})
 	}
 
+	function getByRating(rating){
+		return $http.get('api/leftovers/rating/' +rating)
+		.then(function(response){
+			return response.data
+		})
+	}
+
 	function getReviews(id) {
 		return $http.get('api/leftovers/' + id + '/reviews')
 		.then(function(response) {
@@ -47,7 +54,8 @@ app.factory('LeftoverFactory', function($http){
 		getReviews: getReviews,
 		destroy: destroy,
 		add: add,
-        update: update
+        update: update,
+        getByRating: getByRating
 	}
 
 })
