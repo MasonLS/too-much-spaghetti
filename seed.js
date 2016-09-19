@@ -80,15 +80,15 @@ function createOrder(buyerId) {
     .then(ids => {
       let orderObj = {
           userId: buyerId,
-          status: _.sample(['pending', 'complete', 'cart'])
         },
+        status = _.sample(['pending', 'complete', 'cart']),
         leftoversArr = ids.map(id => {
           return {
             leftoverId: id,
             quantity: randomNumGen(1, 4)
           }
         });
-      return Order.createWithLeftovers(orderObj, leftoversArr);
+      return Order.createWithLeftovers(orderObj, leftoversArr, status);
     })
 }
 

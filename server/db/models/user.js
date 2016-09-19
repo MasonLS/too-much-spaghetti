@@ -70,7 +70,7 @@ module.exports = db.define('user', {
           include: [Leftover]
         })
         .spread(cartOrder => {
-          return Promise.map(cartOrder.leftovers, (le) => {
+          if(cartOrder) return Promise.map(cartOrder.leftovers, (le) => {
             return {
               leftover: le,
               quantity: le.order_leftover.quantity
