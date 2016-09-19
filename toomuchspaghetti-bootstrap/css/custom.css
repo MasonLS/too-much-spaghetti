@@ -106,11 +106,18 @@
 
 .advanced-search-box {
     background-color: #F3F3F3;
+    width: 20%;
+    float: left;
+    
 }
 
 .leftover-search-row {
-    width: 70%;
-    border-bottom: .5px solid black;
-    border-style: ;
+    border-bottom: 2px solid #ddd;
+    margin-left: 20%; 
+    width: 100%;
+    padding-bottom: 4px;
+
+    
+    
 
 }
