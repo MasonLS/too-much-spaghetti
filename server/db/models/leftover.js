@@ -21,6 +21,9 @@ module.exports = db.define('leftover', {
       isUrl: true
     }
   },
+  price: {
+    type: Sequelize.DOUBLE
+  },
   quantity: {
     type: Sequelize.INTEGER
   },
