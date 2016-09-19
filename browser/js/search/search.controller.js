@@ -18,7 +18,13 @@ app.controller('SearchPageCtrl', function($scope, $rootScope, $stateParams, Left
 
     $scope.submitted = false;
 
-    $scope.allCuisineLeftovers = selectionLeftovers;
+    if (selectionLeftovers) {
+        $scope.allCuisineLeftovers = selectionLeftovers;
+    } else {
+        $scope.allCuisineLeftovers = $scope.leftovers;
+    }
+
+    // $scope.allCuisineLeftovers = selectionLeftovers;
 
     $scope.cuisineList = [];
 
