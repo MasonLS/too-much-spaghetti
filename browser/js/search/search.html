@@ -18,7 +18,7 @@
       <div>
         <h2>Leftovers</h2>
         <ul ng-repeat="leftover in allCuisineLeftovers">
-            <li><a ui-sref="leftoverDetail({id:leftover.id})"> {{ leftover.name }}</a></li>
+            <li><a ui-sref="leftoverDetail({leftoverId:leftover.id})"> {{ leftover.name }}</a></li>
         </ul>
       </div>
     </div>

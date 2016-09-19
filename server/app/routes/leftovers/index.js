@@ -43,9 +43,9 @@ router.post('/', function(req, res, next) {
   if (!req.user.isAdmin) next(new Error('Unauthorized'));
   let leftoverObj = req.body.leftoverObj,
     cuisineNames = req.body.cuisineNames;
-  Leftover.createWithCuisines(leftoverObj, cuisineNames)
-    .then(_ => {
-      res.status(201).json(leftoverObj);
+  Leftover.createWithCuisines(leftoverObj, cuisineNames, req.user.id)
+    .then((createdLeftover) => {
+      res.status(201).json(createdLeftover);
     })
     .catch(next);
 })

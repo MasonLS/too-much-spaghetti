@@ -103,3 +103,13 @@
 .dropdown:hover .dropbtn {
     background-color: #8a1809;
 }
+
+.spacer {
+    width: 100%;
+    height: 40px;
+}
+
+.review-box {
+    background-color: #F3F3F3;
+    padding: 10px;
+}
