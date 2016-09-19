@@ -148,6 +148,19 @@ router.get('/:id/reviews', function(req, res, next) {
   .catch(next);
 });
 
+router.get('/rating/:rating', function(req,res,next) {
+  console.log(req.params.rating)
+  Leftover.findAll({
+    where: {
+      rating: req.params.rating
+    }
+  })
+  .then(function(leftovers){
+    res.send(leftovers);
+  })
+  .catch(next);
+});
+
 // /leftovers/:id
 // /cuisine/:id
 // /cuisine/id/leftovers
