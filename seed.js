@@ -135,7 +135,7 @@ function createAdminUsers() {
 
 function seedOrders(userId) {
   let creatingOrders = [];
-  let numOrders = randomNumGen(1, 10);
+  let numOrders = randomNumGen(2, 4);
       
   for (let j = 0; j < numOrders; j++) {
     creatingOrders.push(createOrder(userId));
