@@ -1,10 +1,10 @@
 'use strict';
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const createCartInDb = require('../../routes/utils/cartUpdate').createCartInDb;
 module.exports = function(app, db) {
 
-  var User = db.model('user');
+  const User = db.model('user');
 
   // When passport.authenticate('local') is used, this function will receive
   // the email and password to run the actual authentication logic.
@@ -47,12 +47,15 @@ module.exports = function(app, db) {
       // req.logIn will establish our session.
       req.logIn(user, function(loginErr) {
         if (loginErr) return next(loginErr);
-        // We respond with a response object that has user with _id and email.
-        res.status(200).send({
-          user: user.sanitize()
-        });
+        // if req.session.cart exists presist it to db when user logs in
+        createCartInDb(user.id, req.session.cart)
+          .then(_ => {
+            // We respond with a response object that has user with _id and email.
+            res.status(200).send({
+              user: user.sanitize()
+            });
+          })
       });
-
     };
 
     passport.authenticate('local', authCb)(req, res, next);
