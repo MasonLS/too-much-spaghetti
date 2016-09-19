@@ -47,7 +47,7 @@ app.factory('LeftoverFactory', function($http){
 		getReviews: getReviews,
 		destroy: destroy,
 		add: add,
-    update: update
+        update: update
 	}
 
 })

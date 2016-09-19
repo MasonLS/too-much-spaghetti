@@ -8,8 +8,9 @@ const Order = db.model('order');
 router.get('/', function(req, res, next) {
   Order.findAll({
       where: {
-        userId: req.user.id
-      }
+        buyerId: req.userSought.id
+      },
+      include: [db.model('leftover')]
     })
     .then(orders => res.json(orders))
     .catch(next);

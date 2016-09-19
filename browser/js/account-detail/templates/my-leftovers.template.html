@@ -1,5 +1,5 @@
 <div class="row">
   <div class="col-sm-10" ng-repeat="leftover in leftovers">
-    <h3><a>{{leftover.name}}</a></h3>
+    <h3><a ui-sref="leftoverDetail({leftoverId: leftover.id})">{{leftover.name}}</a></h3>
   </div>
 </div>

@@ -1,75 +1,78 @@
 <div class="row">
-  <div class="col-sm-10" ng-click="showName = true" ng-show="!showName">
+  <div class="col-sm-10" ng-click="setCurrentlyEditing('name')" ng-show="currentlyEditing !== 'name'">
     <h5>Name</h5>
     <h3>{{ user.first_name }} {{ user.last_name }}</h3>
   </div>
-  <div class="col-sm-10" ng-if="showName">
+  <div class="col-sm-10" ng-if="currentlyEditing === 'name'">
     <h3>Edit Name</h3>
-    <form id="name-form" name="nameForm" ng-submit="update(user, 'name')">
+    <form id="name-form" name="nameForm" ng-submit="updateUserProfile()" novalidate>
       <div class="form-group">
-        <label for="firstName">First Name:</label>
-        <input type="text" class="form-control" id="firstName" placeholder="{{user.first_name}}" ng-model="updatedInfo.firstName"></input>
+        <label for="first-name" novalidate>First Name:</label>
+        <input type="text" class="form-control" id="first-name" name="firstName" value="{{user.first_name}}" ng-model="updatedUser.first_name" required></input>
       </div>
       <div class="form-group">
-        <label for="lastName">Last Name:</label>
-        <input type="text" class="form-control" id="lastName" placeholder="{{user.last_name}}" ng-model="updatedInfo.lastName"></input>
+        <label for="last-name">Last Name:</label>
+        <input type="text" class="form-control" id="last-name" name="lastName" value="{{user.last_name}}" ng-model="updatedUser.last_name" required></input>
       </div>
       <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password">
+        <label for="nope">Password:</label>
+        <input type="hiddenPassword" class="form-control" id="nope" name="password" ng-model="userPassword" tms-confirm="user.password" required>
       </div>
-      <button ng-click="showName = false">Cancel</button>
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button ng-click="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="nameForm.$invalid || nameForm.$pristine">Save</button>
     </form>
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-10" ng-click="showEmail = true" ng-show="!showEmail">
+  <div class="col-sm-10" ng-click="setCurrentlyEditing('email')" ng-show="currentlyEditing !== 'email'">
     <h5>Email</h5>
     <h3>{{ user.email }}</h3>
   </div>
-  <div class="col-sm-10" ng-if="showEmail">
+  <div class="col-sm-10" ng-if="currentlyEditing === 'email'">
     <h3>Edit Email</h3>
-    <form id="email-form" name="emailForm" ng-submit="update(user, 'email')">
+    <form id="email-form" name="emailForm" ng-submit="updateUserProfile()" novalidate>
       <div class="form-group">
-        <label for="newEmail">Email:</label>
-        <input type="email" class="form-control" id="newEmail" aria-describedby="emailHelp" placeholder="Enter email" ng-model="updatedInfo.email">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" placeholder="Enter email" ng-model="updatedUser.email" required>
       </div>
       <div class="form-group">
-        <label for="confirmEmail">Confirm new email:</label>
-        <input type="email" class="form-control" id="confirmEmail" aria-describedby="emailHelp" placeholder="{{user.email}}">
+        <label for="confirm-email">Confirm new email:</label>
+        <input type="email" class="form-control" id="confirm-email" aria-describedby="emailHelp" name="confirmEmail" ng-model=emailConfirmation tms-confirm="updatedUser.email" required>
+        <div ng-messages="emailForm.confirmEmail.$error" ng-show="emailForm.confirmEmail.$touched">
+        <div ng-messages-include="js/common/templates/form-errors.html"></div>
+        </div>
       </div>
       <div class="form-group">
         <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password">
+        <input type="hiddenPassword" class="form-control" id="password" name="password" ng-model="userPassword" tms-confirm="user.password">
       </div>
-      <button ng-click="showEmail = false">Cancel</button>
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button ng-click="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="emailForm.$invalid || emailForm.$pristine">Save</button>
     </form>
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-10" ng-click="showPassword = true" ng-click="!showPassword">
+  <div class="col-sm-10" ng-click="setCurrentlyEditing('password')" ng-show="currentlyEditing !== 'password'">
     <h5>Password</h5>
     <h3>{{ user.password }}</h3>
   </div>
-  <div class="col-sm-10" ng-if="showPassword">
+  <div class="col-sm-10" ng-if="currentlyEditing === 'password'">
     <h3>Edit Password</h3>
-    <form id="password-form" name="passwordForm" ng-submit="update(user, 'password')">
+    <form id="password-form" name="passwordForm" ng-submit="updateUserProfile()" novalidate>
       <div class="form-group">
-        <label for="currentPassword">Current Password</label>
-        <input type="password" class="form-control" id="currentPassword">
+        <label for="current-password">Current Password</label>
+        <input type="password" class="form-control" id="password" name="password" ng-model="currentPassword" tms-confirm="user.password" required>
       </div>
       <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" ng-model="updatedInfo.password">
+        <label for="new-password">Password:</label>
+        <input type="password" class="form-control" id="new-password" name="newPassword" ng-model="updatedUser.password" required>
       </div>
       <div class="form-group">
-        <label for="confirmPassword">Confirm new password:</label>
-        <input type="password" class="form-control" id="confirmPassword">
+        <label for="confirm-password">Confirm new password:</label>
+        <input type="password" class="form-control" id="confirm-password" name="confirmPassword" ng-model="passwordConfirmation" tms-confirm="updatedUser.password" required>
       </div>
-      <button ng-click="showPassword = false">Cancel</button>
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button ng-click="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="passwordForm.$invalid || passwordForm.$pristine">Save</button>
     </form>
   </div>
 </div>

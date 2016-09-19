@@ -15,7 +15,8 @@ router.get('/', function(req, res, next) {
       res.send(leftovers);
     })
     .catch(next)
-})
+});
+
 
 router.get('/featured', function(req, res, next) {
   Leftover.findAll({
@@ -30,13 +31,13 @@ router.get('/featured', function(req, res, next) {
     .catch(next);
 })
 
-router.get('/:id', function(req, res, next) {
-  Leftover.findById(req.params.id)
+router.get('/:userId', function(req, res, next) {
+  Leftover.findById(req.params.userId)
     .then(function(leftover) {
       res.send(leftover)
     })
     .catch(next);
-})
+});
 
 router.post('/', function(req, res, next) {
   if (!req.user.isAdmin) next(new Error('Unauthorized'));

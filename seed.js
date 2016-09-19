@@ -46,7 +46,7 @@ function createLeftover(name, chefId) {
     chefId: chefId,
     name: name,
     description: faker.lorem.paragraph(),
-    picture: faker.image.imageUrl(),
+    picture: faker.image.food(),
     quantity: randomNumGen(1, 10),
   }, randCuisines);
 
@@ -78,7 +78,9 @@ function createOrder(buyerId) {
   return getRandomLeftoverIds()
     .then(ids => {
       let orderObj = {
-          userId: buyerId,
+          date: faker.date.past(),
+          buyerId: buyerId,
+          status: _.sample(['pending', 'complete', 'cart'])
         },
         status = _.sample(['pending', 'complete', 'cart']),
         leftoversArr = ids.map(id => {
@@ -131,18 +133,30 @@ function createAdminUsers() {
   });
 }
 
+function seedOrders(userId) {
+  let creatingOrders = [];
+  let numOrders = randomNumGen(1, 10);
+      
+  for (let j = 0; j < numOrders; j++) {
+    creatingOrders.push(createOrder(userId));
+  }
+
+  return Promise.all(creatingOrders);
+}
+
 function seedSellers(num) {
   var creatingSellers = [];
 
   for (let i = 0; i < num; i++) {
     if (i === 0) {
-      creatingSellers.push(createAdminUsers()
-        .then(user => seedLeftovers(user.id)));
+      creatingSellers.push(createAdminUsers());
     } else
-      creatingSellers.push(createUser()
-        .then(user => seedLeftovers(user.id)));
+      creatingSellers.push(createUser());
   }
-  return Promise.all(creatingSellers);
+
+  return Promise.map(creatingSellers, user => {
+    return seedLeftovers(user.id).then(_ => seedOrders(user.id));
+  });
 }
 
 function seedBuyers(num) {
@@ -150,9 +164,7 @@ function seedBuyers(num) {
 
   for (let i = 0; i < num; i++) {
     creatingBuyers.push(createUser()
-      .then(function(user) {
-        return createOrder(user.id);
-      }));
+      .then(user => seedOrders(user.id)));
   }
 
   return Promise.all(creatingBuyers);
@@ -206,7 +218,7 @@ db.sync({
     return seedSellers(50);
   })
   .then(function() {
-    console.log(chalk.yellow('Seeding Buyers...'));
+    console.log(chalk.yellow('Seeding Buyers (And Orders, too!)...'));
     return seedBuyers(25);
   })
   .then(function() {

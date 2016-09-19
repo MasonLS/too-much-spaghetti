@@ -8,49 +8,37 @@ app.controller('AccountCtrl', function($scope, user){
 
 app.controller('ProfileCtrl', function($scope, UserFactory){
 
-  $scope.showName = false;
-  $scope.showEmail = false;
-  $scope.showPassword = false;
+  $scope.currentlyEditing = null;
+  $scope.updatedUser = angular.copy($scope.user);
 
-  $scope.update = function (user, field) {
-    let data = {};
+  $scope.setCurrentlyEditing = function (field) {
+    $scope.currentlyEditing = field;
+  };
 
-    if (field === 'name') {
-      data.first_name = $scope.updatedInfo.firstName;
-      data.last_name = $scope.updatedInfo.lastName;
-      $scope.showName = false;
-    } else if (field === 'email') {
-      data.email = $scope.updatedInfo.email;
-      $scope.showEmail = false;
-    } else {
-      data.password = $scope.updatedInfo.email;
-      $scope.showPassword = false;
-    }
+  $scope.cancel = function () {
+    $scope.updatedUser = angular.copy($scope.user);
+    $scope.setCurrentlyEditing(null);
+  }
 
-    return UserFactory.update(user.id, data)
-      .then((user) => {
+  $scope.updateUserProfile = function () {
+    return UserFactory.update($scope.updatedUser)
+      .then(user => {
+        $scope.setCurrentlyEditing(null);
         $scope.user = user;
-        if (field === 'name') $scope.showName = false;
-        else if (field === 'email') $scope.showEmail = false;
-        else $scope.showPassword = false;
-    });
+      });
+  }
+});
+
+app.controller('ReviewCtrl', function($scope, $stateParams, chef, ReviewFactory, $state){
+  $stateParams.leftover.chef = chef;
+  $scope.leftover = $stateParams.leftover;
+  console.log($stateParams.leftover);
+  $scope.postReview = function (reviewObj) {
+    $state.go('^.orders');
+    return ReviewFactory.post(reviewObj);
   };
 });
 
-app.controller('OrdersCtrl', function($scope, UserFactory){
-
-  // $scope.orders = orders;
-  UserFactory.getOrders($scope.user.id)
-    .then((orders) => {
-      $scope.orders = orders;
-    })
-
-});
-
 app.controller('PaymentCtrl', function($scope){
-  //Too be written
-});
-
-app.controller('MyLeftoversCtrl', function($scope, leftovers){
-  $scope.leftovers = leftovers;
+  //TODO
 });
