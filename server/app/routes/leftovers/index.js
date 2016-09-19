@@ -4,6 +4,7 @@ const express = require('express');
 const router = new express.Router();
 const Leftover = require('../../../db/models/leftover');
 const Cuisine = require('../../../db/models/cuisine');
+const _ = require('lodash');
 
 module.exports = router;
 
@@ -13,6 +14,19 @@ router.get('/', function(req, res, next) {
       res.send(leftovers);
     })
     .catch(next)
+})
+
+router.get('/featured', function(req, res, next) {
+  Leftover.findAll({
+      limit: 100
+    })
+    .then(function(leftovers) {
+      let sortedLeftovers = leftovers.sort((a, b) => {
+        return b.rating - a.rating;
+      });
+      res.json(_.shuffle(sortedLeftovers.slice(0, 5)));
+    })
+    .catch(next);
 })
 
 router.get('/:id', function(req, res, next) {
@@ -48,4 +62,3 @@ router.put('/', function(req, res, next) {
 // /leftovers/:id
 // /cuisine/:id
 // /cuisine/id/leftovers
-
