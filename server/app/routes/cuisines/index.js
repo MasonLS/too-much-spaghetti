@@ -15,9 +15,9 @@ router.get('/', function(req, res, next){
 	.catch(next);
 })
 
-router.get('/:cuisine', function(req, res, next){
+router.get('/:cuisineName', function(req, res, next){
 	Cuisine.findOne({
-		where: {cuisine: req.params.cuisine}
+		where: {name: req.params.cuisineName}
 	})
 	.then(function(cuisine){
 		return cuisine.getLeftovers();

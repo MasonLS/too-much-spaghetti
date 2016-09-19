@@ -4,9 +4,9 @@
         <div class="form-group">
           <label >pick your cuisines:</label>
           <select multiple ng-model= "cuisineSelection">
-            <option ng-repeat="cuisine in cuisines" >{{ cuisine.cuisine }}</option>
+            <option ng-repeat="cuisine in cuisines" >{{ cuisine.name }}</option>
           </select>
-        <button type="submit" class="btn btn-block btn-primary">Search</button>
+        <button type="submit" class="btn btn-primary">Search</button>
       </form>
     </div>
 </section>

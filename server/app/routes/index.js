@@ -7,6 +7,7 @@ router.use('/leftovers', require('./leftovers'));
 router.use('/cuisines', require('./cuisines'));
 router.use('/orders', require('./orders'));
 router.use('/reviews', require('./reviews'));
+router.use('/cart', require('./cart'));
 
 // Make sure this is after all of
 // the registered routes!

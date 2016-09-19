@@ -4,6 +4,8 @@ const express = require('express');
 const router = new express.Router();
 const Leftover = require('../../../db/models/leftover');
 const Cuisine = require('../../../db/models/cuisine');
+const Review = require('../../../db/models/review')
+const _ = require('lodash');
 
 module.exports = router;
 
@@ -14,6 +16,20 @@ router.get('/', function(req, res, next) {
     })
     .catch(next)
 });
+
+
+router.get('/featured', function(req, res, next) {
+  Leftover.findAll({
+      limit: 100
+    })
+    .then(function(leftovers) {
+      let sortedLeftovers = leftovers.sort((a, b) => {
+        return b.rating - a.rating;
+      });
+      res.json(_.shuffle(sortedLeftovers.slice(0, 5)));
+    })
+    .catch(next);
+})
 
 router.get('/:userId', function(req, res, next) {
   Leftover.findById(req.params.userId)
@@ -43,9 +59,20 @@ router.put('/', function(req, res, next) {
       res.status(201).json(leftoverObj);
     })
     .catch(next);
-})
+});
+
+router.get('/:id/reviews', function(req, res, next) {
+  Review.findAll({
+    where: {
+      leftoverId: req.params.id
+    }
+  })
+  .then(function(reviews) {
+    res.send(reviews);
+  })
+  .catch(next);
+});
 
 // /leftovers/:id
 // /cuisine/:id
 // /cuisine/id/leftovers
-

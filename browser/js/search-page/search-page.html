@@ -1,8 +1,16 @@
-<search-bar></search-bar>
-<div ng-show = "submitted">
-    <h2>Leftovers</h2>
-    <ul ng-repeat="leftover in allCuisineLeftovers">
-        <li>{{ leftover.name }}</li>
-    </ul>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+            <p>Address: {{ address }}</p>
+            <search-bar></search-bar>
+        </div>
+        <div class="col-sm-3">
+            <div ng-show = "submitted">
+                <h2>Leftovers</h2>
+                <ul ng-repeat="leftover in allCuisineLeftovers">
+                    <li>{{ leftover.name }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
-

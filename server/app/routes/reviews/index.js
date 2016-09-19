@@ -11,7 +11,7 @@ let unauthorizedError = new Err(401, 'Unauthorized to review this product')
 router.use(function(req, res, next) {
   if (!req.user) next(unauthorizedError)
   else next();
-})
+});
 
 router.post('/', function(req, res, next) {
   console.log('GETTING HERE');
@@ -42,5 +42,6 @@ router.post('/', function(req, res, next) {
         next(unauthorizedError);
       }
     })
-})
+});
+
 
