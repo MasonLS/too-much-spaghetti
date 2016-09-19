@@ -22,6 +22,7 @@ Leftover.belongsToMany(Order, {through: Order_Leftover});
 Order.belongsToMany(Leftover, {through: Order_Leftover});
 
 Review.belongsTo(Leftover);
+Leftover.hasMany(Review);
 User.hasMany(Review);
 
 // Cart.belongsTo(User);
