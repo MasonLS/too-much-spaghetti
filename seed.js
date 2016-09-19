@@ -46,7 +46,7 @@ function createLeftover(name, chefId) {
     chefId: chefId,
     name: name,
     description: faker.lorem.paragraph(),
-    picture: faker.image.imageUrl(),
+    picture: faker.image.food(),
     quantity: randomNumGen(1, 10),
     rating: randomNumGen(1, 5),
   }, randCuisines);
