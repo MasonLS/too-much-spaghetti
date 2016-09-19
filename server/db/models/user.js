@@ -73,7 +73,8 @@ module.exports = db.define('user', {
           if(cartOrder) return Promise.map(cartOrder.leftovers, (le) => {
             return {
               leftover: le,
-              quantity: le.order_leftover.quantity
+              quantity: le.order_leftover.quantity,
+              orderId: cartOrder.id
             }
           })
         })

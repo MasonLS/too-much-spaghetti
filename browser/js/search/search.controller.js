@@ -1,52 +1,51 @@
 'use strict'
 
-app.controller('SearchPageCtrl', function($scope, $rootScope, $stateParams, LeftoverFactory, $log, CuisineFactory, selectionLeftovers){
+app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory, $log, CuisineFactory, cuisines, leftovers){
 
-    $scope.selection = $stateParams.selection;
+    $scope.cuisines = cuisines;
 
-	CuisineFactory.getAll()
-    .then(function(cuisines) {
-        $scope.cuisines = cuisines;
-    })
-    .catch($log.error);
+    $scope.selected = $stateParams.selection;
 
-    LeftoverFactory.getAll()
-    .then(function(leftovers) {
-        $scope.leftovers = leftovers;
-    })
-    .catch($log.error);
-
-    $scope.submitted = false;
-
-    if (selectionLeftovers) {
-        $scope.allCuisineLeftovers = selectionLeftovers;
-    } else {
-        $scope.allCuisineLeftovers = $scope.leftovers;
+    if($scope.selected){
+        CuisineFactory.getByName($scope.selected)
+        .then(function(leftovers){
+            $scope.leftovers = leftovers;
+        })
+    }else{
+        $scope.leftovers = leftovers; 
     }
-
-    // $scope.allCuisineLeftovers = selectionLeftovers;
+    
+    $scope.ratings = [1,2,3,4,5];
 
     $scope.cuisineList = [];
+
 
     $scope.addToCuisineList = function(cuisineSelection){
         $scope.cuisineList.push(cuisineSelection);
     }
 
-    $scope.isSubmitted = function(){
-    	$scope.submitted = true;
+    $scope.cuisineSubmitted = function(){
 
-    	$scope.allCuisineLeftovers = [];
+    	$scope.leftovers = [];
 
     	$scope.cuisineList.forEach(function(cuisineName){
 	    	CuisineFactory.getByName(cuisineName)
 		    .then(function(cuisineLeftovers){
-		        $scope.allCuisineLeftovers = $scope.allCuisineLeftovers.concat(cuisineLeftovers);
-		      	$scope.allCuisineLeftovers =  _.uniqBy($scope.allCuisineLeftovers, 'id');
-		      	console.log($scope.allCuisineLeftovers.length);
+		        $scope.leftovers = $scope.leftovers.concat(cuisineLeftovers);
+		      	$scope.leftovers =  _.uniqBy($scope.leftovers, 'id');
 		    });
     	});
     };
 
-    $scope.address = $rootScope.address;
+
+    $scope.ratingSubmitted = function(){
+
+        $scope.leftovers = [];
+
+        LeftoverFactory.getByRating($scope.selectedRating)
+        .then(function(leftovers){
+            $scope.leftovers = leftovers;
+        })
+    };
 
 });

@@ -1,27 +1,36 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-3">
-      <p>Address: {{ address }}</p>
+    <div class="col-sm-3 advanced-search-box">
       <section id="home" >
         <div class="buffer local">
-          <form name="search" ng-submit="isSubmitted()">
-            <h3>Pick Your Cuisine(s):</h3>
+          <form name="search" ng-submit="cuisineSubmitted()">
+            <h2><strong>filters</strong></h2>
+            <h3>cuisines:</h3>
             <div class="form-group" ng-repeat="cuisine in cuisines">
                   <input type="checkbox" ng-model= "cuisineSelection" ng-click=addToCuisineList(cuisine.name) > {{ cuisine.name }}
             </div>
             <button type="submit" class="btn btn-primary">Search</button>
           </form>
+          <form name="ratingSearch" ng-submit="ratingSubmitted()">
+              <h3>rating:</h3>
+              <div class="form-group">
+                  <select ng-model="selectedRating">
+                      <option ng-repeat="rating in ratings">{{ rating }}</option>
+                  </select>
+              </div>
+              <button type="submit" class="btn btn-primary">Search</button>
+          </form>
         </div>
       </section>
     </div>
-    <div class="col-sm-3">
-      <div>
-        <h2>Leftovers</h2>
-        <ul ng-repeat="leftover in allCuisineLeftovers">
-            <li><a ui-sref="leftoverDetail({leftoverId:leftover.id})"> {{ leftover.name }}</a></li>
-        </ul>
+      <div class="col-sm-9">
+        <div>
+          <h3>leftovers</h3>
+          <ul>
+              <li ng-repeat="leftover in leftovers" class="leftover-search-row"><a ui-sref="leftoverDetail({leftoverId:leftover.id})"><img ng-src="{{ leftover.picture }}" class="img-thumbnail" width="100" height="100"> {{ leftover.name }} {{leftover.rating}} {{leftover.price}} {{leftover.quanity}} </a></li>
+          </ul>
+        </div>
       </div>
-    </div>
   </div>
 </div>
 
