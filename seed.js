@@ -79,7 +79,7 @@ function createOrder(buyerId) {
     .then(ids => {
       let orderObj = {
           date: faker.date.past(),
-          buyerId: buyerId,
+          userId: buyerId,
           status: _.sample(['pending', 'complete', 'cart'])
         },
         status = _.sample(['pending', 'complete', 'cart']),
@@ -135,8 +135,8 @@ function createAdminUsers() {
 
 function seedOrders(userId) {
   let creatingOrders = [];
-  let numOrders = randomNumGen(2, 4);
-      
+
+  let numOrders = randomNumGen(1, 2);
   for (let j = 0; j < numOrders; j++) {
     creatingOrders.push(createOrder(userId));
   }
