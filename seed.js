@@ -48,7 +48,6 @@ function createLeftover(name, chefId) {
     description: faker.lorem.paragraph(),
     picture: faker.image.imageUrl(),
     quantity: randomNumGen(1, 10),
-    rating: randomNumGen(1, 5),
   }, randCuisines);
 
 }
@@ -79,16 +78,16 @@ function createOrder(buyerId) {
   return getRandomLeftoverIds()
     .then(ids => {
       let orderObj = {
-          buyerId: buyerId,
-          status: _.sample(['pending', 'complete', 'cart'])
+          userId: buyerId,
         },
+        status = _.sample(['pending', 'complete', 'cart']),
         leftoversArr = ids.map(id => {
           return {
             leftoverId: id,
             quantity: randomNumGen(1, 4)
           }
         });
-      return Order.createWithLeftovers(orderObj, leftoversArr);
+      return Order.createWithLeftovers(orderObj, leftoversArr, status);
     })
 }
 
@@ -116,7 +115,7 @@ function createUser() {
     first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
     email: faker.internet.email(),
-    password: faker.internet.password(),
+    password: 'abc',
     address: faker.address.streetAddress()
   });
 }
@@ -176,12 +175,24 @@ function writeReviews() {
       let randOs = _.sampleSize(os, os.length);
       return Promise.map(randOs, (o) => {
         let randOrderLeftover = _.sample(o.leftovers);
-        let reviewObj = new RandomReview(randOrderLeftover.id, o.buyerId);
+        let reviewObj = new RandomReview(randOrderLeftover.id, o.userId);
         return Review.create(reviewObj);
       })
     })
 }
 
+function getCart() {
+  return Order.findAll({
+      where: {
+        status: 'cart'
+      },
+      include: [User]
+    })
+    .then(orders => {
+      let randomCartBuyer = _.sample(orders).user;
+      return randomCartBuyer.getCart();
+    })
+}
 
 db.sync({
     force: true
@@ -203,6 +214,11 @@ db.sync({
     return writeReviews();
   })
   .then(function() {
+    console.log(chalk.magenta('getting cart...'));
+    return getCart();
+  })
+  .then(function(cart) {
+    console.log('random user cart', cart);
     console.log(chalk.green('Seed successful!'));
     process.exit(0);
   })

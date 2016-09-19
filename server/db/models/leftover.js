@@ -1,10 +1,10 @@
 'use strict';
 
-var Sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 
-var db = require('../_db');
-var User = require('./user');
-var Cuisine = require('./cuisine');
+const db = require('../_db');
+const User = require('./user');
+const Cuisine = require('./cuisine');
 
 module.exports = db.define('leftover', {
   name: {
@@ -21,11 +21,15 @@ module.exports = db.define('leftover', {
       isUrl: true
     }
   },
+  price: {
+    type: Sequelize.DOUBLE
+  },
   quantity: {
     type: Sequelize.INTEGER
   },
   rating: {
     type: Sequelize.INTEGER,
+    defaultValue: 0
   },
   expiration_time: {
     type: Sequelize.DATE,
@@ -58,12 +62,12 @@ module.exports = db.define('leftover', {
   },
   hooks: {
     afterCreate: function(createdLeftover) {
-      return User.findById(createdLeftover.chefId)
-        .then(function(user) {
-          return user.update({
-            isSeller: true
-          })
-        });
+      // return User.findById(createdLeftover.chefId)
+        // .then(function(user) {
+          // return user.update({
+            // isSeller: true
+          // })
+        // });
     }
   }
 });
