@@ -18,7 +18,7 @@
         <label for="nope">Password:</label>
         <input type="hiddenPassword" class="form-control" id="nope" name="password" ng-model="userPassword" tms-confirm="user.password" required>
       </div>
-      <button ng-click="cancel()">Cancel</button>
+      <button ng-click="cancel()" class="btn btn-default">Cancel</button>
       <button type="submit" class="btn btn-primary" ng-disabled="nameForm.$invalid || nameForm.$pristine">Save</button>
     </form>
   </div>
@@ -46,7 +46,7 @@
         <label for="password">Password:</label>
         <input type="hiddenPassword" class="form-control" id="password" name="password" ng-model="userPassword" tms-confirm="user.password">
       </div>
-      <button ng-click="cancel()">Cancel</button>
+      <button ng-click="cancel()" class="btn btn-default">Cancel</button>
       <button type="submit" class="btn btn-primary" ng-disabled="emailForm.$invalid || emailForm.$pristine">Save</button>
     </form>
   </div>
@@ -71,7 +71,7 @@
         <label for="confirm-password">Confirm new password:</label>
         <input type="password" class="form-control" id="confirm-password" name="confirmPassword" ng-model="passwordConfirmation" tms-confirm="updatedUser.password" required>
       </div>
-      <button ng-click="cancel()">Cancel</button>
+      <button ng-click="cancel()" class="btn btn-default">Cancel</button>
       <button type="submit" class="btn btn-primary" ng-disabled="passwordForm.$invalid || passwordForm.$pristine">Save</button>
     </form>
   </div>

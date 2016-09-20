@@ -31,4 +31,8 @@ app.controller('HomeCtrl', function($scope, $rootScope, $log, $state, $statePara
         $state.go('search', { selection: $scope.cuisineSelection });
     };
 
+    $scope.getRating = function(num) {
+        return new Array(num);
+    };
+
 });

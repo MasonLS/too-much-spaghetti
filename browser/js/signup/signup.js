@@ -10,7 +10,12 @@ app.config(function ($stateProvider) {
 
 app.controller('SignupCtrl', function ($scope, $state, $log, UserFactory, AuthService) {
 
+    $scope.login = {};
+    $scope.error = null;
+
     $scope.submit = function(data) {
+
+        $scope.error = null;
 
         return UserFactory.add(data)
                 .then(function(user) {
@@ -25,6 +30,8 @@ app.controller('SignupCtrl', function ($scope, $state, $log, UserFactory, AuthSe
                 .then(function() {
                         $state.go('home');
                 })
-                .catch($log.error);
+                .catch(function() {
+                    $scope.error = 'Invalid sign up credentials.';
+                });
     };
 });
