@@ -146,6 +146,17 @@
     padding-bottom: 4px;
 }
 
+<<<<<<< HEAD
+.welcome-tag {
+    color: #FFFFFF;
+    size: 20px;
+    padding-top: 18px;
+}
+
+.background-img {
+    position: fixed;
+}
+=======
 rating {
     overflow: hidden;
     display: inline-block;
@@ -177,3 +188,4 @@ rating {
 
 
 
+>>>>>>> master

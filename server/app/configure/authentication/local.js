@@ -48,7 +48,7 @@ module.exports = function(app, db) {
       req.logIn(user, function(loginErr) {
         if (loginErr) return next(loginErr);
         // if req.session.cart exists presist it to db when user logs in
-        createCartInDb(user.id, req.session.cart)
+        createCartInDb(user.id, req.session.cart || [])
           .then(_ => {
             // We respond with a response object that has user with _id and email.
             res.status(200).send({
