@@ -27,7 +27,7 @@ app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory,
         return new Array(num);
     };
     
-    $scope.ratings = [1,2,3,4,5];
+    //$scope.ratings = [1,2,3,4,5];
 
 
     $scope.cuisineList = [];
@@ -55,7 +55,7 @@ app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory,
 
         $scope.leftovers = [];
 
-        LeftoverFactory.getByRating($scope.selectedRating)
+        LeftoverFactory.getByRating($scope.rating.number)
         .then(function(leftovers){
             $scope.leftovers = leftovers;
         })
