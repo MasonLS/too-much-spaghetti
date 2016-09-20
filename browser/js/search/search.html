@@ -23,17 +23,14 @@
         </div>
       </section>
     </div>
-    <div class="row">
-
+      <div class="col-sm-9">
         <div>
           <h3>leftovers</h3>
           <ul>
-              <li ng-repeat="leftover in leftovers" class="col-sm-3 leftover-search-row"><a ui-sref="leftoverDetail({leftoverId:leftover.id})"><img ng-src="{{ leftover.picture }}" class="img-thumbnail" width="100" height="100"> {{ leftover.name }}  </a><p ng-show="leftover.distance !== undefined">{{ leftover.distance }}</p></li>
-
+              <li ng-repeat="leftover in leftovers" class="leftover-search-row"><a ui-sref="leftoverDetail({leftoverId:leftover.id})"><img ng-src="{{ leftover.picture }}" class="img-thumbnail" width="100" height="100"> {{ leftover.name }} {{leftover.rating}} {{leftover.price}} {{leftover.quanity}} </a></li>
           </ul>
         </div>
       </div>
-    </div>
   </div>
 </div>
 

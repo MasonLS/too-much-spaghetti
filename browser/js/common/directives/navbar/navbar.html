@@ -21,8 +21,8 @@
                       <div class="dropdown-content">
                         <a ng-show="!user" ui-sref="login">Login</a>
                         <a ng-show="!user" ui-sref="signup">Sign Up</a>
-                        <a ui-sref="account">Account</a>
-                        <a ng-click="logout()">Logout</a>
+                        <a ng-show="user" ui-sref="account({userId: user.id})">Account</a>
+                        <a ng-show="user" ng-click="logout()">Logout</a>
                       </div>
                     </div>
                 </li>

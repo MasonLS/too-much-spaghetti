@@ -10,4 +10,10 @@ app.config(function ($stateProvider) {
             }
         }
     });
+
+    $stateProvider.state('createLeftover', {
+      url: '/create-leftover',
+      templateUrl: 'js/account-detail/templates/create-leftover.html',
+      controller: 'CreateLeftoverCtrl'
+    });
 });

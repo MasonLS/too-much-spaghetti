@@ -39,8 +39,9 @@ module.exports = db.define('leftover', {
   }
 }, {
   classMethods: {
-    createWithCuisines: function(leftoverObj, cuisineNames) {
+    createWithCuisines: function(leftoverObj, cuisineNames, userId) {
       let cuisinesArr;
+      var currentLeftoverObj;
       const self = this;
       return Promise.all(cuisineNames.map(function(name) {
           return Cuisine.findOrCreate({
@@ -55,7 +56,11 @@ module.exports = db.define('leftover', {
           return self.create(leftoverObj);
         })
         .then(function(leftover) {
-          return leftover.setCuisines(cuisinesArr);
+          currentLeftoverObj = leftover;
+          return Promise.all([leftover.setCuisines(cuisinesArr), leftover.setChef(userId)]);
+        })
+        .then(function(y){
+          return currentLeftoverObj;
         })
         .catch(console.error);
     }
