@@ -10,7 +10,10 @@ app.factory('CartFactory', function($http) {
 
   function postCart() {
     return $http.post('/api/cart')
-      .then(getData);
+      .then(getData)
+      .then(() => {
+        let cachedCart = [];
+      })
   }
 
   function getCart() {

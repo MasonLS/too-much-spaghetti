@@ -17,11 +17,11 @@
       <!-- Navigation -->
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                <div ng-show="user" class="welcome-tag">
-                    <span>Hello, {{ user.first_name }}!</span>
-                </div>
-            </li>
+          <li>
+            <div ng-show="user" class="welcome-tag">
+              <span>Hello, {{ user.first_name }}!</span>
+            </div>
+          </li>
           <li>
             <div class="dropdown">
               <button class="dropbtn">User <i class="fa fa-angle-down"></i></button>
@@ -34,7 +34,7 @@
             </div>
           </li>
           <li>
-            <a ng-click="cartToggle = !cartToggle">
+            <a ng-click="getCart()">
               <img src="https://c1.staticflickr.com/9/8409/29669271506_44b716bb17_o.jpg" class="img-cart"
                 title="Cart">
             </a>
@@ -89,7 +89,7 @@
         </div>
         <!-- Navigation -->
 
-            <!--//nav-->
+        <!--//nav-->
         <!-- Edn options 2 -->
         <table class="table table_summary">
           <tbody>
@@ -111,13 +111,14 @@
           </tbody>
         </table>
         <hr>
-        <button class="btn btn-success order-now">Order now</button>
+        <button ng-click="postCart()" data-toggle="modal" data-target="postCartModal" class="btn btn-success order-now">Order now</button>
       </div>
     </div>
   </pageslide>
   <!-- Modals -->
   <div ng-repeat="item in cart">
-    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="editModal-{{item.leftover.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="editModal-{{item.leftover.id}}"
+      tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -143,9 +144,22 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" data-dismiss="modal" ng-click="updateItem({ leftoverId: item.leftover.id, quantity: selectedQtys[item.leftover.id] })" class="btn btn-primary">Update</button>
+            <button type="button" data-dismiss="modal" ng-click="updateItem({ leftoverId: item.leftover.id, quantity: selectedQtys[item.leftover.id] })"
+              class="btn btn-primary">Update</button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="postCartModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+          <h3>Order Processed!</h3>
+        </div>
+        <div class="modal-footer"></div>
       </div>
     </div>
   </div>

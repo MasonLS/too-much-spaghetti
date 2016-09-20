@@ -5,15 +5,14 @@ app.controller('CartCtrl', function($scope, CartFactory, $rootScope) {
   $scope.quantity = {};
   $scope.selectedQtys = {};
 
-  function range(n) {
-    let res = [];
-    for (var i = 1; i <= n; i++) {
-      res.push(i);
-    }
-    return res;
-  }
+  $rootScope.addToCart = function(leftoverObj){
+    console.log('adding to cart');
+    return $scope.updateItem(leftoverObj).then(_ => $scope.getCart());
+  };
 
-  $scope.order = {};
+  $scope.order = {
+    option: 'delivery'
+  };
 
   $scope.$watch(function(scope) {
     return scope.order.option
@@ -30,7 +29,7 @@ app.controller('CartCtrl', function($scope, CartFactory, $rootScope) {
   function setOrderDetails() {
     $scope.order.subTotal = CartFactory.getSubtotal($scope.selectedQtys);
     $scope.order.deliveryFee = CartFactory.getDeliveryFee();
-    $scope.order.total = CartFactory.getSubtotal($scope.selectedQtys);
+    $scope.order.total = CartFactory.getTotal($scope.selectedQtys);
   }
 
   $scope.increaseSelectedQty = function(leftoverId) {
@@ -41,17 +40,25 @@ app.controller('CartCtrl', function($scope, CartFactory, $rootScope) {
     if ($scope.selectedQtys[leftoverId] > 1) $scope.selectedQtys[leftoverId]--;
   }
 
-  CartFactory.getCart()
-    .then(cart => {
-      $scope.cart = cart
-    })
-    .then(_ => {
-      $scope.cart.forEach(el => {
-        $scope.quantity[el.leftover.id] = el.leftover.quantity;
-        $scope.selectedQtys[el.leftover.id] = el.quantity;
+  let getCart = function() {
+    return CartFactory.getCart()
+      .then(cart => {
+        $scope.cart = cart
       })
-      setOrderDetails();
+      .then(_ => {
+        $scope.cart.forEach(el => {
+          $scope.quantity[el.leftover.id] = el.leftover.quantity;
+          $scope.selectedQtys[el.leftover.id] = el.quantity;
+        })
+        setOrderDetails();
+      })
+  }
+
+  $scope.getCart = function() {
+    getCart().then(_ => {
+      $scope.cartToggle = !$scope.cartToggle;
     })
+  }
 
   $scope.removeItem = function(removeItemId) {
     return CartFactory.deleteCartElem(removeItemId)
@@ -68,6 +75,14 @@ app.controller('CartCtrl', function($scope, CartFactory, $rootScope) {
         setOrderDetails();
       })
   }
+
+  $scope.postCart = function() {
+    console.log('posting cart');
+    CartFactory.postCart()
+      .then(_ => $scope.getCart());
+  }
+
+  getCart();
 
 })
 

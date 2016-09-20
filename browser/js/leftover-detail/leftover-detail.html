@@ -6,26 +6,29 @@
     </carousel>
 </div> -->
 <section id="content-3-4" class="content-block content-3-4">
-    <div class="container">
-        <div>
-            <img ng-src="{{ leftover.picture }}" />
-        </div>
-        <button type="submit" class="btn btn-primary" ng-show="user.id === leftover.chefId" ui-sref="createLeftover">Edit</button>
-        <button type="submit" class="btn btn-primary" ui-sref="#">Add to Cart</button>
-        <div>
-            <h2>{{ leftover.name }}</h2><p ng-show="leftover.distance !== undefined">{{ leftover.distance }}</p>
-            <p>{{ leftover.description }}</p>
-        </div>
-        <div class="review-box">
-            <h4>Reviews for {{ leftover.name }}</h4>
-            <img ng-repeat="i in getRating(rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png"> {{ reviews.length }} Reviews
-            <br><br>
-            <ul ng-repeat="review in reviews">
-                <li>{{ review.body }}</li>
-            </ul>
-        </div>
+  <div class="container">
+    <div>
+      <img ng-src="{{ leftover.picture }}" />
     </div>
+    <button type="submit" class="btn btn-primary" ng-show="user.id === leftover.chefId"
+      ui-sref="createLeftover">Edit</button>
+    <button type="submit" class="btn btn-primary" ng-click="addToCart({ leftoverId: leftover.id, quantity: 1 })">Add to Cart</button>
+    <div>
+      <h2>{{ leftover.name }}</h2>
+      <p ng-show="leftover.distance !== undefined">{{ leftover.distance }}</p>
+      <p>{{ leftover.description }}</p>
+    </div>
+    <div class="review-box">
+      <h4>Reviews for {{ leftover.name }}</h4>
+      <img ng-repeat="i in getRating(rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png">      {{ reviews.length }} Reviews
+      <br><br>
+      <ul ng-repeat="review in reviews">
+        <li>{{ review.body }}</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
 
 <!-- ng-show="user.id === leftover.chefId" -->
+
