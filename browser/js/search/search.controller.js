@@ -14,6 +14,10 @@ app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory,
     }else{
         $scope.leftovers = leftovers; 
     }
+
+    $scope.getRating = function(num) {
+        return new Array(num);
+    };
     
     $scope.ratings = [1,2,3,4,5];
 
@@ -49,3 +53,6 @@ app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory,
     };
 
 });
+
+
+
