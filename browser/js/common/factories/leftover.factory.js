@@ -41,8 +41,8 @@ app.factory('LeftoverFactory', function($http){
 		})
 	}
 
-	function update(id, data){
-		return $http.put('api/leftovers/' + id, data)
+	function update(data){
+		return $http.put('api/leftovers', data)
 		.then(function(response){
 			return response.data;
 		})

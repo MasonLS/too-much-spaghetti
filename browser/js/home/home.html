@@ -70,6 +70,7 @@
                     </div>
                     <div class="team-details">
                         <h4>{{ featuredLeftover.name }}</h4>
+                        <img ng-repeat="i in getRating(featuredLeftover.rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png">
                     </div>
                 </div>
             </div>
