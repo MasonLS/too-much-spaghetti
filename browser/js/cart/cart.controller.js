@@ -3,6 +3,7 @@
 app.controller('CartCtrl', function($scope, CartFactory, $rootScope) {
   $scope.cartToggle = false;
   $scope.quantity = {};
+  $scope.selectedQtys = {};
 
   function range(n) {
     let res = [];
@@ -12,19 +13,51 @@ app.controller('CartCtrl', function($scope, CartFactory, $rootScope) {
     return res;
   }
 
+  $scope.order = {};
+
+  $scope.$watch(function(scope) {
+    return scope.order.option
+  }, function(newVal, oldVal) {
+    if (newVal === 'pickup') {
+      $scope.order.deliveryFee = 0;
+      $scope.order.total = CartFactory.getSubtotal($scope.selectedQtys);
+    } else {
+      $scope.order.deliveryFee = CartFactory.getDeliveryFee();
+      $scope.order.total = CartFactory.getTotal($scope.selectedQtys);
+    }
+  })
+
+  function setOrderDetails() {
+    $scope.order.subTotal = CartFactory.getSubtotal($scope.selectedQtys);
+    $scope.order.deliveryFee = CartFactory.getDeliveryFee();
+    $scope.order.total = CartFactory.getSubtotal($scope.selectedQtys);
+  }
+
+  $scope.increaseSelectedQty = function(leftoverId) {
+    if ($scope.selectedQtys[leftoverId] < $scope.quantity[leftoverId]) $scope.selectedQtys[leftoverId]++;
+  }
+
+  $scope.reduceSelectedQty = function(leftoverId) {
+    if ($scope.selectedQtys[leftoverId] > 1) $scope.selectedQtys[leftoverId]--;
+  }
+
   CartFactory.getCart()
-    .then(cart => $scope.cart = cart)
+    .then(cart => {
+      $scope.cart = cart
+    })
     .then(_ => {
       $scope.cart.forEach(el => {
-        $scope.quantity[el.leftover.id] = range(el.leftover.quantity);
+        $scope.quantity[el.leftover.id] = el.leftover.quantity;
+        $scope.selectedQtys[el.leftover.id] = el.quantity;
       })
-      console.log($scope.quantity);
+      setOrderDetails();
     })
 
   $scope.removeItem = function(removeItemId) {
     return CartFactory.deleteCartElem(removeItemId)
       .then(_ => {
         CartFactory.deleteCacheElement(removeItemId);
+        setOrderDetails();
       })
   }
 
@@ -32,6 +65,7 @@ app.controller('CartCtrl', function($scope, CartFactory, $rootScope) {
     return CartFactory.updateCart(updateElemObj)
       .then(_ => {
         CartFactory.updateCache(updateElemObj);
+        setOrderDetails();
       })
   }
 

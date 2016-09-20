@@ -46,7 +46,7 @@
     </div>
     <!--// End Container -->
   </nav>
-  <pageslide ps-open="cartToggle" class="cart-slide">
+  <pageslide ps-click-outside="false" ps-open="cartToggle" class="cart-slide">
     <div class="row">
       <div class="col-md-12" id="sidebar">
         <h3>Your order <i class="icon_cart_alt pull-right"></i></h3>
@@ -57,7 +57,7 @@
               <td>
                 <a ng-click="removeItem(item.leftover.id)" class="remove_item"><i class="icon_minus_alt"></i></a>
                 <strong>{{ item.quantity }} x</strong> {{ item.leftover.name }}
-                <a data-toggle="modal" data-target="#editModal-{{item.leftover.id}}"><span class="glyphicon glyphicon-pencil edit-pencil">{{ item.leftover.price }}</span></a>
+                <a data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#editModal-{{item.leftover.id}}"><span class="glyphicon glyphicon-pencil edit-pencil"></span></a>
               </td>
               <!-- <td> -->
               <!-- <div class="btn-group"> -->
@@ -73,7 +73,7 @@
               <!-- </div> -->
               <!-- </td> -->
               <td>
-                <strong class="pull-right">{{ item.leftover.price }}</strong>
+                <strong class="pull-right">{{ (item.quantity * item.leftover.price).toString().slice(0, this.indexOf('.') + 5)  | currency }}</strong>
               </td>
             </tr>
           </tbody>
@@ -81,10 +81,10 @@
         <hr>
         <div class="row" id="options_2">
           <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
-            <label><input type="radio" value="" checked name="option_2" class="icheck"> Delivery</label>
+            <label><input type="radio" ng-model="order.option" value="delivery" checked name="iCheck"> Delivery</label>
           </div>
           <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
-            <label><input type="radio" value="" name="option_2" class="icheck"> Pickup</label>
+            <label><input type="radio" ng-model="order.option" value="pickup" name="iCheck"> Pickup</label>
           </div>
         </div>
         <!-- Navigation -->
@@ -95,17 +95,17 @@
           <tbody>
             <tr>
               <td>
-                Subtotal <span class="pull-right">$56</span>
+                Subtotal <span class="pull-right">{{ order.subTotal | currency }}</span>
               </td>
             </tr>
             <tr>
               <td>
-                Delivery fee <span class="pull-right">$10</span>
+                Delivery fee <span class="pull-right">{{ order.deliveryFee | currency }}</span>
               </td>
             </tr>
             <tr>
               <td class="total">
-                TOTAL <span class="pull-right">$66</span>
+                TOTAL <span class="pull-right">{{ order.total | currency }}</span>
               </td>
             </tr>
           </tbody>
@@ -117,26 +117,25 @@
   </pageslide>
   <!-- Modals -->
   <div ng-repeat="item in cart">
-    <div class="modal fade" id="editModal-{{item.leftover.id}}" tabindex="-1" role="dialog"
-      aria-labelledby="myModalLabel">
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="editModal-{{item.leftover.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">{{ item.leftover.name }}</h4>
-            <h5>{{ item.leftover.price }}</h5>
+            <h4 class="modal-title"><strong>{{ item.leftover.name }}</strong></h4>
+            <h5><strong>{{ item.leftover.price | currency }}</strong></h5>
             <p>{{ item.leftover.description }}</p>
             <table>
               <tbody>
                 <tr>
                   <td>
-                    <button class="btn btn-sm btn-info"><span class="glyphicon glyphicon-minus"></span></button>
+                    <button ng-click="reduceSelectedQty(item.leftover.id)" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-minus"></span></button>
                   </td>
                   <td class="edit-qty">
-                    <span>{{ item.quantity }}</span>
+                    <span>{{ selectedQtys[item.leftover.id] }}</span>
                   </td>
                   <td>
-                    <button class="btn btn-sm btn-info"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button ng-click="increaseSelectedQty(item.leftover.id)" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-plus"></span></button>
                   </td>
                 </tr>
               </tbody>
@@ -144,7 +143,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Update</button>
+            <button type="button" data-dismiss="modal" ng-click="updateItem({ leftoverId: item.leftover.id, quantity: selectedQtys[item.leftover.id] })" class="btn btn-primary">Update</button>
           </div>
         </div>
       </div>

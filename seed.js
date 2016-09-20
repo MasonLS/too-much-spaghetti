@@ -48,6 +48,7 @@ function createLeftover(name, chefId) {
     name: name,
     description: faker.lorem.paragraph(),
     price: randomPriceGen(0.5, 30),
+    deliveryFee: randomPriceGen(5, 10),
     picture: faker.image.food(),
     quantity: randomNumGen(1, 10),
   }, randCuisines);
@@ -88,7 +89,7 @@ function createOrder(buyerId) {
         leftoversArr = ids.map(id => {
           return {
             leftoverId: id,
-            quantity: randomNumGen(1, 4)
+            quantity: 1
           }
         });
       return Order.createWithLeftovers(orderObj, leftoversArr, status);

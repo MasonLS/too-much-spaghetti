@@ -53,6 +53,22 @@ app.factory('CartFactory', function($http) {
     }
   }
 
+  function getSubtotal(selectedQtys) {
+    return _.round(cachedCart.reduce((prev, curr) => {
+      return prev + (curr.leftover.price * selectedQtys[curr.leftover.id]);
+    }, 0), 2);
+  }
+
+  function getDeliveryFee() {
+    return _.round(cachedCart.reduce((prev, curr) => {
+      return prev + (curr.leftover.deliveryFee);
+    }, 0), 2);
+  }
+
+  function getTotal(selectedQtys) {
+    return _.round(getSubtotal(selectedQtys) + getDeliveryFee(), 2);
+  }
+
   return {
     getCart: getCart,
     updateCart: updateCart,
@@ -60,7 +76,10 @@ app.factory('CartFactory', function($http) {
     deleteCart: deleteCart,
     postCart: postCart,
     updateCache: updateCache,
-    deleteCacheElement: deleteCacheElement
+    deleteCacheElement: deleteCacheElement,
+    getSubtotal: getSubtotal,
+    getDeliveryFee: getDeliveryFee,
+    getTotal: getTotal
   }
 
 })

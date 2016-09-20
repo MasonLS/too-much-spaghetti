@@ -63,13 +63,16 @@ router.get('/featured', function(req, res, next) {
     .catch(next);
 })
 
-router.param('id', function(req, res, next){
+router.param('id', function(req, res, next) {
   Leftover.findOne({
-    where: {
-      id: req.params.id
-    },
-    include: [{model: User, as: 'chef'}]
-  })
+      where: {
+        id: req.params.id
+      },
+      include: [{
+        model: User,
+        as: 'chef'
+      }]
+    })
     .then(leftover => {
       req.leftover = leftover;
       next();
@@ -81,16 +84,18 @@ router.get('/:id', function(req, res, next) {
   res.json(req.leftover);
 });
 
-router.get('/:id/distance', function(req, res, next){
+router.get('/:id/distance', function(req, res, next) {
   googleMapsClient.distanceMatrix({
-        origins: req.user.address,
-        destinations: req.leftover.chef.address,
-        units: 'imperial'
-      }, (err, response) => {
-        if (err) return next(err);
-        let distance = response.json.rows[0].elements[0].distance.text;
-        res.send({distance: distance});
-      });
+    origins: req.user.address,
+    destinations: req.leftover.chef.address,
+    units: 'imperial'
+  }, (err, response) => {
+    if (err) return next(err);
+    let distance = response.json.rows[0].elements[0].distance.text;
+    res.send({
+      distance: distance
+    });
+  });
 });
 
 // router.get('/:id', function(req, res, next) {
@@ -138,29 +143,30 @@ router.put('/', function(req, res, next) {
 
 router.get('/:id/reviews', function(req, res, next) {
   Review.findAll({
-    where: {
-      leftoverId: req.params.id
-    }
-  })
-  .then(function(reviews) {
-    res.send(reviews);
-  })
-  .catch(next);
+      where: {
+        leftoverId: req.params.id
+      }
+    })
+    .then(function(reviews) {
+      res.send(reviews);
+    })
+    .catch(next);
 });
 
-router.get('/rating/:rating', function(req,res,next) {
+router.get('/rating/:rating', function(req, res, next) {
   console.log(req.params.rating)
   Leftover.findAll({
-    where: {
-      rating: req.params.rating
-    }
-  })
-  .then(function(leftovers){
-    res.send(leftovers);
-  })
-  .catch(next);
+      where: {
+        rating: req.params.rating
+      }
+    })
+    .then(function(leftovers) {
+      res.send(leftovers);
+    })
+    .catch(next);
 });
 
 // /leftovers/:id
 // /cuisine/:id
 // /cuisine/id/leftovers
+
