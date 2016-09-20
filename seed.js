@@ -114,13 +114,26 @@ function seedLeftovers(chefId) {
   return Promise.all(randLeftovers);
 }
 
+const addresses = [
+  '102 Dobbin Street, Brooklyn, NY',
+  '41-18 48th Street Long Island City, NY 11104',
+  '155 East 91st Street, New York, NY 10128',
+  '61 West 74th Street, New York, NY 10023',
+  '103-11 52nd Avenue Flushing, NY 11368',
+  '1546 Dumont Avenue, Brooklyn, NY 11208',
+  '75 Ludlow Street, New York, NY 10002',
+  '142 Grand Street, New York, NY 10013',
+  '330 West 36th Street, New York, NY 10018'  
+
+];
+
 function createUser() {
   return User.create({
     first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
     email: faker.internet.email(),
     password: 'abc',
-    address: '33 Withers St., Brooklyn, NY 11211'
+    address: _.sample(addresses)
   });
 }
 
@@ -216,7 +229,7 @@ db.sync({
   })
   .then(function() {
     console.log(chalk.red('Seeding Sellers...'));
-    return seedSellers(20);
+    return seedSellers(5);
   })
   .then(function() {
     console.log(chalk.yellow('Seeding Buyers (And Orders, too!)...'));

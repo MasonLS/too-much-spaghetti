@@ -2,9 +2,13 @@
 
 app.config(function($stateProvider){
 	$stateProvider.state('search', {
-		url: '/search/:selection',
+		url: '/search',
         templateUrl: '/js/search/search.html',
         controller: 'SearchPageCtrl',
+        params: {
+            selection: null,
+            address: null
+        },
         resolve: {
             
             cuisines: function(CuisineFactory){

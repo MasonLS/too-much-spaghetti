@@ -48,8 +48,8 @@ app.factory('LeftoverFactory', function($http){
 		})
 	}
 
-	function getDistance(leftoverId){
-		return $http.get('/api/leftovers/' + leftoverId + '/distance')
+	function getDistance(leftoverId, address){
+		return $http.get('/api/leftovers/' + leftoverId + '/distance/' + address)
 			.then(function(response){
 				return response.data;
 			});
