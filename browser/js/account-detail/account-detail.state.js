@@ -8,7 +8,8 @@ app.config(function($stateProvider, $urlRouterProvider){
     controller: 'AccountCtrl',
     resolve: {
       user: function(UserFactory){
-        return UserFactory.getMe();
+        return UserFactory.getMe()
+          .then(session => session.user);
       }
     },
     redirectTo: 'account.profile'
