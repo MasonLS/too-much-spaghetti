@@ -123,3 +123,25 @@
   color: #2c3e50;
 }
 
+.spacer {
+    width: 100%;
+    height: 40px;
+}
+
+.review-box {
+    background-color: #F3F3F3;
+    padding: 10px;
+}
+
+.advanced-search-box {
+    background-color: #F3F3F3;
+    width: 20%;
+    float: left;
+
+}
+
+.leftover-search-row {
+    border-bottom: 2px solid #ddd;
+    width: 100%;
+    padding-bottom: 4px;
+}

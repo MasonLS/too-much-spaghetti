@@ -120,7 +120,7 @@ function createUser() {
     last_name: faker.name.lastName(),
     email: faker.internet.email(),
     password: 'abc',
-    address: faker.address.streetAddress()
+    address: '33 Withers St., Brooklyn, NY 11211'
   });
 }
 
@@ -137,8 +137,7 @@ function createAdminUsers() {
 
 function seedOrders(userId) {
   let creatingOrders = [];
-  let numOrders = randomNumGen(1, 5);
-
+  let numOrders = randomNumGen(1, 10);
   for (let j = 0; j < numOrders; j++) {
     creatingOrders.push(createOrder(userId));
   }
