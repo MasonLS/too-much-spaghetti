@@ -34,15 +34,20 @@
               </form>
             </div>
         </div>
-        <div class="row">
-            <div class="review-box">
-                <h4>Reviews for {{ leftover.name }}</h4>
-                <img ng-repeat="i in getRating(rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png"> {{ reviews.length }} Reviews
-                <br><br>
-                <ul ng-repeat="review in reviews">
-                    <li>{{ review.body }}</li>
-                </ul>
-            </div>
+        <button type="submit" class="btn btn-primary" ng-show="user.id === leftover.chefId" ui-sref="createLeftover">Edit</button>
+        <button type="submit" class="btn btn-primary" ui-sref="#">Add to Cart</button>
+        <div>
+            <h2>{{ leftover.name }}</h2><h5 class="distance" ng-if="leftover.chefId !== user.id">{{ leftover.distance.split(' ')[0] }} miles away</h5>
+            <p>{{ leftover.description }}</p>
+        </div>
+        <div class="review-box">
+            <h4>Reviews for {{ leftover.name }}</h4>
+            <img ng-repeat="i in getRating(rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png"> {{ reviews.length }} Reviews
+            <br><br>
+            <ul ng-repeat="review in reviews">
+                <li>{{ review.body }}</li>
+            </ul>
+>>>>>>> master
         </div>
     </div>
 </section>

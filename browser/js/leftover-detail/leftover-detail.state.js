@@ -8,7 +8,7 @@ app.config(function ($stateProvider) {
             leftover: function(LeftoverFactory, $stateParams) {
                 return LeftoverFactory.getOne($stateParams.leftoverId)
                     .then(leftover => {
-                        return LeftoverFactory.getDistance(leftover.id)
+                        return LeftoverFactory.getDistance(leftover.id, null)
                             .then(distanceObj => {
                                 leftover.distance = distanceObj.distance;
                                 return leftover;

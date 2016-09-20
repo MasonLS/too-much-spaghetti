@@ -2,9 +2,14 @@
 
 app.config(function($stateProvider){
 	$stateProvider.state('search', {
-		url: '/search/:selection',
+		url: '/search',
         templateUrl: '/js/search/search.html',
         controller: 'SearchPageCtrl',
+        params: {
+            selection: null,
+            address: null,
+            nearness: 12
+        },
         resolve: {
             
             cuisines: function(CuisineFactory){
@@ -13,6 +18,10 @@ app.config(function($stateProvider){
 
             leftovers: function(LeftoverFactory){
                 return LeftoverFactory.getAll();
+            },
+
+            me: function(UserFactory){
+                return UserFactory.getMe();
             }
         }
 	});

@@ -29,8 +29,8 @@ app.controller('ProfileCtrl', function($scope, UserFactory){
   }
 });
 
-app.controller('ReviewCtrl', function($scope, $stateParams, chef, ReviewFactory, $state){
-  $stateParams.leftover.chef = chef;
+app.controller('ReviewCtrl', function($scope, $stateParams, ReviewFactory, $state){
+  // $stateParams.leftover.chef = chef;
   $scope.leftover = $stateParams.leftover;
   console.log($stateParams.leftover);
   $scope.postReview = function (reviewObj) {

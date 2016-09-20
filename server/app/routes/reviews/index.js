@@ -5,6 +5,7 @@ const Order = require('../../../db/models/order');
 const Review = require('../../../db/models/review');
 const Leftover = require('../../../db/models/leftover');
 const Err = require('../utils/err').gen;
+const _ = require('lodash');
 
 let unauthorizedError = new Err(401, 'Unauthorized to review this product')
 
@@ -26,7 +27,7 @@ router.post('/', function(req, res, next) {
       include: [Leftover]
     })
     .then(orders => {
-      let leftovers = orders.map(or => or.leftover);
+      let leftovers = _.flatten(orders.map(or => or.leftovers));
       if (leftovers.some(leftover => leftover.id === leftoverId) || req.user.isAdmin) {
         return Review.create({
             leftoverId: leftoverId,
