@@ -45,6 +45,11 @@ app.factory('UserFactory', function($http) {
         .then(getData);
     }
 
+    function getMe () {
+        return $http.get('/session')
+            .then(getData);
+    }
+
     return {
         getAllUsers: getAllUsers,
         getAllSellers: getAllSellers,
@@ -53,6 +58,7 @@ app.factory('UserFactory', function($http) {
         update: update,
         destroy: destroy,
         getLeftovers: getLeftovers,
-        getOrders: getOrders
+        getOrders: getOrders,
+        getMe: getMe
     };
 });

@@ -3,12 +3,12 @@
 app.config(function($stateProvider, $urlRouterProvider){
 
   $stateProvider.state('account', {
-    url: '/account/:userId',
+    url: '/account',
     templateUrl: 'js/account-detail/account-detail.html',
     controller: 'AccountCtrl',
     resolve: {
-      user: function(UserFactory, $stateParams){
-        return UserFactory.getById($stateParams.userId);
+      user: function(UserFactory){
+        return UserFactory.getMe();
       }
     },
     redirectTo: 'account.profile'
