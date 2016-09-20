@@ -68,7 +68,7 @@ app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory,
 
         $scope.leftovers = [];
 
-        LeftoverFactory.getByRating($scope.rating.number)
+        LeftoverFactory.getByRating($scope.number)
         .then(function(leftovers){
             $scope.leftovers = leftovers;
         })

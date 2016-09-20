@@ -208,14 +208,18 @@ function writeReviews() {
       include: [Leftover]
     })
     .then(os => {
-      let randOs = _.sampleSize(os, os.length);
-      return Promise.map(randOs, (o) => {
-        let randOrderLeftover = _.sample(o.leftovers);
-        let reviewObj = new RandomReview(randOrderLeftover.id, o.userId);
-        return Review.create(reviewObj);
-      })
+      // let randOs = _.sampleSize(os, os.length);
+      return Promise.map(os, (o) => {
+        return Promise.map(o.leftovers, (l) => {
+          return Review.create(new RandomReview(l.id, o.userId));
+        })
     })
+});
 }
+
+// let randOrderLeftover = _.sample(o.leftovers);
+//         let reviewObj = new RandomReview(randOrderLeftover.id, o.userId);
+//         return Review.create(reviewObj);
 
 function getCart() {
   return Order.findAll({
