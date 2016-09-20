@@ -11,9 +11,9 @@
             </div>
             <button type="submit" class="btn btn-primary">Search</button>
           </form>
-          <form name="ratingSearch" ng-submit="ratingSubmitted()">
+          <form name="ratingSearch">
               <h3>rating:</h3>
-              <span class="rating">
+              <span class="rating" ng-click="ratingSubmitted()">
                       <input type="radio" class="rating-input"
                   id="rating-input-1-5" name="rating-input-1" ng-model="rating.number" ng-value="1"/>
                       <label for="rating-input-1-5" class="rating-star"></label>
@@ -30,7 +30,6 @@
                               id="rating-input-1-1" name="rating-input-1" ng-model="rating.number" ng-value="5"/>
                       <label for="rating-input-1-1" class="rating-star"></label>
               </span>
-              <button type="submit" class="btn btn-primary">Search</button>
           </form>
         </div>
     </div>
@@ -38,7 +37,7 @@
         <div>
           <h3>leftovers</h3>
           <ul>
-              <li ng-repeat="leftover in leftovers | filterOwn:me.user" class="leftover-search-row" ng-init="getDistance(leftover)"  ng-if="+leftover.distance.split(' ')[0] < nearness"><a ui-sref="leftoverDetail({leftoverId:leftover.id})"><img ng-src="{{ leftover.picture }}" class="img-thumbnail" width="100" height="100"> {{ leftover.name }}</a><p class="distance">{{ leftover.distance }}</p> <img class="pull-right" ng-repeat="i in getRating(leftover.rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png"> </li>
+              <li ng-repeat="leftover in leftovers" class="leftover-search-row" ng-init="getDistance(leftover)" ng-if="+leftover.distance.split(' ')[0] < nearness"><a ui-sref="leftoverDetail({leftoverId:leftover.id})"><img ng-src="{{ leftover.picture }}" class="img-thumbnail" width="100" height="100"> {{ leftover.name }}</a><ul class="pull-right align-search-objects" ><li><p class="distance">{{ leftover.distance }}</p></li><li><img ng-repeat="i in getRating(leftover.rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png"></li></ul>
           </ul>
         </div>
       </div>
