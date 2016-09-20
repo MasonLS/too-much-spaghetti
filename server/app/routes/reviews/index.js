@@ -14,7 +14,6 @@ router.use(function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  console.log('GETTING HERE');
   let {
     leftoverId,
     body,
@@ -22,7 +21,7 @@ router.post('/', function(req, res, next) {
   } = req.body, userId = req.user.id;
   Order.findAll({
       where: {
-        buyerId: userId
+        userId: userId
       },
       include: [Leftover]
     })
@@ -43,5 +42,4 @@ router.post('/', function(req, res, next) {
       }
     })
 });
-
 
