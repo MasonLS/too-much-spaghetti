@@ -47,8 +47,11 @@ app.controller('LeftoverDetailCtrl', function($scope, $log, LeftoverFactory, Lef
         var dataToSend = {};
 
         dataToSend.leftoverObj = {
+            id: leftover.id,
             name: data.name,
             description: data.description,
+            price: data.price,
+            deliveryFee: data.deliveryFee
         };
 
         console.log($scope.updatedLeftover.cuisines);
