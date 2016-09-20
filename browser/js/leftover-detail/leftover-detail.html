@@ -13,11 +13,6 @@
             </div>
             <button type="submit" class="btn btn-primary" ng-show="user.id === leftover.chefId" ng-click="setCurrentlyEditing('leftover')">Edit</button>
             <button type="submit" class="btn btn-primary" ui-sref="#">Add to Cart</button>
-            <div ng-show="currentlyEditing !== 'leftover'">
-                <h2>{{ leftover.name }}<p ng-show="leftover.distance !== undefined"><i>{{ leftover.distance }}</i></p></h2>
-                <p>{{ leftover.description }}</p>
-                <p>{{ leftover.cuisine.name }}</p>
-            </div>
             <div class="col-sm-10" ng-if="currentlyEditing === 'leftover'">
               <h3>Edit Leftover</h3>
               <form id="name-form" name="nameForm" novalidate>
@@ -34,9 +29,7 @@
               </form>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary" ng-show="user.id === leftover.chefId" ui-sref="createLeftover">Edit</button>
-        <button type="submit" class="btn btn-primary" ui-sref="#">Add to Cart</button>
-        <div>
+        <div ng-show="currentlyEditing !== 'leftover'">
             <h2>{{ leftover.name }}</h2><h5 class="distance" ng-if="leftover.chefId !== user.id">{{ leftover.distance.split(' ')[0] }} miles away</h5>
             <p>{{ leftover.description }}</p>
         </div>
@@ -44,10 +37,9 @@
             <h4>Reviews for {{ leftover.name }}</h4>
             <img ng-repeat="i in getRating(rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png"> {{ reviews.length }} Reviews
             <br><br>
-            <ul ng-repeat="review in reviews">
+            <ul ng-repeat="review in reviews | limitTo:10">
                 <li>{{ review.body }}</li>
             </ul>
->>>>>>> master
         </div>
     </div>
 </section>
