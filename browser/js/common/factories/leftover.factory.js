@@ -5,18 +5,14 @@ app.factory('LeftoverFactory', function($http){
 	function getAll(){
 		return $http.get('/api/leftovers')
 		.then(function(response){
-			response.data.leftovers.forEach((leftover, i) => {
-				leftover.distance = response.data.distances[i];
-			});
-			return response.data.leftovers;
+			return response.data;
 		})
 	}
 
 	function getOne(id){
 		return $http.get('api/leftovers/' + id)
 		.then(function(response){
-			response.data.leftover.distance = response.data.distance;
-			return response.data.leftover;
+			return response.data;
 		})
 	}
 

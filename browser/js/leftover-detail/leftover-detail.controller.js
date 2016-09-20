@@ -2,11 +2,11 @@
 
 app.controller('LeftoverDetailCtrl', function($scope, $log, LeftoverFactory, LeftoverDetailPicsFactory, leftover) {
 
-    LeftoverFactory.getDistance(leftover.id)
-        .then(distanceObj => {
-                    leftover.distance = distanceObj.distance;
-                    $scope.$digest();
-                })
+    // LeftoverFactory.getDistance(leftover.id)
+    //     .then(distanceObj => {
+    //                 leftover.distance = distanceObj.distance;
+    //                 $scope.$digest();
+    //             })
 
     LeftoverFactory.getAll()
     .then(function(leftovers) {
