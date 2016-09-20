@@ -4,13 +4,17 @@ module.exports = router;
 const Err = require('../utils/err').gen;
 const db = require('../../../db');
 const Order = db.model('order');
+const User = db.model('user');
 
 router.get('/', function(req, res, next) {
   Order.findAll({
       where: {
         userId: req.userSought.id
       },
-      include: [db.model('leftover')]
+      include: {
+        model: db.model('leftover'),
+        include: [{model: User, as: 'chef'}]
+      }
     })
     .then(orders => res.json(orders))
     .catch(next);
