@@ -2,6 +2,14 @@
 
 app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory, $log, CuisineFactory, cuisines, leftovers){
 
+    $scope.getDistance = function (leftover) {
+        return LeftoverFactory.getDistance(leftover.id)
+                .then(distanceObj => {
+                    leftover.distance = distanceObj.distance;
+                    $scope.$digest();
+                })
+   }
+
     $scope.cuisines = cuisines;
 
     $scope.selected = $stateParams.selection;
@@ -20,6 +28,7 @@ app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory,
     };
     
     $scope.ratings = [1,2,3,4,5];
+
 
     $scope.cuisineList = [];
 

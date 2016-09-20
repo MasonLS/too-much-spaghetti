@@ -37,7 +37,7 @@ app.factory('LeftoverFactory', function($http){
 	function add(data){
 		return $http.post('api/leftovers', data)
 		.then(function(response){
-			return response.data
+			return response.data;
 		})
 	}
 
@@ -48,6 +48,13 @@ app.factory('LeftoverFactory', function($http){
 		})
 	}
 
+	function getDistance(leftoverId){
+		return $http.get('/api/leftovers/' + leftoverId + '/distance')
+			.then(function(response){
+				return response.data;
+			});
+	}
+
 	return {
 		getAll: getAll,
 		getOne: getOne,
@@ -55,6 +62,7 @@ app.factory('LeftoverFactory', function($http){
 		destroy: destroy,
 		add: add,
         update: update,
+        getDistance: getDistance,
         getByRating: getByRating
 	}
 

@@ -25,8 +25,9 @@ var classMethods = {
   }
 }
 
+
 let hooks = {
-  afterUpdate: function(createdOrder) {
+  afterUpdate: function (createdOrder) {
     if (createdOrder.status === 'cart') {
       return this.findAll({
           where: {
@@ -41,6 +42,7 @@ let hooks = {
     }
   }
 }
+
 
 options.classMethods = classMethods;
 options.hooks = hooks;

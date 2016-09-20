@@ -22,7 +22,7 @@ module.exports = db.define('leftover', {
     }
   },
   price: {
-    type: Sequelize.DOUBLE
+    type: Sequelize.FLOAT
   },
   quantity: {
     type: Sequelize.INTEGER
@@ -66,13 +66,10 @@ module.exports = db.define('leftover', {
     }
   },
   hooks: {
-    afterCreate: function(createdLeftover) {
-      // return User.findById(createdLeftover.chefId)
-        // .then(function(user) {
-          // return user.update({
-            // isSeller: true
-          // })
-        // });
+    afterUpdate: function(updatedLeftover) {
+      if (updatedLeftover.quantity === 0) {
+        return updatedLeftover.destroy();
+      }
     }
   }
 });
