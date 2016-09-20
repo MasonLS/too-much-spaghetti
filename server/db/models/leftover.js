@@ -22,7 +22,7 @@ module.exports = db.define('leftover', {
     }
   },
   price: {
-    type: Sequelize.DOUBLE
+    type: Sequelize.FLOAT
   },
   quantity: {
     type: Sequelize.INTEGER

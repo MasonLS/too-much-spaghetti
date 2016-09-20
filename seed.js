@@ -11,6 +11,7 @@ const Order = db.model('order');
 const _ = require('lodash');
 
 const randomNumGen = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const randomPriceGen = (min, max) => _.round(Math.random() * (max - min + 1) + min, 2);
 const cuisineNames = ['chinese', 'korean', 'ethiopian', 'japanese', 'american', 'french', 'austrian', 'polish', 'georgian', 'indian', 'italian', 'venezulean']
 let cuisines = cuisineNames.map(c => {
   return {
@@ -46,6 +47,7 @@ function createLeftover(name, chefId) {
     chefId: chefId,
     name: name,
     description: faker.lorem.paragraph(),
+    price: randomPriceGen(0.5, 30),
     picture: faker.image.food(),
     quantity: randomNumGen(1, 10),
   }, randCuisines);
@@ -135,7 +137,7 @@ function createAdminUsers() {
 
 function seedOrders(userId) {
   let creatingOrders = [];
-  let numOrders = randomNumGen(1, 2);
+  let numOrders = randomNumGen(1, 5);
 
   for (let j = 0; j < numOrders; j++) {
     creatingOrders.push(createOrder(userId));
@@ -215,11 +217,11 @@ db.sync({
   })
   .then(function() {
     console.log(chalk.red('Seeding Sellers...'));
-    return seedSellers(50);
+    return seedSellers(20);
   })
   .then(function() {
     console.log(chalk.yellow('Seeding Buyers (And Orders, too!)...'));
-    return seedBuyers(25);
+    return seedBuyers(20);
   })
   .then(function() {
     console.log(chalk.magenta('Writing Reviews...'));
