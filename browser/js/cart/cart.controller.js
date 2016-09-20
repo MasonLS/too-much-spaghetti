@@ -55,6 +55,7 @@ app.controller('CartCtrl', function($scope, CartFactory, $rootScope) {
   }
 
   $scope.getCart = function() {
+    console.log('getting cart');
     getCart().then(_ => {
       $scope.cartToggle = !$scope.cartToggle;
     })
