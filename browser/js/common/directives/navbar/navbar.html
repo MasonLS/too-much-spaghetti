@@ -16,6 +16,11 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li>
+                    <div ng-show="user" class="welcome-tag">
+                        <span>Hello, {{ user.first_name }}!</span>
+                    </div>
+                </li>
+                <li>
                     <div class="dropdown">
                       <button class="dropbtn">User <i class="fa fa-angle-down"></i></button>
                       <div class="dropdown-content">
