@@ -20,6 +20,7 @@ Leftover.belongsToMany(Cuisine, {through: 'cuisine_leftover'});
 
 Leftover.belongsToMany(Order, {through: Order_Leftover});
 Order.belongsToMany(Leftover, {through: Order_Leftover});
+User.hasMany(Leftover);
 
 Review.belongsTo(Leftover);
 Leftover.hasMany(Review);

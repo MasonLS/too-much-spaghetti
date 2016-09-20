@@ -53,6 +53,7 @@ module.exports = {
   },
 
   deleteCartElemInDb: function(cartOrderId, leftoverIdToDelete) {
+    console.log(cartOrderId, leftoverIdToDelete);
     return Order_Leftover.findOne({
         where: {
           orderId: cartOrderId,
@@ -61,6 +62,31 @@ module.exports = {
       })
       .then(row => {
         return row.destroy()
+      })
+  },
+
+  postCart: function(cart){
+    console.log(cart);
+    return Order.findById(cart[0].orderId)
+    .then(order => order.update({ status: 'complete' }))
+    .then(order => order.getLeftovers())
+    .then(leftovers => {
+      return Promise.map(leftovers, (leftover) => {
+        let oldQty = leftover.quantity;
+        let boughtQty = cart.filter(l => l.leftover.id === leftover.id)[0].quantity;
+        return leftover.update({ quantity: oldQty - boughtQty });
+      })
+    })
+  },
+
+  deleteAllCart: function(cartOrderId){
+    return Order_Leftover.findOne({
+        where: {
+          orderId: cartOrderId
+        }
+      })
+      .then(rows => {
+        return Promise.map(rows, (row) => row.destroy)
       })
   },
 
@@ -79,6 +105,7 @@ module.exports = {
   },
 
   serializeCart: function(deserializedCart) {
+    if(!deserializedCart) return [];
     return deserializedCart.map(dc => {
       return {
         leftoverId: dc.leftover.id,
