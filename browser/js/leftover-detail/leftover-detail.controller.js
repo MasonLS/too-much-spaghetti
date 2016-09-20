@@ -1,6 +1,14 @@
 'use strict';
 
-app.controller('LeftoverDetailCtrl', function($scope, $log, LeftoverFactory, LeftoverDetailPicsFactory, leftover) {
+app.controller('LeftoverDetailCtrl', function($scope, $log, LeftoverFactory, LeftoverDetailPicsFactory, leftover, AuthService) {
+
+    var setUser = function () {
+        AuthService.getLoggedInUser().then(function (user) {
+            $scope.user = user;
+        });
+    };
+
+    setUser();
 
     LeftoverFactory.getAll()
     .then(function(leftovers) {
@@ -9,6 +17,8 @@ app.controller('LeftoverDetailCtrl', function($scope, $log, LeftoverFactory, Lef
     .catch($log.error);
 
     $scope.leftover = leftover;
+
+    console.log('leftover!', leftover);
 
     $scope.images = _.shuffle(LeftoverDetailPicsFactory);
 

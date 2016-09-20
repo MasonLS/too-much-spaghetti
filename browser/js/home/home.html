@@ -62,7 +62,7 @@
             <div class="col-sm-4 team-wrapper" ng-repeat="featuredLeftover in featuredLeftovers">
                 <div class="team-item">
                     <div class="team-thumb">
-                        <a ui-sref="leftoverDetail({id: featuredLeftover.id})">
+                        <a ui-sref="leftoverDetail({leftoverId: featuredLeftover.id})">
                             <img ng-src="{{ featuredLeftover.picture }}">
                         </a>
                         <!-- <img ng-src="leftoverDetail({picture: featuredLeftover.picture})" alt="Featured Leftover">
