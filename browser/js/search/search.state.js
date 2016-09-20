@@ -7,7 +7,8 @@ app.config(function($stateProvider){
         controller: 'SearchPageCtrl',
         params: {
             selection: null,
-            address: null
+            address: null,
+            nearness: 12
         },
         resolve: {
             
@@ -17,6 +18,10 @@ app.config(function($stateProvider){
 
             leftovers: function(LeftoverFactory){
                 return LeftoverFactory.getAll();
+            },
+
+            me: function(UserFactory){
+                return UserFactory.getMe();
             }
         }
 	});
