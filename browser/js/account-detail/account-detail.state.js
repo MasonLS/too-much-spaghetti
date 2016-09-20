@@ -37,12 +37,7 @@ app.config(function($stateProvider, $urlRouterProvider){
       params: {
         leftover: null
       },
-      controller: 'ReviewCtrl',
-      resolve: {
-        chef: function(UserFactory, $stateParams){
-          return UserFactory.getById($stateParams.leftover.chefId);
-        }
-      }
+      controller: 'ReviewCtrl'
     })
     .state('account.payment', {
       url: '/payment',
