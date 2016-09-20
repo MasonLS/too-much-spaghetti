@@ -68,7 +68,7 @@ router.param('id', function(req, res, next){
     where: {
       id: req.params.id
     },
-    include: [{model: User, as: 'chef'}]
+    include: [{model: User, as: 'chef'}, Cuisine]
   })
     .then(leftover => {
       req.leftover = leftover;
