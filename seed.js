@@ -123,8 +123,18 @@ const addresses = [
   '1546 Dumont Avenue, Brooklyn, NY 11208',
   '75 Ludlow Street, New York, NY 10002',
   '142 Grand Street, New York, NY 10013',
-  '330 West 36th Street, New York, NY 10018'  
-
+  '330 West 36th Street, New York, NY 10018',  
+  '126 Oak Street, Brooklyn, NY 11222',
+  '111 East 75th Street, New York, NY 10021',
+  '440-460 8th Street, Hoboken, NJ 07030',
+  '123 Waverly Place, New York, NY 10011',
+  '56 Clinton Street, New York, NY 10002',
+  '590 6th Avenue, New York, NY 10011',
+  '430 East 67th Street, New York, NY 10065',
+  '225 East 111th Street, New York, NY 10029',
+  '123 West 106th Street, New York, NY 10025',
+  '104 West 83rd Street, New York, NY 10024',
+  '122 Amsterdam Avenue, New York, NY 10023',
 ];
 
 function createUser() {
@@ -229,7 +239,7 @@ db.sync({
   })
   .then(function() {
     console.log(chalk.red('Seeding Sellers...'));
-    return seedSellers(5);
+    return seedSellers(20);
   })
   .then(function() {
     console.log(chalk.yellow('Seeding Buyers (And Orders, too!)...'));

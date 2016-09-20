@@ -13,7 +13,7 @@
         <button type="submit" class="btn btn-primary" ng-show="user.id === leftover.chefId" ui-sref="createLeftover">Edit</button>
         <button type="submit" class="btn btn-primary" ui-sref="#">Add to Cart</button>
         <div>
-            <h2>{{ leftover.name }}</h2><h5 class="distance" ng-show="leftover.distance !== undefined">{{ leftover.distance }}</h5>
+            <h2>{{ leftover.name }}</h2><h5 class="distance" ng-if="leftover.chefId !== user.id">{{ leftover.distance.split(' ')[0] }} miles away</h5>
             <p>{{ leftover.description }}</p>
         </div>
         <div class="review-box">
