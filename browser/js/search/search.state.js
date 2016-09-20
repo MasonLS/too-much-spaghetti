@@ -6,6 +6,7 @@ app.config(function($stateProvider){
         templateUrl: '/js/search/search.html',
         controller: 'SearchPageCtrl',
         resolve: {
+            
             cuisines: function(CuisineFactory){
                 return CuisineFactory.getAll();
             },

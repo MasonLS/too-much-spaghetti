@@ -10,12 +10,18 @@ app.controller('LeftoverDetailCtrl', function($scope, $log, LeftoverFactory, Lef
 
     setUser();
 
+    // LeftoverFactory.getDistance(leftover.id)
+    //     .then(distanceObj => {
+    //                 leftover.distance = distanceObj.distance;
+    //                 $scope.$digest();
+    //             })
+
     LeftoverFactory.getAll()
     .then(function(leftovers) {
         $scope.leftovers = leftovers;
     })
     .catch($log.error);
-
+    console.log(leftover);
     $scope.leftover = leftover;
 
     console.log('leftover!', leftover);
