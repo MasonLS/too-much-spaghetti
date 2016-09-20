@@ -7,13 +7,13 @@ app.config(function ($stateProvider) {
         resolve: {
             leftover: function(LeftoverFactory, $stateParams) {
                 return LeftoverFactory.getOne($stateParams.leftoverId)
-                    .then(leftover => {
-                        return LeftoverFactory.getDistance(leftover.id)
-                            .then(distanceObj => {
-                                leftover.distance = distanceObj.distance;
-                                return leftover;
-                            });
-                    });
+                    // .then(leftover => {
+                    //     // return LeftoverFactory.getDistance(leftover.id, null)
+                    //     //     .then(distanceObj => {
+                    //     //         leftover.distance = distanceObj.distance;
+                    //     //         return leftover;
+                    //     //     });
+                    // });
             }
         }
     });

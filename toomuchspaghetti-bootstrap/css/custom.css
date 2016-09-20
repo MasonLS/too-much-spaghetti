@@ -184,3 +184,12 @@
     height: 16px;
     background: url('http://kubyshkin.ru/samples/star-rating/star.png') 0 -16px;
 }
+
+.distance {
+    color: #666666;
+}
+
+.align-search-objects{
+    text-align: right;
+    text-justify: none;
+}

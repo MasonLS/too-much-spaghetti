@@ -15,10 +15,8 @@ app.controller('LeftoverDetailCtrl', function($scope, $log, LeftoverFactory, Lef
         $scope.leftovers = leftovers;
     })
     .catch($log.error);
-    console.log(leftover);
-    $scope.leftover = leftover;
 
-    console.log('leftover!', leftover);
+    $scope.leftover = leftover;
 
     $scope.images = _.shuffle(LeftoverDetailPicsFactory);
 
@@ -31,4 +29,41 @@ app.controller('LeftoverDetailCtrl', function($scope, $log, LeftoverFactory, Lef
     .then(function(reviews) {
         $scope.reviews = reviews;
     });
+
+    $scope.currentlyEditing = null;
+    $scope.updatedLeftover = angular.copy($scope.leftover);
+
+    $scope.setCurrentlyEditing = function(field) {
+        $scope.currentlyEditing = field;
+    };
+
+    $scope.cancel = function() {
+        $scope.updatedLeftover = angular.copy($scope.leftover);
+        $scope.setCurrentlyEditing(null);
+    };
+
+    $scope.updateLeftover = function(data) {
+
+        var dataToSend = {};
+
+        dataToSend.leftoverObj = {
+            name: data.name,
+            description: data.description,
+        };
+
+        console.log($scope.updatedLeftover.cuisines);
+
+        dataToSend.cuisineNames = $scope.updatedLeftover.cuisines.map(function(cuisineInstance) {
+            return cuisineInstance.name;
+        });
+
+        dataToSend.chefId = $scope.updatedLeftover.chefId;
+
+        return LeftoverFactory.update(dataToSend)
+                .then(function(leftover) {
+                    $scope.setCurrentlyEditing(null);
+                    $scope.leftover = leftover;
+                })
+                .catch($log.error);
+    };
 });

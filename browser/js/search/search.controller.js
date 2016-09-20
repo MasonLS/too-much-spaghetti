@@ -1,15 +1,28 @@
 'use strict'
 
-app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory, $log, CuisineFactory, cuisines, leftovers){
+app.filter('filterOwn', function() {
+    return function (leftovers, user) {
+        return leftovers.filter(leftover => {
+            return leftover.chefId !== user.id;
+        });
+    }
+})
+
+app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory, $log, CuisineFactory, cuisines, leftovers, me){
+    $scope.address = $stateParams.address;
+    $scope.me = me;
+    $scope.nearness = $stateParams.nearness;
+
+    let address = $stateParams.address;
+    let nearness = $stateParams.nearness;
+
 
     $scope.getDistance = function (leftover) {
-        return LeftoverFactory.getDistance(leftover.id)
+        return LeftoverFactory.getDistance(leftover.id, $stateParams.address)
                 .then(distanceObj => {
                     leftover.distance = distanceObj.distance;
-                    $scope.$digest();
-                })
+                });
    }
-
     $scope.cuisines = cuisines;
 
     $scope.selected = $stateParams.selection;
@@ -27,7 +40,7 @@ app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory,
         return new Array(num);
     };
     
-    $scope.ratings = [1,2,3,4,5];
+    //$scope.ratings = [1,2,3,4,5];
 
 
     $scope.cuisineList = [];
@@ -55,7 +68,7 @@ app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory,
 
         $scope.leftovers = [];
 
-        LeftoverFactory.getByRating($scope.selectedRating)
+        LeftoverFactory.getByRating($scope.number)
         .then(function(leftovers){
             $scope.leftovers = leftovers;
         })

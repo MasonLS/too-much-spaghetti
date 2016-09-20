@@ -7,26 +7,45 @@
 </div> -->
 <section id="content-3-4" class="content-block content-3-4">
   <div class="container">
-    <div>
-      <img ng-src="{{ leftover.picture }}" />
+    <div class="row">
+      <div>
+        <img ng-src="{{ leftover.picture }}" />
+      </div>
+      <button type="submit" class="btn btn-primary" ng-show="user.id === leftover.chefId"
+        ng-click="setCurrentlyEditing('leftover')">Edit</button>
+      <button type="submit" class="btn btn-primary" ui-sref="#">Add to Cart</button>
+      <div class="col-sm-10" ng-if="currentlyEditing === 'leftover'">
+        <h3>Edit Leftover</h3>
+        <form id="name-form" name="nameForm" novalidate>
+          <div class="form-group">
+            <label for="first-name" novalidate>Name:</label>
+            <input type="text" class="form-control" id="first-name" name="firstName" value="{{ leftover.name }}"
+              ng-model="updatedLeftover.name" required></input>
+          </div>
+          <div class="form-group">
+            <label for="last-name">Description:</label>
+            <input type="text" class="form-control" id="last-name" name="lastName" value="{{ leftover.description }}"
+              ng-model="updatedLeftover.description" required></input>
+          </div>
+          <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+          <button type="submit" class="btn btn-primary" ng-disabled="nameForm.$invalid || nameForm.$pristine"
+            ng-click="updateLeftover(updatedLeftover)">Save</button>
+        </form>
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary" ng-show="user.id === leftover.chefId"
-      ui-sref="createLeftover">Edit</button>
-    <button type="submit" class="btn btn-primary" ng-click="addToCart({ leftoverId: leftover.id, quantity: 1 })">Add to Cart</button>
-    <div>
+    <div ng-show="currentlyEditing !== 'leftover'">
       <h2>{{ leftover.name }}</h2>
-      <p ng-show="leftover.distance !== undefined">{{ leftover.distance }}</p>
+      <h5 class="distance" ng-if="leftover.chefId !== user.id">{{ leftover.distance.split(' ')[0] }} miles away</h5>
       <p>{{ leftover.description }}</p>
     </div>
     <div class="review-box">
       <h4>Reviews for {{ leftover.name }}</h4>
       <img ng-repeat="i in getRating(rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png">      {{ reviews.length }} Reviews
       <br><br>
-      <ul ng-repeat="review in reviews">
+      <ul ng-repeat="review in reviews | limitTo:10">
         <li>{{ review.body }}</li>
       </ul>
     </div>
-  </div>
 </section>
 
 

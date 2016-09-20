@@ -11,7 +11,6 @@ app.controller('CreateLeftoverCtrl', function($scope, $log, $state, LeftoverFact
     $scope.cuisineList = [];
 
     $scope.addToCuisineList = function(cuisine){
-        console.log('heyeyehyehe', cuisine)
         $scope.cuisineList.push(cuisine);
     }
 

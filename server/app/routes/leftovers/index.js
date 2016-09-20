@@ -10,11 +10,8 @@ const _ = require('lodash');
 const googleMapsClient = require('@google/maps').createClient({
   key: 'AIzaSyAaxJXWyIlA6MMIfHtjeAia39sffgj5Vx8'
 });
-const Promise = require('Bluebird');
 
 module.exports = router;
-
-const gettingDistance = Promise.promisify(googleMapsClient.distanceMatrix);
 
 router.get('/', function(req, res, next) {
   Leftover.findAll()
@@ -23,32 +20,6 @@ router.get('/', function(req, res, next) {
     })
     .catch(next)
 });
-
-// router.get('/', function(req, res, next) {
-//   Leftover.findAll({
-//     include: [{model: User, as: 'chef'}]
-//   })
-//     .then(function(leftovers) {
-//       return Promise.map(leftovers, leftover => {
-//         return gettingDistance({
-//         origins: req.user.address,
-//         destinations: leftover.chef.address,
-//         units: 'imperial'
-//       })
-//         .then(response => {
-//           leftover.distance = response.json.rows[0].elements[0].distance.text;
-//           return leftover;
-//         })
-//         .catch(next);
-//       });
-//     })
-//     .then(leftovers => {
-//       let distances = leftovers.map(leftover => leftover.distance);
-//       console.log(distances);
-//       res.send(leftovers);
-//     })
-//     .catch(next)
-// });
 
 router.get('/featured', function(req, res, next) {
   Leftover.findAll({
@@ -71,7 +42,7 @@ router.param('id', function(req, res, next) {
       include: [{
         model: User,
         as: 'chef'
-      }]
+      }, Cuisine]
     })
     .then(leftover => {
       req.leftover = leftover;
@@ -84,9 +55,12 @@ router.get('/:id', function(req, res, next) {
   res.json(req.leftover);
 });
 
-router.get('/:id/distance', function(req, res, next) {
+router.get('/:id/distance/:address', function(req, res, next) {
+
+  let origin = req.params.address !== "null" ? req.params.address : req.user.address;
+
   googleMapsClient.distanceMatrix({
-    origins: req.user.address,
+    origins: origin,
     destinations: req.leftover.chef.address,
     units: 'imperial'
   }, (err, response) => {

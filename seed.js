@@ -115,13 +115,36 @@ function seedLeftovers(chefId) {
   return Promise.all(randLeftovers);
 }
 
+const addresses = [
+  '102 Dobbin Street, Brooklyn, NY',
+  '41-18 48th Street Long Island City, NY 11104',
+  '155 East 91st Street, New York, NY 10128',
+  '61 West 74th Street, New York, NY 10023',
+  '103-11 52nd Avenue Flushing, NY 11368',
+  '1546 Dumont Avenue, Brooklyn, NY 11208',
+  '75 Ludlow Street, New York, NY 10002',
+  '142 Grand Street, New York, NY 10013',
+  '330 West 36th Street, New York, NY 10018',  
+  '126 Oak Street, Brooklyn, NY 11222',
+  '111 East 75th Street, New York, NY 10021',
+  '440-460 8th Street, Hoboken, NJ 07030',
+  '123 Waverly Place, New York, NY 10011',
+  '56 Clinton Street, New York, NY 10002',
+  '590 6th Avenue, New York, NY 10011',
+  '430 East 67th Street, New York, NY 10065',
+  '225 East 111th Street, New York, NY 10029',
+  '123 West 106th Street, New York, NY 10025',
+  '104 West 83rd Street, New York, NY 10024',
+  '122 Amsterdam Avenue, New York, NY 10023',
+];
+
 function createUser() {
   return User.create({
     first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
     email: faker.internet.email(),
     password: 'abc',
-    address: '33 Withers St., Brooklyn, NY 11211'
+    address: _.sample(addresses)
   });
 }
 
@@ -186,14 +209,18 @@ function writeReviews() {
       include: [Leftover]
     })
     .then(os => {
-      let randOs = _.sampleSize(os, os.length);
-      return Promise.map(randOs, (o) => {
-        let randOrderLeftover = _.sample(o.leftovers);
-        let reviewObj = new RandomReview(randOrderLeftover.id, o.userId);
-        return Review.create(reviewObj);
-      })
+      // let randOs = _.sampleSize(os, os.length);
+      return Promise.map(os, (o) => {
+        return Promise.map(o.leftovers, (l) => {
+          return Review.create(new RandomReview(l.id, o.userId));
+        })
     })
+});
 }
+
+// let randOrderLeftover = _.sample(o.leftovers);
+//         let reviewObj = new RandomReview(randOrderLeftover.id, o.userId);
+//         return Review.create(reviewObj);
 
 function getCart() {
   return Order.findAll({
