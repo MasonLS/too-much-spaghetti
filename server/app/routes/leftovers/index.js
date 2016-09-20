@@ -94,7 +94,7 @@ router.get('/:id/distance/:address', function(req, res, next) {
 // });
 
 router.post('/', function(req, res, next) {
-  if (!req.user.isAdmin || req.user) next(new Error('Unauthorized'));
+  if (!req.user.isAdmin && !req.user) next(new Error('Unauthorized'));
   let leftoverObj = req.body.leftoverObj,
     cuisineNames = req.body.cuisineNames;
   Leftover.createWithCuisines(leftoverObj, cuisineNames, req.user.id)
