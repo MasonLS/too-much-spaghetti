@@ -1,15 +1,16 @@
 'use strict'
 
 app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory, $log, CuisineFactory, cuisines, leftovers){
+    let address = $stateParams.address;
+
+    $scope.nearness = 100;
 
     $scope.getDistance = function (leftover) {
-        return LeftoverFactory.getDistance(leftover.id)
+        return LeftoverFactory.getDistance(leftover.id, address)
                 .then(distanceObj => {
                     leftover.distance = distanceObj.distance;
-                    $scope.$digest();
-                })
+                });
    }
-
     $scope.cuisines = cuisines;
 
     $scope.selected = $stateParams.selection;
@@ -62,6 +63,3 @@ app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory,
     };
 
 });
-
-
-
