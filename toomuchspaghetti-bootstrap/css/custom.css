@@ -1,33 +1,26 @@
-
-
 /* Put your custom styles here */
 
-.img-logo
-{
+.img-logo {
     max-height: 70px;
 }
 
-#header-1 .main-nav
-{
+#header-1 .main-nav {
     background-color: #8a1809;
     border: 0;
     height: 80px;
     padding-top: 0px;
 }
 
-.navbar-container
-{
+.navbar-container {
     height: 60px;
 }
 
-.img-cart
-{
+.img-cart {
     max-height: 50px;
     padding-bottom: 20px;
 }
 
-.content-block
-{
+.content-block {
     width: 100%;
     padding: 0px 0px 50px 0px;
     z-index: 100;
@@ -35,28 +28,21 @@
     background-color: #ffffff;
 }
 
-.img-homeheader
-{
+.img-homeheader {
     max-height: 300px;
 }
 
-.content-bannerblock
-{
-}
+.content-bannerblock {}
 
-.home-sidetext
-{
-}
+.home-sidetext {}
 
-.title-welcome
-{
-}
+.title-welcome {}
 
-.subtitle-welcome
-{
-}
+.subtitle-welcome {}
+
 
 /* Dropdown Button */
+
 .dropbtn {
     background-color: #8a1809;
     color: white;
@@ -66,22 +52,28 @@
     cursor: pointer;
 }
 
+
 /* The container <div> - needed to position the dropdown content */
+
 .dropdown {
     position: relative;
     display: inline-block;
 }
 
+
 /* Dropdown Content (Hidden by Default) */
+
 .dropdown-content {
     display: none;
     position: absolute;
     background-color: rgba(0, 0, 0, 0.5);
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
 
+
 /* Links inside the dropdown */
+
 .dropdown-content a {
     color: #FFFFFF;
     padding: 12px 16px;
@@ -89,19 +81,46 @@
     display: block;
 }
 
+
 /* Change color of dropdown links on hover */
+
 .dropdown-content a:hover {
     background-color: #8a1809
 }
 
+
 /* Show the dropdown menu on hover */
+
 .dropdown:hover .dropdown-content {
     display: block;
 }
 
+
 /* Change the background color of the dropdown button when the dropdown content is shown */
+
 .dropdown:hover .dropbtn {
     background-color: #8a1809;
+}
+
+.cart-slide {
+    margin-top: 70px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #fff;
+    box-shadow: 20px 20px 20px 20px #888888;
+}
+
+.order-now {
+  display: inline-block;
+  width: 100%;
+}
+
+.edit-qty {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.edit-pencil {
+  color: #2c3e50;
 }
 
 .spacer {

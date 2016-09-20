@@ -1,43 +1,148 @@
-<nav class="main-nav navbar-fixed-top headroom headroom--pinned">
+<div ng-controller="CartCtrl">
+  <nav class="main-nav navbar-fixed-top headroom headroom--pinned">
     <div class="container">
-        <!-- Brand and toggle -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <!-- Brand and toggle -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a ui-sref="home">
-                <img src="https://c1.staticflickr.com/9/8260/29394378580_560ae1f217_z.jpg" class="img-logo" title="Home">
+        <a ui-sref="home">
+          <img src="https://c1.staticflickr.com/9/8260/29394378580_560ae1f217_z.jpg" class="img-logo"
+            title="Home">
+        </a>
+      </div>
+      <!-- Navigation -->
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <div class="dropdown">
+              <button class="dropbtn">User <i class="fa fa-angle-down"></i></button>
+              <div class="dropdown-content">
+                <a ng-show="!user" ui-sref="login">Login</a>
+                <a ng-show="!user" ui-sref="signup">Sign Up</a>
+                <a ui-sref="account">Account</a>
+                <a ng-click="logout()">Logout</a>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a ng-click="cartToggle = !cartToggle">
+              <img src="https://c1.staticflickr.com/9/8409/29669271506_44b716bb17_o.jpg" class="img-cart"
+                title="Cart">
             </a>
-        </div>
-        <!-- Navigation -->
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <div class="dropdown">
-                      <button class="dropbtn">User <i class="fa fa-angle-down"></i></button>
-                      <div class="dropdown-content">
-                        <a ng-show="!user" ui-sref="login">Login</a>
-                        <a ng-show="!user" ui-sref="signup">Sign Up</a>
-                        <a ng-show="user" ui-sref="account({userId: user.id})">Account</a>
-                        <a ng-show="user" ng-click="logout()">Logout</a>
-                      </div>
-                    </div>
-                </li>
-                <li>
-                    <a ui-sref="cart">
-                        <img src="https://c1.staticflickr.com/9/8409/29669271506_44b716bb17_o.jpg" class="img-cart" title="Cart">
-                    </a>
-                </li>
-            </ul>
-            <!--//nav-->
-        </div>
-        <!--// End Navigation -->
+          </li>
+        </ul>
+        <!--//nav-->
+      </div>
+      <!--// End Navigation -->
     </div>
     <!--// End Container -->
-</nav>
+  </nav>
+  <pageslide ps-open="cartToggle" class="cart-slide">
+    <div class="row">
+      <div class="col-md-12" id="sidebar">
+        <h3>Your order <i class="icon_cart_alt pull-right"></i></h3>
+        <br>
+        <table class="table table_summary">
+          <tbody>
+            <tr ng-repeat="item in cart">
+              <td>
+                <a ng-click="removeItem(item.leftover.id)" class="remove_item"><i class="icon_minus_alt"></i></a>
+                <strong>{{ item.quantity }} x</strong> {{ item.leftover.name }}
+                <a data-toggle="modal" data-target="#editModal-{{item.leftover.id}}"><span class="glyphicon glyphicon-pencil edit-pencil">{{ item.leftover.price }}</span></a>
+              </td>
+              <!-- <td> -->
+              <!-- <div class="btn-group"> -->
+              <!-- <button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown">Quantity -->
+              <!-- <span class="caret"></span> -->
+              <!-- </button> -->
+
+              <!-- <ul class="dropdown-menu" role="menu"> -->
+              <!-- <li ng-if="quantity[item.leftover.id]" ng-repeat="qty in quantity[item.leftover.id]"> -->
+              <!-- {{ qty }} -->
+              <!-- </li> -->
+              <!-- </ul> -->
+              <!-- </div> -->
+              <!-- </td> -->
+              <td>
+                <strong class="pull-right">{{ item.leftover.price }}</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        <div class="row" id="options_2">
+          <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+            <label><input type="radio" value="" checked name="option_2" class="icheck"> Delivery</label>
+          </div>
+          <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+            <label><input type="radio" value="" name="option_2" class="icheck"> Pickup</label>
+          </div>
+        </div>
+        <!-- Edn options 2 -->
+        <table class="table table_summary">
+          <tbody>
+            <tr>
+              <td>
+                Subtotal <span class="pull-right">$56</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Delivery fee <span class="pull-right">$10</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="total">
+                TOTAL <span class="pull-right">$66</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        <button class="btn btn-success order-now">Order now</button>
+      </div>
+    </div>
+  </pageslide>
+  <!-- Modals -->
+  <div ng-repeat="item in cart">
+    <div class="modal fade" id="editModal-{{item.leftover.id}}" tabindex="-1" role="dialog"
+      aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">{{ item.leftover.name }}</h4>
+            <h5>{{ item.leftover.price }}</h5>
+            <p>{{ item.leftover.description }}</p>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <button class="btn btn-sm btn-info"><span class="glyphicon glyphicon-minus"></span></button>
+                  </td>
+                  <td class="edit-qty">
+                    <span>{{ item.quantity }}</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-info"><span class="glyphicon glyphicon-plus"></span></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <!-- Fullstack's Original Navbar -->
@@ -62,3 +167,4 @@
     </div>
 </nav>
  -->
+
