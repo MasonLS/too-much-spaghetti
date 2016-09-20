@@ -6,7 +6,14 @@ app.config(function ($stateProvider) {
         controller: 'LeftoverDetailCtrl',
         resolve: {
             leftover: function(LeftoverFactory, $stateParams) {
-                return LeftoverFactory.getOne($stateParams.leftoverId);
+                return LeftoverFactory.getOne($stateParams.leftoverId)
+                    .then(leftover => {
+                        return LeftoverFactory.getDistance(leftover.id)
+                            .then(distanceObj => {
+                                leftover.distance = distanceObj.distance;
+                                return leftover;
+                            });
+                    });
             }
         }
     });
