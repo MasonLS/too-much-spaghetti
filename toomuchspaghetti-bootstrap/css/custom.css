@@ -186,5 +186,10 @@
 }
 
 .distance {
-    color: red;
+    color: #666666;
+}
+
+.align-search-objects{
+    text-align: right;
+    text-justify: none;
 }
