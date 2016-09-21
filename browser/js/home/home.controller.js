@@ -1,38 +1,54 @@
 'use strict';
 
-app.controller('HomeCtrl', function($scope, $rootScope, $log, $state, $stateParams, CuisineFactory, LeftoverFactory) {
+app.controller('HomeCtrl', function($scope, $rootScope, $log, $state, $stateParams, CuisineFactory, LeftoverFactory, UserFactory) {
 
-    CuisineFactory.getAll()
+  // UserFactory.getAll()
+    // .then(users => {
+      // $rootScope.totalUsers = users.length;
+    // })
+    // .catch($log.error);
+
+  CuisineFactory.getAll()
     .then(function(cuisines) {
-        $scope.cuisines = cuisines;
+      $scope.cuisines = cuisines;
+      $rootScope.totalCuisines = cuisines.length;
     })
     .catch($log.error);
 
-    LeftoverFactory.getAll()
+  LeftoverFactory.getAll()
     .then(function(leftovers) {
-        $scope.leftovers = leftovers;
-        $scope.featuredLeftovers = $scope.leftovers.slice(0, 3);
+      $rootScope.totalLeftovers = leftovers.length;
+      $scope.leftovers = leftovers;
     })
     .catch($log.error);
 
-    $scope.submitted = false;
+  LeftoverFactory.getFeatured()
+    .then(function(featuredLeftovers){
+      $scope.featuredLeftovers = featuredLeftovers;
+    })
+    .catch($log.error);
+
+  $scope.submitted = false;
+
+  $scope.allCuisineLeftovers = [];
+
+  $scope.isSubmitted = function() {
+    $scope.submitted = true;
 
     $scope.allCuisineLeftovers = [];
 
-    $scope.isSubmitted = function(){
-        $scope.submitted = true;
+    $rootScope.address = $scope.address;
 
-        $scope.allCuisineLeftovers = [];
+    $scope.selection = $stateParams.selection;
 
-        $rootScope.address = $scope.address;
+    $state.go('search', {
+      selection: $scope.cuisineSelection
+    });
+  };
 
-        $scope.selection = $stateParams.selection;
-
-        $state.go('search', { selection: $scope.cuisineSelection });
-    };
-
-    $scope.getRating = function(num) {
-        return new Array(num);
-    };
+  $scope.getRating = function(num) {
+    return new Array(num);
+  };
 
 });
+

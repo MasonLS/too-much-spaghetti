@@ -11,8 +11,9 @@ const Order = db.model('order');
 const _ = require('lodash');
 
 const randomNumGen = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const realisticRatingGen = () => _.sample([1, 2, 3, 4, 5, 5, 5, 5, 5, 5]);
 const randomPriceGen = (min, max) => _.round(Math.random() * (max - min + 1) + min, 2);
-const cuisineNames = ['chinese', 'korean', 'ethiopian', 'japanese', 'american', 'french', 'austrian', 'polish', 'georgian', 'indian', 'italian', 'venezulean']
+const cuisineNames = ['chinese', 'korean', 'ethiopian', 'japanese', 'american', 'french', 'austrian', 'polish', 'georgian', 'indian', 'italian', 'venezulean', 'healthy', 'fast-food', 'junk', 'other']
 let cuisines = cuisineNames.map(c => {
   return {
     name: c
@@ -26,7 +27,7 @@ function seedCuisines() {
   });
 }
 
-let leftoverNames = ['sweet-and-sour chicken', 'bibimbap', 'injera', 'sushi', 'meatloaf', 'croque madame', 'schnitzel', 'pierogi', 'khachapuri', 'dosa', 'spaghetti', 'arepa']
+let leftoverNames = ['Sweet-and-sour chicken', 'Bibimbap', 'Injera', 'Sushi', 'Meatloaf', 'Croque Madame', 'Schnitzel', 'Pierogi', 'Khachapuri', 'Dosa', 'Spaghetti', 'Arepa', 'Banh Mi', 'Moldy Bread', 'Banana Peel', 'Unknown Cereal?', 'Half a Bag of Cheese Doodles', 'Random Taco Bell Leftovers']
 
 //creates a leftover and adds a cuisine to it
 function createLeftover(name, chefId) {
@@ -58,7 +59,16 @@ function createLeftover(name, chefId) {
     "https://c1.staticflickr.com/9/8115/29192770454_97a3ba2a95_o.jpg",
     "https://c1.staticflickr.com/9/8597/29820502555_aaaaa6a20f_o.jpg",
     "https://c2.staticflickr.com/8/7785/29707440492_1672b3bd44_o.jpg",
-    "https://c1.staticflickr.com/9/8703/29194217413_a4b310e187_o.jpg"
+    "https://c1.staticflickr.com/9/8703/29194217413_a4b310e187_o.jpg",
+    "http://frieswiththatshake.net/wp-content/uploads/2009/06/cheetos2.jpg",
+    "http://toriavey.com/images/2012/11/The-History-of-Cereal-640x480.jpg",
+    "https://cbsminnesota.files.wordpress.com/2011/05/st-paul-classic-cookie-co.jpg",
+    "https://lh4.googleusercontent.com/-efYE4F0bUNI/UVTVor9vI-I/AAAAAAAAKDo/07IBWPqp-Bo/s640/Banh+Mi.jpg",
+    "http://www.budgetbytes.com/wp-content/uploads/2015/11/Spaghetti-with-Vegetable-and-Meat-Sauce.jpg",
+    "http://lh5.ggpht.com/_OaYG005JPDs/S8oAO9WPAGI/AAAAAAAABJI/MK-jneaOx88/s640/BBQ%20Chicken%20Pizza.jpg",
+    "https://18reasons.org/sites/default/files/dumplings-503775_640_1.jpg",
+    "http://media-cache-ec0.pinimg.com/736x/54/8b/04/548b049935bdc4f94f81f8c3bec662d7.jpg",
+    "http://blog.woodfieldoxfordsquare.com/wp-content/uploads/2016/02/wpid-NYE2015__2825_29_96_640.jpg",
   ];
 
   return Leftover.createWithCuisines({
@@ -77,16 +87,16 @@ function getRandomLeftoverIds() {
   let randNum = Math.floor(Math.random() * 4) + 1;
   let randLeftovers = [];
 
-  for (let i = 0; i < randNum; i++) {
-    let randIndex = randomNumGen(0, cuisines.length);
+  // for (let i = 0; i < randNum; i++) {
+  // let randIndex = randomNumGen(0, cuisines.length);
 
-    if (!randLeftovers.includes(randIndex)) {
-      randLeftovers.push(randIndex);
-    } else i--;
-  }
-
+  // if (!randLeftovers.includes(randIndex)) {
+  // randLeftovers.push(randIndex);
+  // } else i--;
+  // }
   return Leftover.findAll()
     .then(leftovers => {
+      randLeftovers = _.sampleSize(_.range(1, leftovers.length), 6);
       return leftovers.filter((leftover, i) => {
         return randLeftovers.includes(i)
       });
@@ -179,7 +189,7 @@ function createAdminUsers() {
 
 function seedOrders(userId) {
   let creatingOrders = [];
-  let numOrders = randomNumGen(1, 10);
+  let numOrders = randomNumGen(1, 5);
   for (let j = 0; j < numOrders; j++) {
     creatingOrders.push(createOrder(userId));
   }
@@ -215,8 +225,8 @@ function seedBuyers(num) {
 }
 
 function RandomReview(leftoverId, userId) {
-  this.stars = randomNumGen(1, 5);
-  this.body = faker.lorem.sentence();
+  this.stars = realisticRatingGen();
+  this.body = faker.hacker.phrase() + ' ' + faker.hacker.phrase();
   this.leftoverId = leftoverId;
   this.userId = userId;
 }
@@ -227,8 +237,8 @@ function writeReviews() {
       include: [Leftover]
     })
     .then(os => {
-      // let randOs = _.sampleSize(os, os.length);
-      return Promise.map(os, (o) => {
+      let randOs = _.sampleSize(os, os.length / 2);
+      return Promise.map(randOs, (o) => {
         return Promise.map(o.leftovers, (l) => {
           return Review.create(new RandomReview(l.id, o.userId));
         })
@@ -262,11 +272,11 @@ db.sync({
   })
   .then(function() {
     console.log(chalk.red('Seeding Sellers...'));
-    return seedSellers(10);
+    return seedSellers(25);
   })
   .then(function() {
     console.log(chalk.yellow('Seeding Buyers (And Orders, too!)...'));
-    return seedBuyers(20);
+    return seedBuyers(30);
   })
   .then(function() {
     console.log(chalk.magenta('Writing Reviews...'));

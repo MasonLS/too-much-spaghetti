@@ -29,7 +29,8 @@ router.get('/featured', function(req, res, next) {
       let sortedLeftovers = leftovers.sort((a, b) => {
         return b.rating - a.rating;
       });
-      res.json(_.shuffle(sortedLeftovers.slice(0, 5)));
+      let shuffledFeatured = _.shuffle(sortedLeftovers.slice(0, 9));
+      res.json(shuffledFeatured.slice(0, 3));
     })
     .catch(next);
 })
@@ -122,7 +123,8 @@ router.get('/:id/reviews', function(req, res, next) {
   Review.findAll({
       where: {
         leftoverId: req.params.id
-      }
+      },
+      include: [User]
     })
     .then(function(reviews) {
       res.send(reviews);

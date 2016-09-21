@@ -34,7 +34,9 @@
 
 .content-bannerblock {}
 
-.home-sidetext {}
+.home-sidetext {
+  text-align: center;
+}
 
 .title-welcome {
     padding: 0px 0px 20px 50px;
@@ -113,16 +115,17 @@
 }
 
 .order-now {
-  display: inline-block;
-  width: 100%;
+    display: inline-block;
+    width: 100%;
 }
 
 .edit-qty {
-  padding-left: 10px;
-  padding-right: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
+
 .edit-pencil {
-  color: #2c3e50;
+    color: #2c3e50;
 }
 
 .spacer {
@@ -139,7 +142,6 @@
     background-color: #F3F3F3;
     width: 20%;
     float: left;
-
 }
 
 .leftover-search-row {
@@ -164,6 +166,7 @@
     font-size: 0;
     position: relative;
 }
+
 .rating-input {
     float: right;
     width: 16px;
@@ -172,11 +175,13 @@
     margin: 0 0 0 -16px;
     opacity: 0;
 }
+
 .rating:hover .rating-star:hover,
-.rating:hover .rating-star:hover ~ .rating-star,
-.rating-input:checked ~ .rating-star {
+.rating:hover .rating-star:hover~ .rating-star,
+.rating-input:checked~ .rating-star {
     background-position: 0 0;
 }
+
 .rating-star,
 .rating:hover .rating-star {
     position: relative;
@@ -191,12 +196,82 @@
     color: #666666;
 }
 
-.align-search-objects{
+.align-search-objects {
     text-align: right;
     text-justify: none;
 }
 
+video {
+    opacity: 0.60;
+    width: 100%;
+    height: auto;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.header-video {
+    margin-top: -200px;
+    position: relative;
+    background: #000;
+}
+
+.search-box {
+    position: absolute;
+    top: 20%;
+    right: 62%;
+}
+
+#count {
+    background-color: rgba(0, 0, 0, 0.25);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 15px 0;
+    color: #fff;
+    font-size: 18px;
+    z-index: 99;
+    border-top: 1px solid rgba(255, 255, 255, 0.15)
+}
+
+#count ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+#count ul li {
+    display: inline-block;
+    text-align: center;
+    margin: 0 10px;
+    padding-left: 20px;
+    background: url(/img/dots_vert.png) center left no-repeat;
+    color: #bdc3c7;
+}
+
+#count ul li:first-child {
+    margin-left: 0;
+    padding-left: 0;
+    background: none;
+}
+
+#count ul li:last-child {
+    margin-right: 0;
+}
+
+#count .number {
+    width: auto;
+    display: inline-block;
+    margin-right: 5px;
+    font-weight: 600;
+    text-align: right;
+    font-size: 24px;
+}
+
 .leftover-name {
-    font-size: 1.5em;
+    font-size: 1.25em;
     font-weight: bold;
 }
