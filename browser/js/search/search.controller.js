@@ -2,6 +2,7 @@
 
 app.filter('filterOwn', function() {
     return function (leftovers, user) {
+        if (user === null) return leftovers;
         return leftovers.filter(leftover => {
             return leftover.chefId !== user.id;
         });
@@ -18,6 +19,7 @@ app.controller('SearchPageCtrl', function($scope, $stateParams, LeftoverFactory,
 
 
     $scope.getDistance = function (leftover) {
+        if (!$stateParams.address) return;
         return LeftoverFactory.getDistance(leftover.id, $stateParams.address)
                 .then(distanceObj => {
                     leftover.distance = distanceObj.distance;

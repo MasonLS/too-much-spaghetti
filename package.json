@@ -5,7 +5,6 @@
   "main": "server/start.js",
   "scripts": {
     "start": "node server/start.js",
-    "prestart": "node seed.js",
     "seed": "node seed.js",
     "postinstall": "gulp build"
   },
