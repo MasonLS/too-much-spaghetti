@@ -261,7 +261,7 @@ db.sync({
   })
   .then(function() {
     console.log(chalk.red('Seeding Sellers...'));
-    return seedSellers(20);
+    return seedSellers(10);
   })
   .then(function() {
     console.log(chalk.yellow('Seeding Buyers (And Orders, too!)...'));
