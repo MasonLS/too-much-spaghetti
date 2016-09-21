@@ -5,7 +5,7 @@ app.controller('CartCtrl', function($scope, CartFactory, $rootScope) {
   $scope.quantity = {};
   $scope.selectedQtys = {};
 
-  $rootScope.addToCart = function(leftoverObj){
+  $rootScope.addToCart = function(leftoverObj) {
     console.log('adding to cart');
     return $scope.updateItem(leftoverObj).then(_ => $scope.getCart());
   };
@@ -54,10 +54,16 @@ app.controller('CartCtrl', function($scope, CartFactory, $rootScope) {
       })
   }
 
+  $scope.toggleCart = function() {
+    getCart()
+      .then(_ => {
+        $scope.cartToggle = !$scope.cartToggle
+      })
+  }
+
   $scope.getCart = function() {
-    console.log('getting cart');
     getCart().then(_ => {
-      $scope.cartToggle = !$scope.cartToggle;
+      $scope.cartToggle = true;
     })
   }
 

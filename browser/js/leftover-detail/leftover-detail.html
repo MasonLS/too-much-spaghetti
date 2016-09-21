@@ -14,7 +14,7 @@
       </div>
       <button type="submit" class="btn btn-primary" ng-show="user.id === leftover.chefId"
         ng-click="setCurrentlyEditing('leftover')">Edit</button>
-      <button type="submit" class="btn btn-primary" ui-sref="#">Add to Cart</button>
+      <button type="submit" class="btn btn-primary" ng-click="addToCart({ leftoverId: leftover.id, quantity: 1 })">Add to Cart</button>
     </div>
 
     <div class="col-sm-5">

@@ -33,7 +33,14 @@ router.put('/', function(req, res, next) {
   if (isEmpty(req.session.cart) && req.user) req.session.cart = serializeCart(req.user.cart);
   req.session.cart = updateCart(req.session.cart, req.body);
   if (req.user) {
-    updateCartElemInDb(req.user.cart[0].orderId, req.body)
+    if (!req.user.cart) {
+      createCartInDb(req.user.id, req.body)
+        .then(cart => {
+          res.json(cart)
+        })
+        .catch(next);
+    } else
+      updateCartElemInDb(req.user.cart[0].orderId, req.body)
       .then(cart => {
         res.json(req.session.cart);
       })
