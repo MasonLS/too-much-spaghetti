@@ -44,28 +44,29 @@ function createLeftover(name, chefId) {
   randCuisines = _.uniq(randCuisines);
 
   let images = [
-                "https://c1.staticflickr.com/9/8211/29707440992_5d791ae730_o.jpg",
-                "https://c1.staticflickr.com/9/8106/29707440832_0cdc9e74fe_o.jpg",
-                "https://c1.staticflickr.com/9/8682/29192770504_7c816b8f7b_o.jpg",
-                "https://c1.staticflickr.com/9/8511/29707440932_2573124011_o.jpg",
-                "https://c1.staticflickr.com/9/8085/29192770544_f25f9f986b_o.jpg",
-                "https://c1.staticflickr.com/9/8131/29707440792_d589d30fc2_o.jpg",
-                "https://c1.staticflickr.com/9/8058/29192770494_2b76da7601_o.jpg",
-                "https://c1.staticflickr.com/9/8388/29707440752_53e0d79f92_o.jpg",
-                "https://c1.staticflickr.com/9/8481/29707440892_ded45bc2c4_o.jpg",
-                "https://c1.staticflickr.com/9/8084/29192770484_affae19a76_o.jpg",
-                "https://c1.staticflickr.com/9/8453/29707440582_596d12838f_o.jpg",
-                "https://c1.staticflickr.com/9/8115/29192770454_97a3ba2a95_o.jpg",
-                "https://c1.staticflickr.com/9/8597/29820502555_aaaaa6a20f_o.jpg",
-                "https://c2.staticflickr.com/8/7785/29707440492_1672b3bd44_o.jpg",
-                "https://c1.staticflickr.com/9/8703/29194217413_a4b310e187_o.jpg"
-              ];
+    "https://c1.staticflickr.com/9/8211/29707440992_5d791ae730_o.jpg",
+    "https://c1.staticflickr.com/9/8106/29707440832_0cdc9e74fe_o.jpg",
+    "https://c1.staticflickr.com/9/8682/29192770504_7c816b8f7b_o.jpg",
+    "https://c1.staticflickr.com/9/8511/29707440932_2573124011_o.jpg",
+    "https://c1.staticflickr.com/9/8085/29192770544_f25f9f986b_o.jpg",
+    "https://c1.staticflickr.com/9/8131/29707440792_d589d30fc2_o.jpg",
+    "https://c1.staticflickr.com/9/8058/29192770494_2b76da7601_o.jpg",
+    "https://c1.staticflickr.com/9/8388/29707440752_53e0d79f92_o.jpg",
+    "https://c1.staticflickr.com/9/8481/29707440892_ded45bc2c4_o.jpg",
+    "https://c1.staticflickr.com/9/8084/29192770484_affae19a76_o.jpg",
+    "https://c1.staticflickr.com/9/8453/29707440582_596d12838f_o.jpg",
+    "https://c1.staticflickr.com/9/8115/29192770454_97a3ba2a95_o.jpg",
+    "https://c1.staticflickr.com/9/8597/29820502555_aaaaa6a20f_o.jpg",
+    "https://c2.staticflickr.com/8/7785/29707440492_1672b3bd44_o.jpg",
+    "https://c1.staticflickr.com/9/8703/29194217413_a4b310e187_o.jpg"
+  ];
 
   return Leftover.createWithCuisines({
     chefId: chefId,
     name: name,
     description: faker.lorem.paragraph(),
     price: randomPriceGen(0.5, 30),
+    deliveryFee: randomPriceGen(5, 10),
     picture: _.sample(images),
     quantity: randomNumGen(1, 10),
   }, randCuisines);
@@ -106,7 +107,7 @@ function createOrder(buyerId) {
         leftoversArr = ids.map(id => {
           return {
             leftoverId: id,
-            quantity: randomNumGen(1, 4)
+            quantity: 1
           }
         });
       return Order.createWithLeftovers(orderObj, leftoversArr, status);
@@ -141,7 +142,7 @@ const addresses = [
   '1546 Dumont Avenue, Brooklyn, NY 11208',
   '75 Ludlow Street, New York, NY 10002',
   '142 Grand Street, New York, NY 10013',
-  '330 West 36th Street, New York, NY 10018',  
+  '330 West 36th Street, New York, NY 10018',
   '126 Oak Street, Brooklyn, NY 11222',
   '111 East 75th Street, New York, NY 10021',
   '440-460 8th Street, Hoboken, NJ 07030',
@@ -231,8 +232,8 @@ function writeReviews() {
         return Promise.map(o.leftovers, (l) => {
           return Review.create(new RandomReview(l.id, o.userId));
         })
-    })
-});
+      })
+    });
 }
 
 // let randOrderLeftover = _.sample(o.leftovers);

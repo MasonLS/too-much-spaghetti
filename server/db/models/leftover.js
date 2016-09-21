@@ -24,6 +24,9 @@ module.exports = db.define('leftover', {
   price: {
     type: Sequelize.FLOAT
   },
+  deliveryFee: {
+    type: Sequelize.FLOAT
+  },
   quantity: {
     type: Sequelize.INTEGER
   },

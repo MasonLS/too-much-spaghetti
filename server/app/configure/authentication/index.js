@@ -68,7 +68,7 @@ module.exports = function(app, db) {
         cart: req.user.cart
       });
     } else {
-      res.status(401).json('No authenticated user.');
+      res.json({ user: null, cart: []});
     }
   });
 

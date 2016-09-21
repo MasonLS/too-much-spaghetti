@@ -107,15 +107,15 @@ router.post('/', function(req, res, next) {
 router.put('/', function(req, res, next) {
   let leftoverObj = req.body.leftoverObj,
     cuisineNames = req.body.cuisineNames;
-  if ( req.user.id !== req.body.chefId && !req.user.isAdmin ) next(new Error('Unauthorized'));
+  if (req.user.id !== req.body.chefId && !req.user.isAdmin) next(new Error('Unauthorized'));
   Leftover.findById(leftoverObj.id)
-  .then(function(leftover) {
-    return leftover.update(leftoverObj)
-  })
-  .then(updatedLeftover => {
-    res.json(updatedLeftover);
-  })
-  .catch(next);
+    .then(function(leftover) {
+      return leftover.update(leftoverObj)
+    })
+    .then(updatedLeftover => {
+      res.json(updatedLeftover);
+    })
+    .catch(next);
 });
 
 router.get('/:id/reviews', function(req, res, next) {
