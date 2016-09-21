@@ -4,7 +4,8 @@
   "description": "A generated project at Fullstack Academy",
   "main": "server/start.js",
   "scripts": {
-    "start": "node seed.js && node server/start.js",
+    "start": "node server/start.js",
+    "prestart": "node seed.js",
     "seed": "node seed.js",
     "postinstall": "gulp build"
   },
