@@ -19,7 +19,12 @@ app.controller('HomeCtrl', function($scope, $rootScope, $log, $state, $statePara
     .then(function(leftovers) {
       $rootScope.totalLeftovers = leftovers.length;
       $scope.leftovers = leftovers;
-      $scope.featuredLeftovers = $scope.leftovers.slice(0, 3);
+    })
+    .catch($log.error);
+
+  LeftoverFactory.getFeatured()
+    .then(function(featuredLeftovers){
+      $scope.featuredLeftovers = featuredLeftovers;
     })
     .catch($log.error);
 
