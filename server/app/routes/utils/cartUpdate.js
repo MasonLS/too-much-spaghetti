@@ -28,7 +28,7 @@ module.exports = {
   createCartInDb: function(userId, cart) {
     return Order.createWithLeftovers({
       userId: userId
-    }, cart, 'cart');
+    }, [cart], 'cart');
   },
 
   updateCartElemInDb: function(cartOrderId, updatedL) {
