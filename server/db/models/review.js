@@ -4,14 +4,12 @@ const Sequelize = require('sequelize');
 const db = require('../_db');
 const Leftover = require('./leftover');
 
-const options = {},
+let options = {},
   hooks = {
     afterCreate: function(createdReview) {
-      return Leftover.findById(createdReview.leftoverId, {
-          include: [createdReview.Model]
-        })
+      return Leftover.findById(createdReview.leftoverId)
         .then(leftover => {
-          let avgRating = Math.round(leftover.reviews.reduce((prev, curr) => prev + curr.stars, 0) / leftover.reviews.length);
+          let avgRating = Math.round((leftover.rating + createdReview.stars) / 2);
           return leftover.update({
             rating: avgRating
           })

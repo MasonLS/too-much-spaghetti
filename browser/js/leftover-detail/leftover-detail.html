@@ -72,7 +72,11 @@
     <img ng-repeat="i in getRating(rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png">    {{ reviews.length }} Reviews
     <br><br>
     <ul ng-repeat="review in reviews | limitTo:10">
+      <li>{{ review.user.first_name }}
+    <img ng-repeat="i in getRating(review.stars) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png">    {{ review.stars }}
+      </li>
       <li>{{ review.body }}</li>
+      <hr>
     </ul>
   </div>
 </div>

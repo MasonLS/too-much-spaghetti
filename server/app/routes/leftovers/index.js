@@ -122,7 +122,8 @@ router.get('/:id/reviews', function(req, res, next) {
   Review.findAll({
       where: {
         leftoverId: req.params.id
-      }
+      },
+      include: [User]
     })
     .then(function(reviews) {
       res.send(reviews);

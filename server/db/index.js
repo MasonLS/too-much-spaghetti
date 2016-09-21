@@ -26,5 +26,6 @@ User.hasMany(Leftover);
 Review.belongsTo(Leftover);
 Leftover.hasMany(Review);
 User.hasMany(Review);
+Review.belongsTo(User);
 
 // Cart.belongsTo(User);
