@@ -53,7 +53,7 @@ app.controller('LeftoverDetailCtrl', function($scope, $log, LeftoverFactory, Lef
             deliveryFee: data.deliveryFee
         };
 
-        console.log($scope.updatedLeftover.cuisines);
+        console.log(dataToSend.leftoverObj);
 
         dataToSend.cuisineNames = $scope.updatedLeftover.cuisines.map(function(cuisineInstance) {
             return cuisineInstance.name;
