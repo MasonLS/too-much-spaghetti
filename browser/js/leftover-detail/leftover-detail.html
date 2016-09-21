@@ -28,6 +28,10 @@
                     </div>
                     <h5 class="distance" ng-if="leftover.chefId !== user.id">{{ leftover.distance.split(' ')[0] }} miles away</h5>
                     <p>{{ leftover.description }}</p>
+                    <div class="pull-right">
+                        <p>Delivery Fee: ${{ leftover.deliveryFee }}</p>
+                        <p>Quantity: {{ leftover.quantity }}</p>
+                    </div>
                 </div>
 
                 <!-- Edit Box -->
