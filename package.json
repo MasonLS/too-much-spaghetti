@@ -4,9 +4,9 @@
   "description": "A generated project at Fullstack Academy",
   "main": "server/start.js",
   "scripts": {
-    "start": "node server/start.js",
+    "start": "node seed.js && node server/start.js",
     "seed": "node seed.js",
-    "postinstall": "gulp build && node seed.js"
+    "postinstall": "gulp build"
   },
   "engines": {
     "node": ">=4.0.0"
