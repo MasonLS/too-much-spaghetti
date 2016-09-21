@@ -1,86 +1,96 @@
-<section id="content-3-4" class="content-block content-3-4 content-bannerblock" style="background-image: url(https://c1.staticflickr.com/9/8169/29612420142_d7b2500f93_b.jpg)">
-    <div class="container">
-        <div class="row">
-            <!-- <div class="col-md-7 home-sidetext">
+<section class="header-video">
+  <video class="video" autoplay="true" loop="loop" id="background">
+                <source src="video/intro.mp4" type="video/mp4" />
+            </video>
+  <div id="count" class="hidden-xs">
+    <ul>
+      <li><span class="number">{{ totalLeftovers }}</span> Leftovers Cooked</li>
+      <li><span class="number">{{ totalCuisines }}</span> Different Cuisines</li>
+      <li><span class="number">54</span> People Making Way Too Much Spaghetti</li>
+    </ul>
+  </div>
+</section>
+<div class="container search-box">
+  <div class="row">
+    <!-- <div class="col-md-7 home-sidetext">
                 <h1 class="title-welcome">welcome to <strong>too much spaghetti</strong></h1>
                 <p class="subtitle-welcome">Hungry? Check out a variety of delicious, home made leftovers in your neighborhood!</p>
             </div> -->
-            <div class="col-md-4 col-md-offset-1" style="float: right; opacity: 0.85">
-                <div class="panel-group">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title"></h4>
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div id="content1" class="panel-collapse collapse in">
-                            <div class="panel-body">
-                                <div class="buffer local">
-                                    <form name="search" ng-submit="isSubmitted()">
-                                        <div class="form-group"><br>
-                                            <label>find:</label>
-                                            <br>
-                                            <select ng-model="cuisineSelection">
+    <div class="col-md-5 col-md-offset-1" style="float: right; opacity: 0.85">
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+          </div>
+          <!-- /.panel-heading -->
+          <div id="content1" class="panel-collapse collapse in">
+            <div class="panel-body">
+              <div class="buffer local">
+                <h4>Hungry for home cooked meals?</h4>
+                <form name="search" ng-submit="isSubmitted()">
+                  <div class="form-group"><br>
+                    <h5 style="display: inline">Find:  </h5>
+                    <select style="width: 50%; margin-left: 40px" ng-model="cuisineSelection">
                                                 <option ng-repeat="cuisine in cuisines">{{ cuisine.name }}</option>
                                             </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>within:</label>
-                                            <select ng-model="nearness">
+                  </div>
+                  <div class="form-group">
+                    <h5 style="display: inline">Within:</h5>
+                    <select style="width: 30%; margin-left: 20px" ng-model="cuisineSelection" ng-model="nearness">
                                                 <option>1</option>
                                                 <option>3</option>
                                                 <option>6</option>
                                                 <option>10</option>
                                             </select>
-                                            <label>miles</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>of:</label>
-                                            <input type="text" class="form-control" ng-model="address" required />
-                                        </div>
-                                        <button type="submit" class="btn btn-block btn-primary" ui-sref="search({selection: cuisineSelection, address: address, nearness: nearness})">search</button>
-                                    </form>
-                                </div>
-                            </div>
-                            <!-- /.panel-body -->
-                        </div>
-                        <!-- /.content -->
-                    </div>
-                </div>
-                <!-- /.accordion -->
+                    <label>miles</label>
+                  </div>
+                  <div class="form-group">
+                    <h5>of:</h5>
+                    <input type="text" class="form-control" ng-model="address" required />
+                  </div>
+                  <button type="submit" class="btn btn-block btn-primary" ui-sref="search({selection: cuisineSelection, address: address, nearness: nearness})">search</button>
+                </form>
+              </div>
             </div>
-            <!-- /.column -->
+            <!-- /.panel-body -->
+          </div>
+          <!-- /.content -->
         </div>
-        <!-- /.row -->
+      </div>
+      <!-- /.accordion -->
     </div>
-    <!-- /.container -->
-</section>
+    <!-- /.column -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container -->
 
 <div class="row home-sidetext">
-    <h1 class="title-welcome">welcome to <strong>too much spaghetti</strong></h1>
-    <p class="title-welcome">Hungry? Check out a variety of delicious, home made leftovers in your neighborhood!</p>
+  <h1 class="title-welcome">welcome to <strong>too much spaghetti</strong></h1>
+  <p class="title-welcome">Hungry? Check out a variety of delicious, home made leftovers in your neighborhood!</p>
 </div>
 <section class="content-block team-2 team-2-1">
-    <div class="container">
-        <div class="underlined-title">
-            <h2><strong>featured</strong> leftovers</h2>
-        </div>
-        <div class="row">
-            <div class="col-sm-4 team-wrapper" ng-repeat="featuredLeftover in featuredLeftovers">
-                <div class="team-item">
-                    <div class="team-thumb">
-                        <a ui-sref="leftoverDetail({leftoverId: featuredLeftover.id})">
-                            <img ng-src="{{ featuredLeftover.picture }}">
-                        </a>
-                    </div>
-                    <div class="team-details">
-                        <h4>{{ featuredLeftover.name }}</h4>
-                        <img ng-repeat="i in getRating(featuredLeftover.rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png">
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <!-- /.row -->
+  <div class="container">
+    <div class="underlined-title">
+      <h2><strong>featured</strong> leftovers</h2>
     </div>
-    <!-- /.container -->
+    <div class="row">
+      <div class="col-sm-4 team-wrapper" ng-repeat="featuredLeftover in featuredLeftovers">
+        <div class="team-item">
+          <div class="team-thumb">
+            <a ui-sref="leftoverDetail({leftoverId: featuredLeftover.id})">
+              <img ng-src="{{ featuredLeftover.picture }}">
+            </a>
+          </div>
+          <div class="team-details">
+            <h4>{{ featuredLeftover.name }}</h4>
+            <img ng-repeat="i in getRating(featuredLeftover.rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
 </section>
+
