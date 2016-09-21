@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/start.js",
     "seed": "node seed.js",
-    "postinstall": "gulp build"
+    "postinstall": "gulp build && node seed.js"
   },
   "engines": {
     "node": ">=4.0.0"
