@@ -24,13 +24,13 @@
             <h2>{{ leftover.name }}</h2>
           </div>
           <div class="col-sm-2">
-            <h3>${{ leftover.price }}</h3>
+            <h3>{{ leftover.price | currency}}</h3>
           </div>
         </div>
         <h5 class="distance" ng-if="leftover.chefId !== user.id">{{ leftover.distance.split(' ')[0] }} miles away</h5>
         <p>{{ leftover.description }}</p>
         <div class="pull-right">
-          <p>Delivery Fee: ${{ leftover.deliveryFee }}</p>
+          <p>Delivery Fee: {{ leftover.deliveryFee | currency}}</p>
           <p>Quantity: {{ leftover.quantity }}</p>
         </div>
       </div>

@@ -195,3 +195,8 @@
     text-align: right;
     text-justify: none;
 }
+
+.leftover-name {
+    font-size: 1.5em;
+    font-weight: bold;
+}
