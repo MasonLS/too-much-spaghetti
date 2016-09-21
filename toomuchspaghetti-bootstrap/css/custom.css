@@ -28,15 +28,17 @@
     background-color: #ffffff;
 }
 
-.img-homeheader {
-    max-height: 300px;
+.home-search {
+    background: rgba(0, 0, 0, 0.3)
 }
 
 .content-bannerblock {}
 
 .home-sidetext {}
 
-.title-welcome {}
+.title-welcome {
+    padding: 0px 0px 20px 50px;
+}
 
 .subtitle-welcome {}
 

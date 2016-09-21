@@ -94,7 +94,7 @@ router.get('/:id/distance/:address', function(req, res, next) {
 // });
 
 router.post('/', function(req, res, next) {
-  if (!req.user.isAdmin || req.user) next(new Error('Unauthorized'));
+  if (!req.user.isAdmin && !req.user) next(new Error('Unauthorized'));
   let leftoverObj = req.body.leftoverObj,
     cuisineNames = req.body.cuisineNames;
   Leftover.createWithCuisines(leftoverObj, cuisineNames, req.user.id)
@@ -107,13 +107,13 @@ router.post('/', function(req, res, next) {
 router.put('/', function(req, res, next) {
   let leftoverObj = req.body.leftoverObj,
     cuisineNames = req.body.cuisineNames;
-  Leftover.findById(leftoverObj.leftoverId)
-    .then(leftover => {
-      if (!req.user.isAdmin || req.user.id !== leftover.chefId) next(new Error('Unauthorized'));
-      else return Leftover.createWithCuisines(leftoverObj, cuisineNames)
+  if (req.user.id !== req.body.chefId && !req.user.isAdmin) next(new Error('Unauthorized'));
+  Leftover.findById(leftoverObj.id)
+    .then(function(leftover) {
+      return leftover.update(leftoverObj)
     })
-    .then(_ => {
-      res.status(201).json(leftoverObj);
+    .then(updatedLeftover => {
+      res.json(updatedLeftover);
     })
     .catch(next);
 });

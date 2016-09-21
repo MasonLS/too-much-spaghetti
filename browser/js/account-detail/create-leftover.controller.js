@@ -22,7 +22,9 @@ app.controller('CreateLeftoverCtrl', function($scope, $log, $state, LeftoverFact
             name: data.name,
             description: data.description,
             quantity: data.quantity,
-            picture: data.picture
+            picture: data.picture,
+            price: data.price,
+            deliveryFee: data.deliveryFee
         };
 
         dataToSend.cuisineNames = $scope.cuisineList;
