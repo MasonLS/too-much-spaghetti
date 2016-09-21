@@ -37,7 +37,7 @@
         <div>
           <h3>leftovers</h3>
           <ul>
-              <li ng-repeat="leftover in leftovers | filterOwn:me.user" class="leftover-search-row" ng-init="getDistance(leftover)" ng-if="+leftover.distance.split(' ')[0] < nearness"><a ui-sref="leftoverDetail({leftoverId:leftover.id})"><img ng-src="{{ leftover.picture }}" class="img-thumbnail" width="100" height="100"> {{ leftover.name }}</a><ul class="pull-right align-search-objects" ><li><p class="distance">{{ leftover.distance }}</p></li><li><img ng-repeat="i in getRating(leftover.rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png"></li></ul>
+              <li ng-repeat="leftover in leftovers | filterOwn:me.user" class="leftover-search-row" ng-init="getDistance(leftover)" ng-if="+leftover.distance.split(' ')[0] < nearness"><a class="leftover-name" ui-sref="leftoverDetail({leftoverId:leftover.id})"><img ng-src="{{ leftover.picture }}" class="img-thumbnail" width="100" height="100"> {{ leftover.name }}</a><ul class="pull-right align-search-objects" ><li><p class="distance">{{ leftover.distance }}</p></li><li>{{leftover.price | currency}} | <img ng-repeat="i in getRating(leftover.rating) track by $index" src="http://mytourbook.sourceforge.net/mytourbook/images/mytb/icons/photo-rating-star.png"></li></ul>
           </ul>
         </div>
       </div>
